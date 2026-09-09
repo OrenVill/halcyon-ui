@@ -1,0 +1,117 @@
+/*
+ * halcyon-ui theme: ember.
+ * Warm and dark-leaning: amber and gold struck against charcoal with a red
+ * undertone, with a true-red danger held clear of the accent's molten range.
+ */
+
+:root {
+  /* Color */
+  --hal-bg: #fdf8f3;
+  --hal-bg-subtle: #f6ece1;
+  --hal-bg-raised: #fffdfa;
+  --hal-fg: #1d1310;
+  --hal-fg-muted: #6b544a;
+  --hal-border: #ecdccb;
+  --hal-border-strong: #d2b79f;
+  --hal-accent: #f0a11a;
+  --hal-accent-fg: #20140a;
+  --hal-accent-hover: #d68609;
+  --hal-success: #4d7c1c;
+  --hal-warning: #b45309;
+  --hal-danger: #c02020;
+  --hal-danger-fg: #ffffff;
+  --hal-info: #9a5b12;
+  --hal-overlay: rgb(36 18 12 / 0.55);
+  --hal-focus-ring: #d68609;
+
+  /* Elevation */
+  --hal-shadow-sm: 0 1px 2px rgb(58 26 14 / 0.08);
+  --hal-shadow: 0 2px 8px rgb(58 26 14 / 0.14);
+  --hal-shadow-lg: 0 12px 32px rgb(58 26 14 / 0.2);
+
+  /* Spacing */
+  --hal-space-1: 0.25rem;
+  --hal-space-2: 0.5rem;
+  --hal-space-3: 0.75rem;
+  --hal-space-4: 1rem;
+  --hal-space-5: 1.25rem;
+  --hal-space-6: 1.5rem;
+  --hal-space-7: 2rem;
+  --hal-space-8: 3rem;
+
+  /* Radius */
+  --hal-radius-sm: 0.25rem;
+  --hal-radius: 0.5rem;
+  --hal-radius-lg: 0.75rem;
+  --hal-radius-full: 9999px;
+
+  /* Type */
+  --hal-font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --hal-font-mono:
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+  --hal-text-xs: 0.75rem;
+  --hal-text-sm: 0.875rem;
+  --hal-text-base: 1rem;
+  --hal-text-lg: 1.125rem;
+  --hal-text-xl: 1.25rem;
+  --hal-weight-normal: 400;
+  --hal-weight-medium: 500;
+  --hal-weight-bold: 700;
+  --hal-leading: 1.5;
+
+  /* Motion */
+  --hal-duration: 150ms;
+  --hal-ease: cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-mode='light']) {
+    --hal-bg: #140f0e;
+    --hal-bg-subtle: #1d1613;
+    --hal-bg-raised: #271e1a;
+    --hal-fg: #f2e7df;
+    --hal-fg-muted: #b3a097;
+    --hal-border: #33261f;
+    --hal-border-strong: #4d3a30;
+    --hal-accent: #fbb63c;
+    --hal-accent-fg: #1a1004;
+    --hal-accent-hover: #fdcd72;
+    --hal-success: #a3d465;
+    --hal-warning: #f5a524;
+    --hal-danger: #f46b6b;
+    --hal-danger-fg: #2b0707;
+    --hal-info: #e0a56a;
+    --hal-overlay: rgb(10 5 4 / 0.68);
+    --hal-focus-ring: #fbb63c;
+
+    --hal-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.45);
+    --hal-shadow: 0 2px 8px rgb(0 0 0 / 0.55);
+    --hal-shadow-lg: 0 12px 32px rgb(0 0 0 / 0.65);
+  }
+}
+
+:root[data-mode='dark'] {
+  --hal-bg: #140f0e;
+  --hal-bg-subtle: #1d1613;
+  --hal-bg-raised: #271e1a;
+  --hal-fg: #f2e7df;
+  --hal-fg-muted: #b3a097;
+  --hal-border: #33261f;
+  --hal-border-strong: #4d3a30;
+  --hal-accent: #fbb63c;
+  --hal-accent-fg: #1a1004;
+  --hal-accent-hover: #fdcd72;
+  --hal-success: #a3d465;
+  --hal-warning: #f5a524;
+  --hal-danger: #f46b6b;
+  --hal-danger-fg: #2b0707;
+  --hal-info: #e0a56a;
+  --hal-overlay: rgb(10 5 4 / 0.68);
+  --hal-focus-ring: #fbb63c;
+
+  --hal-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.45);
+  --hal-shadow: 0 2px 8px rgb(0 0 0 / 0.55);
+  --hal-shadow-lg: 0 12px 32px rgb(0 0 0 / 0.65);
+}
