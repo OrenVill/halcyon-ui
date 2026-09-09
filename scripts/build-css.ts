@@ -10,7 +10,22 @@ import { transform } from 'lightningcss'
 const root = fileURLToPath(new URL('..', import.meta.url))
 const structurePath = join(root, 'src/styles/base.css')
 const themesDir = join(root, 'src/styles/themes')
+const componentsDir = join(root, 'src/components')
 const outDir = join(root, 'dist')
+
+/**
+ * Every component's stylesheet, sorted by path so output is deterministic.
+ * Components own their rules; one theme import still delivers all of them.
+ */
+function readComponentCss(): string {
+  if (!existsSync(componentsDir)) return ''
+
+  const files = readdirSync(componentsDir, { recursive: true, encoding: 'utf8' })
+    .filter((file) => file.endsWith('.css'))
+    .sort()
+
+  return files.map((file) => readFileSync(join(componentsDir, file), 'utf8')).join('\n')
+}
 
 function buildTheme(
   themePath: string,
@@ -36,7 +51,8 @@ function buildTheme(
 function main(): void {
   if (!existsSync(outDir)) mkdirSync(outDir, { recursive: true })
 
-  const structure = readFileSync(structurePath, 'utf8')
+  // Order in the output: theme tokens, then structure, then component rules.
+  const structure = `${readFileSync(structurePath, 'utf8')}\n${readComponentCss()}`
   const themes = readdirSync(themesDir)
     .filter((file) => file.endsWith('.css'))
     .sort()
