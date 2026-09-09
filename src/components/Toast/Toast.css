@@ -1,0 +1,117 @@
+/*
+ * Toast. A stack of transient messages in a portalled region, fixed to the
+ * viewport corner. The region is always mounted, empty or not, so a screen
+ * reader has a live region to observe before the first toast arrives: a live
+ * region inserted along with its first message is not reliably announced.
+ */
+
+.hal-toast-region {
+  position: fixed;
+  z-index: var(--hal-toast-region-z, 80);
+  inset-block-end: var(--hal-toast-region-inset, var(--hal-space-5));
+  inset-inline-end: var(--hal-toast-region-inset, var(--hal-space-5));
+  display: flex;
+  flex-direction: column;
+  gap: var(--hal-toast-region-gap, var(--hal-space-3));
+  width: var(--hal-toast-region-width, min(22rem, calc(100vw - var(--hal-space-8))));
+  /* The region spans the corner even when empty; only the toasts inside it
+     should catch the pointer. */
+  pointer-events: none;
+}
+
+.hal-toast {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--hal-toast-gap, var(--hal-space-3));
+  padding: var(--hal-toast-py, var(--hal-space-3)) var(--hal-toast-px, var(--hal-space-4));
+  background-color: var(--hal-toast-bg, var(--hal-bg-raised));
+  color: var(--hal-toast-fg, var(--hal-fg));
+  border: var(--hal-toast-border-width, 1px) solid var(--hal-toast-border, var(--hal-border));
+  border-inline-start-width: var(--hal-toast-accent-width, 3px);
+  border-radius: var(--hal-toast-radius, var(--hal-radius));
+  box-shadow: var(--hal-toast-shadow, var(--hal-shadow-lg));
+  font-size: var(--hal-toast-text, var(--hal-text-sm));
+  pointer-events: auto;
+}
+
+.hal-toast__content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.hal-toast__title {
+  margin: 0;
+  color: var(--hal-toast-title-fg, inherit);
+  font-weight: var(--hal-toast-title-weight, var(--hal-weight-bold));
+}
+
+.hal-toast__description {
+  margin: var(--hal-toast-description-gap, var(--hal-space-1)) 0 0;
+  color: var(--hal-toast-description-fg, var(--hal-fg-muted));
+}
+
+.hal-toast__dismiss {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--hal-toast-dismiss-size, 1.5rem);
+  height: var(--hal-toast-dismiss-size, 1.5rem);
+  margin-block-start: var(--hal-toast-dismiss-offset, -0.125rem);
+  padding: 0;
+  background: transparent;
+  color: var(--hal-toast-dismiss-fg, var(--hal-fg-muted));
+  border: var(--hal-toast-dismiss-border-width, 0) solid transparent;
+  border-radius: var(--hal-toast-dismiss-radius, var(--hal-radius-sm));
+  font-family: inherit;
+  font-size: var(--hal-toast-dismiss-text, var(--hal-text-lg));
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color var(--hal-duration) var(--hal-ease),
+    color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-toast__dismiss:hover {
+  background-color: var(--hal-toast-dismiss-bg-hover, var(--hal-bg-subtle));
+  color: var(--hal-toast-dismiss-fg-hover, var(--hal-fg));
+}
+
+.hal-toast__dismiss-glyph {
+  display: block;
+}
+
+/* Variants. The tone tokens are tuned as foreground colors against the page,
+   so they edge and title the toast rather than flood it. */
+
+.hal-toast--info {
+  border-inline-start-color: var(--hal-toast-info-border, var(--hal-info));
+}
+
+.hal-toast--info .hal-toast__title {
+  color: var(--hal-toast-info-title-fg, var(--hal-info));
+}
+
+.hal-toast--success {
+  border-inline-start-color: var(--hal-toast-success-border, var(--hal-success));
+}
+
+.hal-toast--success .hal-toast__title {
+  color: var(--hal-toast-success-title-fg, var(--hal-success));
+}
+
+.hal-toast--warning {
+  border-inline-start-color: var(--hal-toast-warning-border, var(--hal-warning));
+}
+
+.hal-toast--warning .hal-toast__title {
+  color: var(--hal-toast-warning-title-fg, var(--hal-warning));
+}
+
+.hal-toast--danger {
+  border-inline-start-color: var(--hal-toast-danger-border, var(--hal-danger));
+}
+
+.hal-toast--danger .hal-toast__title {
+  color: var(--hal-toast-danger-title-fg, var(--hal-danger));
+}

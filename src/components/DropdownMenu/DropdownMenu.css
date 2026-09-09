@@ -1,0 +1,113 @@
+/*
+ * DropdownMenu. A menu button plus a panel that is portalled to <body> and
+ * placed by the shared positioning helper, so the panel is never clipped by an
+ * ancestor's overflow the way an absolutely positioned one would be.
+ *
+ * The offsets live in the inline style because they are computed per open;
+ * everything a theme could reasonably want to repaint is a token.
+ */
+
+.hal-dropdown-menu {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--hal-dropdown-menu-gap, var(--hal-space-2));
+  min-height: var(--hal-dropdown-menu-height, 2.5rem);
+  padding: 0 var(--hal-dropdown-menu-px, var(--hal-space-4));
+  background: var(--hal-dropdown-menu-bg, var(--hal-bg-raised));
+  color: var(--hal-dropdown-menu-fg, var(--hal-fg));
+  border: 1px solid var(--hal-dropdown-menu-border, var(--hal-border-strong));
+  border-radius: var(--hal-dropdown-menu-radius, var(--hal-radius));
+  font-family: inherit;
+  font-size: var(--hal-dropdown-menu-text, var(--hal-text-base));
+  font-weight: var(--hal-dropdown-menu-weight, var(--hal-weight-medium));
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--hal-duration) var(--hal-ease),
+    border-color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-dropdown-menu:hover:not(:disabled) {
+  border-color: var(--hal-dropdown-menu-border-hover, var(--hal-accent));
+}
+
+.hal-dropdown-menu:disabled {
+  opacity: var(--hal-dropdown-menu-disabled-opacity, 0.55);
+  cursor: not-allowed;
+}
+
+/* The panel */
+
+.hal-dropdown-menu__panel {
+  position: fixed;
+  z-index: var(--hal-dropdown-menu-panel-z, 60);
+  display: flex;
+  flex-direction: column;
+  min-width: var(--hal-dropdown-menu-panel-min-width, 10rem);
+  max-height: var(--hal-dropdown-menu-panel-max-height, 18rem);
+  padding: var(--hal-dropdown-menu-panel-padding, var(--hal-space-1));
+  overflow-y: auto;
+  background: var(--hal-dropdown-menu-panel-bg, var(--hal-bg-raised));
+  border: 1px solid var(--hal-dropdown-menu-panel-border, var(--hal-border));
+  border-radius: var(--hal-dropdown-menu-panel-radius, var(--hal-radius));
+  box-shadow: var(--hal-dropdown-menu-panel-shadow, var(--hal-shadow-lg));
+}
+
+/* Transform origin follows the side actually used, so a panel that flipped
+   animates away from the trigger rather than toward it. */
+
+.hal-dropdown-menu__panel--bottom {
+  transform-origin: top center;
+}
+
+.hal-dropdown-menu__panel--top {
+  transform-origin: bottom center;
+}
+
+.hal-dropdown-menu__panel--left {
+  transform-origin: center right;
+}
+
+.hal-dropdown-menu__panel--right {
+  transform-origin: center left;
+}
+
+/* Items */
+
+.hal-dropdown-menu__item {
+  display: flex;
+  align-items: center;
+  gap: var(--hal-dropdown-menu-item-gap, var(--hal-space-2));
+  width: 100%;
+  min-height: var(--hal-dropdown-menu-item-height, 2rem);
+  padding: 0 var(--hal-dropdown-menu-item-px, var(--hal-space-3));
+  background: transparent;
+  color: var(--hal-dropdown-menu-item-fg, var(--hal-fg));
+  border: 0;
+  border-radius: var(--hal-dropdown-menu-item-radius, var(--hal-radius-sm));
+  font-family: inherit;
+  font-size: var(--hal-dropdown-menu-item-text, var(--hal-text-sm));
+  line-height: 1;
+  text-align: start;
+  cursor: pointer;
+}
+
+/* Hover and focus paint the same, so pointer and keyboard users see one
+   highlight moving rather than two competing ones. */
+.hal-dropdown-menu__item:hover:not([aria-disabled='true']),
+.hal-dropdown-menu__item:focus {
+  background: var(--hal-dropdown-menu-item-bg-active, var(--hal-bg-subtle));
+  outline: none;
+}
+
+.hal-dropdown-menu__item:focus-visible {
+  outline: 2px solid var(--hal-dropdown-menu-item-focus-ring, var(--hal-focus-ring));
+  outline-offset: -2px;
+}
+
+.hal-dropdown-menu__item--disabled {
+  opacity: var(--hal-dropdown-menu-item-disabled-opacity, 0.45);
+  cursor: not-allowed;
+}
