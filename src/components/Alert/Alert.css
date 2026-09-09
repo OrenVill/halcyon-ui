@@ -1,0 +1,118 @@
+/*
+ * Alert. A bordered message block with an optional title and dismiss button.
+ *
+ * The variant tokens (--hal-success, --hal-warning, --hal-info) are tuned as
+ * FOREGROUND colors against the page background, so they are used here for the
+ * border and the text over a subtle tint of themselves. Filling the block with
+ * them and writing in the inverse is not contrast-tested and does not clear AA
+ * in every theme.
+ */
+
+.hal-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--hal-alert-gap, var(--hal-space-3));
+  padding: var(--hal-alert-py, var(--hal-space-3)) var(--hal-alert-px, var(--hal-space-4));
+  background-color: var(--hal-alert-bg, var(--hal-bg-subtle));
+  color: var(--hal-alert-fg, var(--hal-fg));
+  border: var(--hal-alert-border-width, 1px) solid var(--hal-alert-border, var(--hal-border));
+  border-inline-start-width: var(--hal-alert-accent-width, 3px);
+  border-radius: var(--hal-alert-radius, var(--hal-radius));
+  font-size: var(--hal-alert-text, var(--hal-text-sm));
+}
+
+.hal-alert__content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* The title carries the variant color; the body stays in the reading color so
+   a long message is not tinted text on a tinted ground. */
+.hal-alert__title {
+  color: var(--hal-alert-title-fg, inherit);
+  font-weight: var(--hal-alert-title-weight, var(--hal-weight-bold));
+  margin-block-end: var(--hal-alert-title-gap, var(--hal-space-1));
+}
+
+.hal-alert__body {
+  color: var(--hal-alert-body-fg, var(--hal-fg));
+}
+
+.hal-alert__dismiss {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--hal-alert-dismiss-size, 1.5rem);
+  height: var(--hal-alert-dismiss-size, 1.5rem);
+  margin-block-start: var(--hal-alert-dismiss-offset, -0.125rem);
+  padding: 0;
+  background: transparent;
+  color: var(--hal-alert-dismiss-fg, var(--hal-fg-muted));
+  border: var(--hal-alert-dismiss-border-width, 0) solid transparent;
+  border-radius: var(--hal-alert-dismiss-radius, var(--hal-radius-sm));
+  font-family: inherit;
+  font-size: var(--hal-alert-dismiss-text, var(--hal-text-lg));
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color var(--hal-duration) var(--hal-ease),
+    color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-alert__dismiss:hover {
+  background-color: var(--hal-alert-dismiss-bg-hover, var(--hal-bg-raised));
+  color: var(--hal-alert-dismiss-fg-hover, var(--hal-fg));
+}
+
+.hal-alert__dismiss-glyph {
+  display: block;
+}
+
+/* Variants: border and text take the tone token, the background a faint tint
+   of it over the page color. */
+
+.hal-alert--info {
+  background-color: var(--hal-alert-info-bg, color-mix(in srgb, var(--hal-info) 8%, var(--hal-bg)));
+  border-color: var(--hal-alert-info-border, var(--hal-info));
+}
+
+.hal-alert--info .hal-alert__title {
+  color: var(--hal-alert-info-title-fg, var(--hal-info));
+}
+
+.hal-alert--success {
+  background-color: var(
+    --hal-alert-success-bg,
+    color-mix(in srgb, var(--hal-success) 8%, var(--hal-bg))
+  );
+  border-color: var(--hal-alert-success-border, var(--hal-success));
+}
+
+.hal-alert--success .hal-alert__title {
+  color: var(--hal-alert-success-title-fg, var(--hal-success));
+}
+
+.hal-alert--warning {
+  background-color: var(
+    --hal-alert-warning-bg,
+    color-mix(in srgb, var(--hal-warning) 8%, var(--hal-bg))
+  );
+  border-color: var(--hal-alert-warning-border, var(--hal-warning));
+}
+
+.hal-alert--warning .hal-alert__title {
+  color: var(--hal-alert-warning-title-fg, var(--hal-warning));
+}
+
+.hal-alert--danger {
+  background-color: var(
+    --hal-alert-danger-bg,
+    color-mix(in srgb, var(--hal-danger) 8%, var(--hal-bg))
+  );
+  border-color: var(--hal-alert-danger-border, var(--hal-danger));
+}
+
+.hal-alert--danger .hal-alert__title {
+  color: var(--hal-alert-danger-title-fg, var(--hal-danger));
+}

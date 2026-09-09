@@ -1,0 +1,89 @@
+/*
+ * Table. Plain <thead>/<tbody>/<tr>/<th>/<td> markup, styled from the root
+ * class so no wrapper components are needed. Every value reads a component
+ * token that falls back to a global one.
+ */
+
+/* The scroll box. A wide table scrolls here rather than dragging the whole
+   page sideways, which is the most common table bug there is. */
+.hal-table__container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.hal-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  background-color: var(--hal-table-bg, var(--hal-bg-raised));
+  color: var(--hal-table-fg, var(--hal-fg));
+  font-family: inherit;
+  font-size: var(--hal-table-text, var(--hal-text-sm));
+  text-align: start;
+}
+
+.hal-table th,
+.hal-table td {
+  text-align: start;
+  vertical-align: var(--hal-table-cell-align, middle);
+  border-block-end: var(--hal-table-border-width, 1px) solid
+    var(--hal-table-border, var(--hal-border));
+}
+
+.hal-table thead th {
+  color: var(--hal-table-head-fg, var(--hal-fg-muted));
+  background-color: var(--hal-table-head-bg, var(--hal-bg-subtle));
+  font-weight: var(--hal-table-head-weight, var(--hal-weight-medium));
+  border-block-end-color: var(--hal-table-head-border, var(--hal-border-strong));
+  white-space: nowrap;
+}
+
+.hal-table tbody tr:last-child th,
+.hal-table tbody tr:last-child td {
+  border-block-end-width: var(--hal-table-last-border-width, 0);
+}
+
+.hal-table caption {
+  color: var(--hal-table-caption-fg, var(--hal-fg-muted));
+  font-size: var(--hal-table-caption-text, var(--hal-text-xs));
+  text-align: start;
+  padding-block-end: var(--hal-table-caption-gap, var(--hal-space-2));
+}
+
+/* Striping. Applied to body rows only, so a sticky header never inherits it. */
+
+.hal-table--striped tbody tr:nth-child(even) th,
+.hal-table--striped tbody tr:nth-child(even) td {
+  background-color: var(--hal-table-stripe-bg, var(--hal-bg-subtle));
+}
+
+/* Sizes */
+
+.hal-table--sm th,
+.hal-table--sm td {
+  padding: var(--hal-table-py-sm, var(--hal-space-1)) var(--hal-table-px-sm, var(--hal-space-2));
+}
+
+.hal-table--md th,
+.hal-table--md td {
+  padding: var(--hal-table-py-md, var(--hal-space-2)) var(--hal-table-px-md, var(--hal-space-3));
+}
+
+.hal-table--lg th,
+.hal-table--lg td {
+  padding: var(--hal-table-py-lg, var(--hal-space-3)) var(--hal-table-px-lg, var(--hal-space-4));
+}
+
+.hal-table--sm {
+  font-size: var(--hal-table-text-sm, var(--hal-text-xs));
+}
+
+.hal-table--md {
+  font-size: var(--hal-table-text-md, var(--hal-text-sm));
+}
+
+.hal-table--lg {
+  font-size: var(--hal-table-text-lg, var(--hal-text-base));
+}
