@@ -46,6 +46,11 @@ export function useColorMode(): UseColorModeResult {
   const [systemMode, setSystemMode] = useState<ResolvedColorMode>('light')
 
   useEffect(() => {
+    // Reading storage during render would make the first client render
+    // disagree with server-rendered markup. Correcting it once after mount
+    // is the trade the spec asks for, and the empty dependency array means
+    // it cannot cascade.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setModeState(readStoredMode())
   }, [])
 

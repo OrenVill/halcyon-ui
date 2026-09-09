@@ -12,7 +12,10 @@ const structurePath = join(root, 'src/styles/base.css')
 const themesDir = join(root, 'src/styles/themes')
 const outDir = join(root, 'dist')
 
-function buildTheme(themePath: string, structure: string): { name: string; bytes: number } {
+function buildTheme(
+  themePath: string,
+  structure: string,
+): { name: string; bytes: number } {
   const name = basename(themePath, '.css')
   const source = `${readFileSync(themePath, 'utf8')}\n${structure}`
 
