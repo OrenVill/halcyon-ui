@@ -1,0 +1,50 @@
+/*
+ * Card. Every property reads a component token that falls back to a global
+ * one, so a consumer can restyle cards alone without touching the theme.
+ *
+ * The three variants differ in weight, not decoration: outline is a hairline
+ * border, raised trades the border for elevation, subtle is a flat filled
+ * panel. Only one of them casts a shadow — if they all did, nothing on the
+ * page would read as lifted.
+ */
+
+.hal-card {
+  display: block;
+  border: 1px solid transparent;
+  border-radius: var(--hal-card-radius, var(--hal-radius-lg));
+  color: var(--hal-card-fg, var(--hal-fg));
+}
+
+/* Padding */
+
+.hal-card--none {
+  padding: 0;
+}
+
+.hal-card--sm {
+  padding: var(--hal-card-p-sm, var(--hal-space-3));
+}
+
+.hal-card--md {
+  padding: var(--hal-card-p-md, var(--hal-space-5));
+}
+
+.hal-card--lg {
+  padding: var(--hal-card-p-lg, var(--hal-space-7));
+}
+
+/* Variants */
+
+.hal-card--outline {
+  background: var(--hal-card-outline-bg, var(--hal-bg-raised));
+  border-color: var(--hal-card-outline-border, var(--hal-border));
+}
+
+.hal-card--raised {
+  background: var(--hal-card-raised-bg, var(--hal-bg-raised));
+  box-shadow: var(--hal-card-raised-shadow, var(--hal-shadow));
+}
+
+.hal-card--subtle {
+  background: var(--hal-card-subtle-bg, var(--hal-bg-subtle));
+}

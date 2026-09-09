@@ -1,0 +1,74 @@
+/*
+ * Badge. Every property reads a component token that falls back to a global
+ * one, so a consumer can restyle badges alone without touching the theme.
+ *
+ * Contrast note. Only two token pairs in this library are contrast-tested as
+ * fill-plus-text: accent with accent-fg, and danger with danger-fg. Those two
+ * variants may therefore be solid. The success, warning, and info tokens are
+ * tuned as foreground colors against the page background, so they are used
+ * here as text on a subtle surface. Using one of them as a solid fill behind
+ * an assumed light foreground is untested and would miss AA in some themes.
+ *
+ * There is deliberately no cursor, no hover, and no focus rule: a badge is a
+ * label, and dressing it as a control invites people to click it.
+ */
+
+.hal-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--hal-badge-gap, var(--hal-space-1));
+  border: 1px solid transparent;
+  border-radius: var(--hal-badge-radius, var(--hal-radius-full));
+  font-family: inherit;
+  font-weight: var(--hal-badge-weight, var(--hal-weight-medium));
+  line-height: 1;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* Sizes */
+
+.hal-badge--sm {
+  min-height: var(--hal-badge-height-sm, 1.25rem);
+  padding: 0 var(--hal-badge-px-sm, var(--hal-space-2));
+  font-size: var(--hal-badge-text-sm, var(--hal-text-xs));
+}
+
+.hal-badge--md {
+  min-height: var(--hal-badge-height-md, 1.5rem);
+  padding: 0 var(--hal-badge-px-md, var(--hal-space-3));
+  font-size: var(--hal-badge-text-md, var(--hal-text-sm));
+}
+
+/* Variants */
+
+.hal-badge--neutral {
+  background: var(--hal-badge-neutral-bg, var(--hal-bg-subtle));
+  color: var(--hal-badge-neutral-fg, var(--hal-fg));
+}
+
+.hal-badge--accent {
+  background: var(--hal-badge-accent-bg, var(--hal-accent));
+  color: var(--hal-badge-accent-fg, var(--hal-accent-fg));
+}
+
+.hal-badge--danger {
+  background: var(--hal-badge-danger-bg, var(--hal-danger));
+  color: var(--hal-badge-danger-fg, var(--hal-danger-fg));
+}
+
+.hal-badge--success {
+  background: var(--hal-badge-success-bg, var(--hal-bg-subtle));
+  color: var(--hal-badge-success-fg, var(--hal-success));
+}
+
+.hal-badge--warning {
+  background: var(--hal-badge-warning-bg, var(--hal-bg-subtle));
+  color: var(--hal-badge-warning-fg, var(--hal-warning));
+}
+
+.hal-badge--info {
+  background: var(--hal-badge-info-bg, var(--hal-bg-subtle));
+  color: var(--hal-badge-info-fg, var(--hal-info));
+}

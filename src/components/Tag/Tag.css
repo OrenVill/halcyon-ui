@@ -1,0 +1,99 @@
+/*
+ * Tag. Every property reads a component token that falls back to a global
+ * one, so a consumer can restyle tags alone without touching the theme.
+ *
+ * Contrast note, as on Badge: accent-with-accent-fg and danger-with-danger-fg
+ * are the only fill-plus-text pairs the theme suite proves against AA, so only
+ * those two are solid. The success and warning tokens are tuned as foreground
+ * colors against the page background and are used that way here, on a subtle
+ * surface, rather than as an untested fill.
+ *
+ * The remove control is a real <button> styled to look like part of the tag.
+ * Tag does not import Button: components in this library never depend on one
+ * another, so a consumer can ship one without dragging in the other.
+ */
+
+.hal-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hal-tag-gap, var(--hal-space-1));
+  border: 1px solid transparent;
+  border-radius: var(--hal-tag-radius, var(--hal-radius-full));
+  font-family: inherit;
+  font-weight: var(--hal-tag-weight, var(--hal-weight-medium));
+  line-height: 1;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.hal-tag__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hal-tag__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: var(--hal-tag-remove-size, 1.125em);
+  height: var(--hal-tag-remove-size, 1.125em);
+  padding: 0;
+  border: 0;
+  border-radius: var(--hal-tag-remove-radius, var(--hal-radius-full));
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+  opacity: var(--hal-tag-remove-opacity, 0.7);
+  transition: opacity var(--hal-duration) var(--hal-ease);
+}
+
+.hal-tag__remove:hover {
+  opacity: var(--hal-tag-remove-opacity-hover, 1);
+}
+
+/* Sizes */
+
+.hal-tag--sm {
+  min-height: var(--hal-tag-height-sm, 1.25rem);
+  padding: 0 var(--hal-tag-px-sm, var(--hal-space-2));
+  font-size: var(--hal-tag-text-sm, var(--hal-text-xs));
+}
+
+.hal-tag--md {
+  min-height: var(--hal-tag-height-md, 1.5rem);
+  padding: 0 var(--hal-tag-px-md, var(--hal-space-3));
+  font-size: var(--hal-tag-text-md, var(--hal-text-sm));
+}
+
+/* Variants */
+
+.hal-tag--neutral {
+  background: var(--hal-tag-neutral-bg, var(--hal-bg-subtle));
+  color: var(--hal-tag-neutral-fg, var(--hal-fg));
+  border-color: var(--hal-tag-neutral-border, var(--hal-border));
+}
+
+.hal-tag--accent {
+  background: var(--hal-tag-accent-bg, var(--hal-accent));
+  color: var(--hal-tag-accent-fg, var(--hal-accent-fg));
+}
+
+.hal-tag--danger {
+  background: var(--hal-tag-danger-bg, var(--hal-danger));
+  color: var(--hal-tag-danger-fg, var(--hal-danger-fg));
+}
+
+.hal-tag--success {
+  background: var(--hal-tag-success-bg, var(--hal-bg-subtle));
+  color: var(--hal-tag-success-fg, var(--hal-success));
+  border-color: var(--hal-tag-success-border, var(--hal-border));
+}
+
+.hal-tag--warning {
+  background: var(--hal-tag-warning-bg, var(--hal-bg-subtle));
+  color: var(--hal-tag-warning-fg, var(--hal-warning));
+  border-color: var(--hal-tag-warning-border, var(--hal-border));
+}
