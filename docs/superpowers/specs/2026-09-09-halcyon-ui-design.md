@@ -7,7 +7,7 @@
 
 ## 1. Goal
 
-A React component library of ~27 styled, accessible components that ship with a
+A React component library of 34 styled, accessible components that ship with a
 real look out of the box, come in 8 themes, and can be rethemed end to end
 through CSS custom properties. Lightweight is a hard requirement, not an
 aspiration: React is the only dependency and it is a peer dependency.
@@ -126,14 +126,15 @@ and for text on accent surfaces. This is checked by a script in CI, not by eye.
 
 ## 4. Components
 
-27 components, each in its own folder with no cross-component imports, so a
+34 components, each in its own folder with no cross-component imports, so a
 bundler can drop everything untouched.
 
-**Form:** Button, IconButton, Input, Textarea, Select, Checkbox, Radio, Switch,
-Slider
-**Display:** Card, Badge, Avatar, Alert, Table, Progress, Spinner, Skeleton
-**Overlay:** Modal, Drawer, Tooltip, Popover, DropdownMenu, Toast
-**Navigation:** Tabs, Accordion, Pagination, Breadcrumb
+**Form (13):** Button, IconButton, Input, Textarea, Select, Checkbox, Radio,
+Switch, Slider, NumberInput, Combobox, DatePicker, FileUpload
+**Display (9):** Card, Badge, Avatar, Alert, Table, Progress, Spinner, Skeleton,
+Tag
+**Overlay (6):** Modal, Drawer, Tooltip, Popover, DropdownMenu, Toast
+**Navigation (6):** Tabs, Accordion, Pagination, Breadcrumb, Stepper, Wizard
 
 Every component: typed props, `variant` and `size` where meaningful, forwarded
 ref, forwarded rest props, and keyboard plus ARIA behavior appropriate to its
@@ -147,6 +148,30 @@ Overlay components additionally handle focus trapping, restoring focus on close,
 `Escape` to dismiss, click-outside to dismiss, and `aria-modal` or the correct
 role. Tabs, Accordion, DropdownMenu, and Slider implement arrow-key navigation
 per the ARIA authoring practices.
+
+### The four expensive components
+
+**Combobox.** Text input filtering a listbox, with keyboard navigation, type-ahead,
+optional multi-select rendering selections as `Tag`s, and the full
+`combobox`/`listbox`/`option` ARIA pattern including `aria-activedescendant`.
+Filtering is overridable so consumers can drive it from a server. It reuses the
+shared positioning helper for its panel.
+
+**DatePicker.** Calendar popover built on the native `Date` object, with month
+and weekday names formatted through `Intl.DateTimeFormat`, so every locale works
+with no dependency. Supports single date and range, arrow-key grid navigation,
+`PageUp`/`PageDown` for months, min and max bounds, and disabled dates. Our own
+date math stays under roughly 1KB and lives in `internal/date.ts`.
+
+**FileUpload.** Drag-and-drop dropzone with click-to-browse, accept and size
+filtering, a file list with previews for images, per-file progress, and remove.
+It reports files to the consumer and never uploads anything itself.
+
+**Wizard.** An unopinionated state container. It holds the current step, renders
+only the active step, renders a `Stepper` above the content, and exposes
+`next`, `back`, `goTo`, and `canGoNext`. Per-step validation is supplied by the
+app as an async guard the wizard awaits before advancing. It collects no form
+data and makes no branching decisions.
 
 ### Positioning
 
@@ -175,6 +200,7 @@ src/
     useDismissable.ts
   internal/
     position.ts               # the ~1KB anchoring helper
+    date.ts                   # calendar math for DatePicker, Intl for names
     cx.ts
   styles/
     base.css                  # structure and layout, plain colors
@@ -221,7 +247,7 @@ exceeded.
 
 | Measure | Budget |
 | --- | --- |
-| Full library, all 27 components, gzipped | 30 KB |
+| Full library, all 34 components, gzipped | 45 KB |
 | A single `Button` import, gzipped | 2 KB |
 | One theme stylesheet, gzipped | 10 KB |
 
