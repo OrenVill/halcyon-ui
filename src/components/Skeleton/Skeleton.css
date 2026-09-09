@@ -1,0 +1,83 @@
+/*
+ * Skeleton. The root is the placeholder box; each child is one bar.
+ * Every property reads a component token that falls back to a global one, so a
+ * consumer can restyle skeletons alone without touching the theme.
+ */
+
+.hal-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hal-skeleton-gap, var(--hal-space-2));
+  width: 100%;
+}
+
+.hal-skeleton__bar {
+  flex: 1 1 auto;
+  border-radius: var(--hal-skeleton-radius, var(--hal-radius-sm));
+  background-color: var(--hal-skeleton-bg, var(--hal-bg-subtle));
+  /* Two stops of the same token either side of the highlight keep the sweep
+     from ending in a hard edge. */
+  background-image: linear-gradient(
+    90deg,
+    var(--hal-skeleton-bg, var(--hal-bg-subtle)) 25%,
+    var(--hal-skeleton-highlight, var(--hal-bg-raised)) 50%,
+    var(--hal-skeleton-bg, var(--hal-bg-subtle)) 75%
+  );
+  background-size: 200% 100%;
+  animation: hal-skeleton-shimmer var(--hal-skeleton-duration, 1.4s) linear infinite;
+}
+
+/* The short final line of a paragraph. */
+
+.hal-skeleton__bar--short {
+  flex: none;
+  width: var(--hal-skeleton-short-width, 60%);
+}
+
+/* Variants */
+
+.hal-skeleton--text .hal-skeleton__bar {
+  height: var(--hal-skeleton-line-height, 0.75em);
+  min-height: var(--hal-skeleton-line-min-height, 0.5rem);
+}
+
+.hal-skeleton--rect .hal-skeleton__bar {
+  min-height: var(--hal-skeleton-rect-height, 4rem);
+  border-radius: var(--hal-skeleton-rect-radius, var(--hal-radius));
+}
+
+.hal-skeleton--circle {
+  width: var(--hal-skeleton-circle-size, 2.5rem);
+}
+
+.hal-skeleton--circle .hal-skeleton__bar {
+  aspect-ratio: 1;
+  border-radius: var(--hal-skeleton-circle-radius, var(--hal-radius-full));
+}
+
+@keyframes hal-skeleton-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: -100% 0;
+  }
+}
+
+/*
+ * Reduced motion. A shimmer clamped to a near-zero duration freezes mid-sweep
+ * and leaves a gradient stripe across every bar, so the sweep is dropped
+ * outright and the bars fall back to their flat fill. A skeleton is already
+ * hidden from assistive technology; it has nothing to signal by moving.
+ *
+ * !important is required, not decorative: base.css clamps animation-duration
+ * to 0.01ms !important for every `hal-` element under this same query, and an
+ * important declaration can only be beaten by another important declaration.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .hal-skeleton .hal-skeleton__bar {
+    background-image: none;
+    animation: none !important;
+  }
+}

@@ -1,0 +1,73 @@
+/*
+ * Spinner. The root is a status region; the ring is a decorative child.
+ * Every property reads a component token that falls back to a global one, so a
+ * consumer can restyle spinners alone without touching the theme.
+ */
+
+.hal-spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  color: var(--hal-spinner-fg, var(--hal-accent));
+}
+
+.hal-spinner__graphic {
+  display: block;
+  width: 1em;
+  height: 1em;
+  border: var(--hal-spinner-thickness, 0.125em) solid
+    var(--hal-spinner-track, var(--hal-border-strong));
+  /* One quadrant painted in the accent colour is what makes the rotation
+     legible; the rest of the ring is the track. */
+  border-top-color: var(--hal-spinner-indicator, currentColor);
+  border-radius: var(--hal-spinner-radius, var(--hal-radius-full));
+  animation: hal-spinner-spin var(--hal-spinner-duration, 0.7s) linear infinite;
+}
+
+/* Sizes. `font-size` drives the ring, so the border scales with it. */
+
+.hal-spinner--sm {
+  font-size: var(--hal-spinner-size-sm, 1rem);
+}
+
+.hal-spinner--md {
+  font-size: var(--hal-spinner-size-md, 1.5rem);
+}
+
+.hal-spinner--lg {
+  font-size: var(--hal-spinner-size-lg, 2rem);
+}
+
+@keyframes hal-spinner-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/*
+ * Reduced motion. A stopped ring reads as a broken control, so the spin is
+ * replaced by a slow fade: the component still says "busy" without rotating.
+ *
+ * !important is required, not decorative: base.css clamps animation-duration
+ * to 0.01ms !important for every `hal-` element under this same query, and an
+ * important declaration can only be beaten by another important declaration.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .hal-spinner .hal-spinner__graphic {
+    transform: none;
+    animation: hal-spinner-fade var(--hal-spinner-fade-duration, 1.6s) ease-in-out infinite
+      !important;
+  }
+}
+
+@keyframes hal-spinner-fade {
+  0%,
+  100% {
+    opacity: var(--hal-spinner-fade-min, 0.35);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}

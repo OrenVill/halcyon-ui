@@ -1,0 +1,99 @@
+/*
+ * Progress. The root is the track and carries role="progressbar"; the child is
+ * the fill. Every property reads a component token that falls back to a global
+ * one, so a consumer can restyle progress bars alone without touching the theme.
+ */
+
+.hal-progress {
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  background: var(--hal-progress-track-bg, var(--hal-bg-subtle));
+  border-radius: var(--hal-progress-radius, var(--hal-radius-full));
+}
+
+.hal-progress__fill {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--hal-progress-fill-bg, var(--hal-accent));
+  transition: width var(--hal-progress-duration, var(--hal-duration)) var(--hal-ease);
+}
+
+/* Sizes */
+
+.hal-progress--sm {
+  height: var(--hal-progress-height-sm, 0.25rem);
+}
+
+.hal-progress--md {
+  height: var(--hal-progress-height-md, 0.5rem);
+}
+
+.hal-progress--lg {
+  height: var(--hal-progress-height-lg, 0.75rem);
+}
+
+/* Variants */
+
+.hal-progress--accent .hal-progress__fill {
+  background: var(--hal-progress-fill-accent, var(--hal-accent));
+}
+
+.hal-progress--success .hal-progress__fill {
+  background: var(--hal-progress-fill-success, var(--hal-success));
+}
+
+.hal-progress--danger .hal-progress__fill {
+  background: var(--hal-progress-fill-danger, var(--hal-danger));
+}
+
+/* Indeterminate: a short fill sweeping the track, because there is no ratio
+   to draw. The width lives here rather than inline, so the component sets no
+   style at all when the extent is unknown. */
+
+.hal-progress--indeterminate .hal-progress__fill {
+  width: var(--hal-progress-indeterminate-width, 40%);
+  transition: none;
+  animation: hal-progress-sweep var(--hal-progress-sweep-duration, 1.2s)
+    var(--hal-progress-sweep-ease, ease-in-out) infinite;
+}
+
+@keyframes hal-progress-sweep {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(250%);
+  }
+}
+
+/*
+ * Reduced motion. Stopping the sweep outright would leave a frozen bar, which
+ * reads as a stalled task rather than a running one, so the sweep degrades to
+ * a slow opacity pulse: still alive, no travel.
+ *
+ * !important is required, not decorative: base.css clamps animation-duration
+ * to 0.01ms !important for every `hal-` element under this same query, and an
+ * important declaration can only be beaten by another important declaration.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .hal-progress--indeterminate .hal-progress__fill {
+    width: 100%;
+    transform: none;
+    animation: hal-progress-pulse var(--hal-progress-pulse-duration, 2s) ease-in-out infinite
+      !important;
+  }
+}
+
+@keyframes hal-progress-pulse {
+  0%,
+  100% {
+    opacity: var(--hal-progress-pulse-min, 0.4);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
