@@ -32,3 +32,6 @@ jobs:
 
       - name: Size budgets
         run: npm run check:size
+
+      - name: Contrast
+        run: npm run check:contrast

@@ -19,7 +19,14 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./base": "./dist/base.css"
+    "./base": "./dist/base.css",
+    "./midnight": "./dist/midnight.css",
+    "./aurora": "./dist/aurora.css",
+    "./ember": "./dist/ember.css",
+    "./forest": "./dist/forest.css",
+    "./sandstone": "./dist/sandstone.css",
+    "./mono": "./dist/mono.css",
+    "./neon": "./dist/neon.css"
   },
   "scripts": {
     "build": "npm run build:js && npm run build:css",

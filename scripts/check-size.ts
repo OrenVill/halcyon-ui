@@ -14,9 +14,16 @@ interface Budget {
   label: string
 }
 
+const THEMES = ['base', 'midnight', 'aurora', 'ember', 'forest', 'sandstone', 'mono', 'neon']
+
 const BUDGETS: Budget[] = [
   { file: 'dist/index.js', limitKb: 45, label: 'full library' },
-  { file: 'dist/base.css', limitKb: 10, label: 'theme stylesheet: base' },
+  // Generated, so a new theme cannot be added without also being budgeted.
+  ...THEMES.map((theme) => ({
+    file: `dist/${theme}.css`,
+    limitKb: 10,
+    label: `theme stylesheet: ${theme}`,
+  })),
 ]
 
 const root = fileURLToPath(new URL('..', import.meta.url))
