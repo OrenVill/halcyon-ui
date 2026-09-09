@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState } from 'react'
+import { forwardRef, useCallback, useState } from 'react'
 import type { HTMLAttributes } from 'react'
 import { cx } from '../../internal/cx'
 
@@ -34,14 +34,26 @@ export const Avatar = /* @__PURE__ */ forwardRef<HTMLSpanElement, AvatarProps>(f
   ref,
 ) {
   // A broken-image icon in a user list is worse than a monogram, so a failed
-  // load is remembered and the initials take over.
-  const [failed, setFailed] = useState(false)
+  // image falls back to initials.
+  //
+  // Remember WHICH src failed rather than a bare boolean. A boolean needs an
+  // effect to reset it when src changes, and that effect also runs on mount,
+  // where it would undo a failure detected during the commit before it.
+  const [failedSrc, setFailedSrc] = useState<string | null>(null)
+  const failed = src !== undefined && failedSrc === src
 
-  // A new src deserves a fresh attempt; otherwise one bad URL would poison
-  // every later one rendered by the same element.
-  useEffect(() => {
-    setFailed(false)
-  }, [src])
+  const markFailed = useCallback(() => setFailedSrc(src ?? null), [src])
+
+  // An image can finish loading, or fail, before React attaches onError:
+  // served from cache, or refused by a content security policy. A complete
+  // image with no intrinsic width is a failed one, and this is the only way
+  // to notice.
+  const checkAlreadyFailed = useCallback(
+    (node: HTMLImageElement | null) => {
+      if (node?.complete && node.naturalWidth === 0) markFailed()
+    },
+    [markFailed],
+  )
 
   const initials = initialsFrom(name)
   const showImage = Boolean(src) && !failed
@@ -54,10 +66,11 @@ export const Avatar = /* @__PURE__ */ forwardRef<HTMLSpanElement, AvatarProps>(f
     >
       {showImage ? (
         <img
+          ref={checkAlreadyFailed}
           className="hal-avatar__image"
           src={src}
           alt={alt ?? name ?? ''}
-          onError={() => setFailed(true)}
+          onError={markFailed}
         />
       ) : initials ? (
         <span className="hal-avatar__initials">{initials}</span>

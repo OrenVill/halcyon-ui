@@ -5,6 +5,23 @@ import { axe } from 'vitest-axe'
 import { Avatar } from './Avatar'
 
 describe('Avatar', () => {
+  it('falls back when the image already failed before React could listen', () => {
+    // A cached or policy-blocked image completes before onError is attached.
+    // The browser reports it as complete with no intrinsic width.
+    const complete = vi
+      .spyOn(HTMLImageElement.prototype, 'complete', 'get')
+      .mockReturnValue(true)
+    const width = vi
+      .spyOn(HTMLImageElement.prototype, 'naturalWidth', 'get')
+      .mockReturnValue(0)
+
+    render(<Avatar src="/blocked.png" name="Ada Lovelace" />)
+    expect(screen.getByText('AL')).toBeInTheDocument()
+
+    complete.mockRestore()
+    width.mockRestore()
+  })
+
   it('renders the image with its alt text', () => {
     render(<Avatar src="/ada.png" alt="Ada Lovelace" />)
     const image = screen.getByRole('img', { name: 'Ada Lovelace' })

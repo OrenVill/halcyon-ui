@@ -125,6 +125,10 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
   )
 }
 
+// Inlined rather than fetched: a published artifact blocks external image
+// hosts, so any remote avatar URL would fail there and prove nothing.
+const PORTRAIT = 'data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2064%2064%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%270%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%236b8cae%27%2F%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%233c5a78%27%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%2764%27%20height%3D%2764%27%20fill%3D%27url%28%23g%29%27%2F%3E%3Ccircle%20cx%3D%2732%27%20cy%3D%2725%27%20r%3D%2711%27%20fill%3D%27%23e8eef5%27%2F%3E%3Cpath%20d%3D%27M10%2064c0-13%2010-21%2022-21s22%208%2022%2021z%27%20fill%3D%27%23e8eef5%27%2F%3E%3C%2Fsvg%3E'
+
 const SORT_OPTIONS = [
   { value: 'ascending', label: 'Ascending' },
   { value: 'modified', label: 'By modified date' },
@@ -528,11 +532,20 @@ function Gallery() {
             </Row>
           </Specimen>
 
-          <Specimen name="Avatar" note="Falls back to initials when an image fails, rather than a broken-image icon.">
+          <Specimen
+            name="Avatar"
+            note="Falls back to initials when an image fails, rather than showing a broken-image icon."
+          >
             <Row label="image">
               {SIZES.map((s) => (
-                <Avatar key={s} size={s} name="Ada Lovelace" src="https://example.invalid/a.png" />
+                <Avatar key={s} size={s} name="Ada Lovelace" src={PORTRAIT} />
               ))}
+              <Avatar name="Ada Lovelace" src={PORTRAIT} shape="square" />
+            </Row>
+            <Row label="failed src">
+              <Avatar name="Ada Lovelace" src="/does-not-exist.png" />
+              <Avatar name="Grace Hopper" src="/does-not-exist.png" />
+              <Avatar src="/does-not-exist.png" />
             </Row>
             <Row label="initials">
               <Avatar name="Ada Lovelace" />
