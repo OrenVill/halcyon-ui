@@ -1,0 +1,93 @@
+/*
+ * Checkbox. A native <input type="checkbox"> with its own box drawn on top of
+ * `appearance: none`, so keyboard behaviour, form participation and assistive
+ * technology come from the platform. Every value reads a component token that
+ * falls back to a global one; there are no literal colors anywhere.
+ */
+
+.hal-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-grid;
+  place-content: center;
+  flex: none;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+  background-color: var(--hal-checkbox-bg, var(--hal-bg-raised));
+  border: var(--hal-checkbox-border-width, 1px) solid
+    var(--hal-checkbox-border, var(--hal-border-strong));
+  border-radius: var(--hal-checkbox-radius, var(--hal-radius-sm));
+  color: var(--hal-checkbox-mark, var(--hal-accent-fg));
+  cursor: pointer;
+  transition:
+    background-color var(--hal-duration) var(--hal-ease),
+    border-color var(--hal-duration) var(--hal-ease);
+}
+
+/* The tick: two borders of a box, rotated. Drawn in `currentColor` so a
+   theme repaints it by changing one token. */
+.hal-checkbox::after {
+  content: '';
+  width: var(--hal-checkbox-mark-width, 0.32em);
+  height: var(--hal-checkbox-mark-height, 0.62em);
+  margin-block-start: var(--hal-checkbox-mark-offset, -0.1em);
+  border: var(--hal-checkbox-mark-thickness, 0.14em) solid currentColor;
+  border-block-start-color: transparent;
+  border-inline-start-color: transparent;
+  border-radius: var(--hal-checkbox-mark-radius, 0);
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity var(--hal-duration) var(--hal-ease);
+}
+
+.hal-checkbox:hover:not(:disabled) {
+  border-color: var(--hal-checkbox-border-hover, var(--hal-accent));
+}
+
+.hal-checkbox:checked,
+.hal-checkbox:indeterminate {
+  background-color: var(--hal-checkbox-bg-checked, var(--hal-accent));
+  border-color: var(--hal-checkbox-border-checked, var(--hal-accent));
+}
+
+.hal-checkbox:checked::after {
+  opacity: 1;
+}
+
+/* Mixed state wins over checked: a single bar rather than a tick. */
+.hal-checkbox:indeterminate::after {
+  width: var(--hal-checkbox-dash-width, 0.6em);
+  height: 0;
+  margin-block-start: 0;
+  border: 0;
+  border-block-start: var(--hal-checkbox-mark-thickness, 0.14em) solid currentColor;
+  transform: none;
+  opacity: 1;
+}
+
+.hal-checkbox:disabled {
+  background-color: var(--hal-checkbox-bg-disabled, var(--hal-bg-subtle));
+  opacity: var(--hal-checkbox-disabled-opacity, 0.55);
+  cursor: not-allowed;
+}
+
+/* Sizes. `font-size` drives the em-sized mark, so the tick scales with the box. */
+
+.hal-checkbox--sm {
+  width: var(--hal-checkbox-size-sm, 0.875rem);
+  height: var(--hal-checkbox-size-sm, 0.875rem);
+  font-size: var(--hal-checkbox-text-sm, var(--hal-text-sm));
+}
+
+.hal-checkbox--md {
+  width: var(--hal-checkbox-size-md, 1.125rem);
+  height: var(--hal-checkbox-size-md, 1.125rem);
+  font-size: var(--hal-checkbox-text-md, var(--hal-text-base));
+}
+
+.hal-checkbox--lg {
+  width: var(--hal-checkbox-size-lg, 1.375rem);
+  height: var(--hal-checkbox-size-lg, 1.375rem);
+  font-size: var(--hal-checkbox-text-lg, var(--hal-text-lg));
+}

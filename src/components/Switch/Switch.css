@@ -1,0 +1,79 @@
+/*
+ * Switch. A native <input type="checkbox" role="switch">: the checkbox gives
+ * Space, focus and form participation, the role gives the announcement. The
+ * element is the track; the thumb is its ::after. Tokens only, no literal
+ * colors, so a theme can repaint the whole control.
+ */
+
+.hal-switch {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  display: inline-block;
+  flex: none;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+  background-color: var(--hal-switch-bg, var(--hal-border-strong));
+  border: var(--hal-switch-border-width, 1px) solid
+    var(--hal-switch-border, var(--hal-border-strong));
+  border-radius: var(--hal-switch-radius, var(--hal-radius-full));
+  cursor: pointer;
+  transition:
+    background-color var(--hal-duration) var(--hal-ease),
+    border-color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-switch::after {
+  content: '';
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: var(--hal-switch-thumb-inset, 0.125em);
+  width: var(--hal-switch-thumb-size, 0.75em);
+  height: var(--hal-switch-thumb-size, 0.75em);
+  background-color: var(--hal-switch-thumb, var(--hal-bg-raised));
+  border-radius: var(--hal-switch-thumb-radius, var(--hal-radius-full));
+  box-shadow: var(--hal-switch-thumb-shadow, var(--hal-shadow-sm));
+  transform: translateY(-50%);
+  transition: transform var(--hal-duration) var(--hal-ease);
+}
+
+.hal-switch:hover:not(:disabled) {
+  border-color: var(--hal-switch-border-hover, var(--hal-accent));
+}
+
+.hal-switch:checked {
+  background-color: var(--hal-switch-bg-checked, var(--hal-accent));
+  border-color: var(--hal-switch-border-checked, var(--hal-accent));
+}
+
+.hal-switch:checked::after {
+  background-color: var(--hal-switch-thumb-checked, var(--hal-accent-fg));
+  transform: translateY(-50%) translateX(var(--hal-switch-thumb-travel, 0.875em));
+}
+
+.hal-switch:disabled {
+  opacity: var(--hal-switch-disabled-opacity, 0.55);
+  cursor: not-allowed;
+}
+
+/* Sizes. The track is twice as wide as it is tall; `font-size` scales the
+   thumb and its travel with the track. */
+
+.hal-switch--sm {
+  width: var(--hal-switch-width-sm, 1.75rem);
+  height: var(--hal-switch-height-sm, 1rem);
+  font-size: var(--hal-switch-text-sm, var(--hal-text-sm));
+}
+
+.hal-switch--md {
+  width: var(--hal-switch-width-md, 2.25rem);
+  height: var(--hal-switch-height-md, 1.25rem);
+  font-size: var(--hal-switch-text-md, var(--hal-text-base));
+}
+
+.hal-switch--lg {
+  width: var(--hal-switch-width-lg, 2.75rem);
+  height: var(--hal-switch-height-lg, 1.5rem);
+  font-size: var(--hal-switch-text-lg, var(--hal-text-lg));
+}

@@ -1,0 +1,78 @@
+/*
+ * Radio. A native <input type="radio"> restyled over `appearance: none`, so
+ * roving-arrow keyboard behaviour and single-selection within a `name` group
+ * come from the platform. Tokens only: no literal colors.
+ */
+
+.hal-radio {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-grid;
+  place-content: center;
+  flex: none;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+  background-color: var(--hal-radio-bg, var(--hal-bg-raised));
+  border: var(--hal-radio-border-width, 1px) solid
+    var(--hal-radio-border, var(--hal-border-strong));
+  border-radius: var(--hal-radio-radius, var(--hal-radius-full));
+  color: var(--hal-radio-dot, var(--hal-accent-fg));
+  cursor: pointer;
+  transition:
+    background-color var(--hal-duration) var(--hal-ease),
+    border-color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-radio::after {
+  content: '';
+  width: var(--hal-radio-dot-size, 0.4em);
+  height: var(--hal-radio-dot-size, 0.4em);
+  background-color: currentColor;
+  border-radius: var(--hal-radio-dot-radius, var(--hal-radius-full));
+  transform: scale(0);
+  opacity: 0;
+  transition:
+    transform var(--hal-duration) var(--hal-ease),
+    opacity var(--hal-duration) var(--hal-ease);
+}
+
+.hal-radio:hover:not(:disabled) {
+  border-color: var(--hal-radio-border-hover, var(--hal-accent));
+}
+
+.hal-radio:checked {
+  background-color: var(--hal-radio-bg-checked, var(--hal-accent));
+  border-color: var(--hal-radio-border-checked, var(--hal-accent));
+}
+
+.hal-radio:checked::after {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.hal-radio:disabled {
+  background-color: var(--hal-radio-bg-disabled, var(--hal-bg-subtle));
+  opacity: var(--hal-radio-disabled-opacity, 0.55);
+  cursor: not-allowed;
+}
+
+/* Sizes */
+
+.hal-radio--sm {
+  width: var(--hal-radio-size-sm, 0.875rem);
+  height: var(--hal-radio-size-sm, 0.875rem);
+  font-size: var(--hal-radio-text-sm, var(--hal-text-sm));
+}
+
+.hal-radio--md {
+  width: var(--hal-radio-size-md, 1.125rem);
+  height: var(--hal-radio-size-md, 1.125rem);
+  font-size: var(--hal-radio-text-md, var(--hal-text-base));
+}
+
+.hal-radio--lg {
+  width: var(--hal-radio-size-lg, 1.375rem);
+  height: var(--hal-radio-size-lg, 1.375rem);
+  font-size: var(--hal-radio-text-lg, var(--hal-text-lg));
+}
