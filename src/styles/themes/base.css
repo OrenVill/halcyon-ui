@@ -1,0 +1,116 @@
+/*
+ * halcyon-ui theme: base.
+ * Deliberately plain. This is the documented starting point for a custom
+ * theme: copy this file, change the values, change nothing else.
+ */
+
+:root {
+  /* Color */
+  --hal-bg: #ffffff;
+  --hal-bg-subtle: #f5f6f7;
+  --hal-bg-raised: #ffffff;
+  --hal-fg: #16181d;
+  --hal-fg-muted: #5b6270;
+  --hal-border: #e2e5e9;
+  --hal-border-strong: #c3c8d0;
+  --hal-accent: #2563eb;
+  --hal-accent-fg: #ffffff;
+  --hal-accent-hover: #1d4ed8;
+  --hal-success: #15803d;
+  --hal-warning: #b45309;
+  --hal-danger: #dc2626;
+  --hal-danger-fg: #ffffff;
+  --hal-info: #0369a1;
+  --hal-overlay: rgb(15 18 25 / 0.5);
+  --hal-focus-ring: #2563eb;
+
+  /* Elevation */
+  --hal-shadow-sm: 0 1px 2px rgb(15 18 25 / 0.06);
+  --hal-shadow: 0 2px 8px rgb(15 18 25 / 0.1);
+  --hal-shadow-lg: 0 12px 32px rgb(15 18 25 / 0.16);
+
+  /* Spacing */
+  --hal-space-1: 0.25rem;
+  --hal-space-2: 0.5rem;
+  --hal-space-3: 0.75rem;
+  --hal-space-4: 1rem;
+  --hal-space-5: 1.25rem;
+  --hal-space-6: 1.5rem;
+  --hal-space-7: 2rem;
+  --hal-space-8: 3rem;
+
+  /* Radius */
+  --hal-radius-sm: 0.25rem;
+  --hal-radius: 0.5rem;
+  --hal-radius-lg: 0.75rem;
+  --hal-radius-full: 9999px;
+
+  /* Type */
+  --hal-font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --hal-font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+    'Liberation Mono', monospace;
+  --hal-text-xs: 0.75rem;
+  --hal-text-sm: 0.875rem;
+  --hal-text-base: 1rem;
+  --hal-text-lg: 1.125rem;
+  --hal-text-xl: 1.25rem;
+  --hal-weight-normal: 400;
+  --hal-weight-medium: 500;
+  --hal-weight-bold: 700;
+  --hal-leading: 1.5;
+
+  /* Motion */
+  --hal-duration: 150ms;
+  --hal-ease: cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-mode='light']) {
+    --hal-bg: #0e1116;
+    --hal-bg-subtle: #161a21;
+    --hal-bg-raised: #1c212a;
+    --hal-fg: #e8eaed;
+    --hal-fg-muted: #9aa3b2;
+    --hal-border: #262c36;
+    --hal-border-strong: #39414e;
+    --hal-accent: #60a5fa;
+    --hal-accent-fg: #0b1220;
+    --hal-accent-hover: #93c5fd;
+    --hal-success: #4ade80;
+    --hal-warning: #fbbf24;
+    --hal-danger: #f87171;
+    --hal-danger-fg: #1a0a0a;
+    --hal-info: #38bdf8;
+    --hal-overlay: rgb(0 0 0 / 0.6);
+    --hal-focus-ring: #60a5fa;
+
+    --hal-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+    --hal-shadow: 0 2px 8px rgb(0 0 0 / 0.5);
+    --hal-shadow-lg: 0 12px 32px rgb(0 0 0 / 0.6);
+  }
+}
+
+:root[data-mode='dark'] {
+  --hal-bg: #0e1116;
+  --hal-bg-subtle: #161a21;
+  --hal-bg-raised: #1c212a;
+  --hal-fg: #e8eaed;
+  --hal-fg-muted: #9aa3b2;
+  --hal-border: #262c36;
+  --hal-border-strong: #39414e;
+  --hal-accent: #60a5fa;
+  --hal-accent-fg: #0b1220;
+  --hal-accent-hover: #93c5fd;
+  --hal-success: #4ade80;
+  --hal-warning: #fbbf24;
+  --hal-danger: #f87171;
+  --hal-danger-fg: #1a0a0a;
+  --hal-info: #38bdf8;
+  --hal-overlay: rgb(0 0 0 / 0.6);
+  --hal-focus-ring: #60a5fa;
+
+  --hal-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --hal-shadow: 0 2px 8px rgb(0 0 0 / 0.5);
+  --hal-shadow-lg: 0 12px 32px rgb(0 0 0 / 0.6);
+}
