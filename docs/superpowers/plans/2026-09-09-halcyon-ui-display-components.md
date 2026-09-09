@@ -193,6 +193,26 @@ merge; ref forwarding; axe clean with and without removal.
 - Budgets hold: full library under 45 KB, a lone Button import under 2 KB.
 - No component stylesheet contains a literal color.
 
+## Execution record
+
+Executed 2026-09-09. Nine components across three agents, all following Button.
+394 tests pass across the library with axe clean on every component.
+
+| Measure | Result |
+| --- | --- |
+| Full library, gzipped | 6.40 KB against 45 KB |
+| A lone Button import | 0.41 KB against 2 KB |
+
+The pure annotation held: adding nine components did not move the single-import
+number at all, which is the whole point of the budget.
+
+One cross-agent catch worth recording. The agent building Card, Badge and Tag
+reported a typecheck failure in Alert, which another agent was still writing:
+`title?: ReactNode` collides with the DOM's own `title` attribute, typed as a
+string. Alert's author fixed it by omitting the native prop before redeclaring
+it, the same pattern the form components use for `size`. Running the typecheck
+across the whole tree rather than only one's own folder is what surfaced it.
+
 ## Remaining after this plan
 
 | Plan | Components |

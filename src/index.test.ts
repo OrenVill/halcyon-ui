@@ -7,8 +7,17 @@ describe('public API', () => {
     expect(typeof api.ColorModeScript).toBe('function')
   })
 
-  it('exports every form component', () => {
+  it('exports every component', () => {
     const expected = [
+      'Alert',
+      'Avatar',
+      'Badge',
+      'Card',
+      'Progress',
+      'Skeleton',
+      'Spinner',
+      'Table',
+      'Tag',
       'Button',
       'Checkbox',
       'IconButton',

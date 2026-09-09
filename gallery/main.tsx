@@ -9,15 +9,24 @@
 import { StrictMode, useMemo, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
+  Alert,
+  Avatar,
+  Badge,
   Button,
+  Card,
   Checkbox,
   IconButton,
   Input,
   NumberInput,
   Radio,
+  Progress,
   Select,
+  Skeleton,
   Slider,
+  Spinner,
   Switch,
+  Table,
+  Tag,
   Textarea,
 } from '../src/index'
 
@@ -76,6 +85,15 @@ const SECTIONS = [
   'Switch',
   'Slider',
   'NumberInput',
+  'Card',
+  'Badge',
+  'Tag',
+  'Avatar',
+  'Alert',
+  'Table',
+  'Progress',
+  'Spinner',
+  'Skeleton',
 ] as const
 
 function Specimen({
@@ -139,6 +157,7 @@ function Gallery() {
   const [volume, setVolume] = useState(60)
   const [quantity, setQuantity] = useState(3)
   const [sort, setSort] = useState('modified')
+  const [tags, setTags] = useState(['design', 'accessibility', 'tokens'])
 
   const tokens = THEMES[theme]![mode]
   const style = useMemo(() => tokens as React.CSSProperties, [tokens])
@@ -447,6 +466,166 @@ function Gallery() {
             <Row label="states">
               <NumberInput aria-label="Invalid quantity" invalid defaultValue={2} />
               <NumberInput aria-label="Disabled quantity" disabled defaultValue={2} />
+            </Row>
+          </Specimen>
+
+          <Specimen name="Card" note="Variants differ in weight, not decoration: a border, an elevation, or a fill.">
+            <Row label="variants">
+              {(['outline', 'raised', 'subtle'] as const).map((v) => (
+                <Card key={v} variant={v} style={{ minWidth: '11rem' }}>
+                  <strong style={{ display: 'block', marginBottom: '0.25rem' }}>{v}</strong>
+                  <span style={{ color: 'var(--hal-fg-muted)', fontSize: '13px' }}>
+                    Deploy finished in 42s
+                  </span>
+                </Card>
+              ))}
+            </Row>
+            <Row label="padding">
+              {(['none', 'sm', 'md', 'lg'] as const).map((p) => (
+                <Card key={p} padding={p}>
+                  {p}
+                </Card>
+              ))}
+            </Row>
+          </Specimen>
+
+          <Specimen name="Badge" note="A label, not a control. Success, warning and info are text, never a fill.">
+            <Row label="variants">
+              {(['neutral', 'accent', 'success', 'warning', 'danger', 'info'] as const).map((v) => (
+                <Badge key={v} variant={v}>
+                  {v}
+                </Badge>
+              ))}
+            </Row>
+            <Row label="sizes">
+              {(['sm', 'md'] as const).map((s) => (
+                <Badge key={s} size={s} variant="accent">
+                  size {s}
+                </Badge>
+              ))}
+            </Row>
+          </Specimen>
+
+          <Specimen name="Tag" note="A badge that can be removed. Each remove button names its own tag.">
+            <Row label="removable">
+              {tags.map((tag) => (
+                <Tag key={tag} onRemove={() => setTags((all) => all.filter((t) => t !== tag))}>
+                  {tag}
+                </Tag>
+              ))}
+              {tags.length === 0 ? (
+                <button type="button" className="hal-button hal-button--ghost hal-button--sm" onClick={() => setTags(['design', 'accessibility', 'tokens'])}>
+                  restore
+                </button>
+              ) : null}
+            </Row>
+            <Row label="variants">
+              {(['neutral', 'accent', 'success', 'warning', 'danger'] as const).map((v) => (
+                <Tag key={v} variant={v}>
+                  {v}
+                </Tag>
+              ))}
+            </Row>
+          </Specimen>
+
+          <Specimen name="Avatar" note="Falls back to initials when an image fails, rather than a broken-image icon.">
+            <Row label="image">
+              {SIZES.map((s) => (
+                <Avatar key={s} size={s} name="Ada Lovelace" src="https://example.invalid/a.png" />
+              ))}
+            </Row>
+            <Row label="initials">
+              <Avatar name="Ada Lovelace" />
+              <Avatar name="Prince" />
+              <Avatar name="Grace Hopper" shape="square" />
+            </Row>
+            <Row label="empty">
+              <Avatar />
+            </Row>
+          </Specimen>
+
+          <Specimen name="Alert" note="Danger interrupts a screen reader with role alert; the rest use role status.">
+            <Row label="variants">
+              <div style={{ display: 'grid', gap: '0.5rem', width: '100%' }}>
+                {(['info', 'success', 'warning', 'danger'] as const).map((v) => (
+                  <Alert key={v} variant={v} title={`${v} alert`}>
+                    The build finished with three warnings.
+                  </Alert>
+                ))}
+              </div>
+            </Row>
+            <Row label="dismissible">
+              <Alert variant="info" title="Dismissible" onDismiss={() => {}}>
+                Closing this calls onDismiss.
+              </Alert>
+            </Row>
+          </Specimen>
+
+          <Specimen name="Table" note="The horizontal scroll lives in the table's own container, never the page.">
+            <Row label="striped">
+              <Table striped>
+                <thead>
+                  <tr>
+                    <th scope="col">Theme</th>
+                    <th scope="col">Lowest ratio</th>
+                    <th scope="col">Stylesheet</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>midnight</td>
+                    <td>5.67:1</td>
+                    <td>3.76 KB</td>
+                  </tr>
+                  <tr>
+                    <td>sandstone</td>
+                    <td>5.58:1</td>
+                    <td>3.76 KB</td>
+                  </tr>
+                  <tr>
+                    <td>neon</td>
+                    <td>5.61:1</td>
+                    <td>3.75 KB</td>
+                  </tr>
+                </tbody>
+              </Table>
+            </Row>
+          </Specimen>
+
+          <Specimen name="Progress" note="Indeterminate omits aria-valuenow entirely, which is how ARIA expresses it.">
+            <Row label="determinate">
+              <Progress aria-label="Upload" value={62} />
+            </Row>
+            <Row label="indeterminate">
+              <Progress aria-label="Working" />
+            </Row>
+            <Row label="variants">
+              {(['accent', 'success', 'danger'] as const).map((v) => (
+                <Progress key={v} aria-label={`Progress ${v}`} variant={v} value={45} />
+              ))}
+            </Row>
+          </Specimen>
+
+          <Specimen name="Spinner" note="Carries its label as visually hidden text, so it has an accessible name.">
+            <Row label="sizes">
+              {SIZES.map((s) => (
+                <Spinner key={s} size={s} />
+              ))}
+            </Row>
+            <Row label="label">
+              <Spinner label="Checking contrast" />
+            </Row>
+          </Specimen>
+
+          <Specimen name="Skeleton" note="Always aria-hidden. The last line runs short so it reads as a paragraph.">
+            <Row label="text">
+              <div style={{ width: '100%', maxWidth: '28rem' }}>
+                <Skeleton lines={3} />
+              </div>
+            </Row>
+            <Row label="shapes">
+              <Skeleton variant="circle" width={40} height={40} />
+              <Skeleton variant="rect" width={120} height={40} />
             </Row>
           </Specimen>
         </main>
