@@ -11,7 +11,7 @@ export interface SwitchProps
   size?: SwitchSize
 }
 
-export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
+export const Switch = /* @__PURE__ */ forwardRef<HTMLInputElement, SwitchProps>(function Switch(
   { size = 'md', className, role = 'switch', ...rest },
   ref,
 ) {

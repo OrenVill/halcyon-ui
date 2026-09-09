@@ -129,6 +129,11 @@ and for text on accent surfaces. This is checked by a script in CI, not by eye.
 34 components, each in its own folder with no cross-component imports, so a
 bundler can drop everything untouched.
 
+Select is a custom listbox, not a native `<select>`. The browser draws a native
+dropdown itself and ignores every token in the theme, so the trigger would theme
+and the list would not. The custom control renders a hidden input so the value
+still participates in form submission.
+
 **Form (13):** Button, IconButton, Input, Textarea, Select, Checkbox, Radio,
 Switch, Slider, NumberInput, Combobox, DatePicker, FileUpload
 **Display (9):** Card, Badge, Avatar, Alert, Table, Progress, Spinner, Skeleton,

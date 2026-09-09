@@ -1,68 +1,132 @@
 /*
- * Select. Every property reads a component token that falls back to a global
- * one, so a consumer can restyle selects alone without touching the theme.
- *
- * The dropdown indicator is the browser's own. An inlined SVG data URI would
- * bake a literal color into the stylesheet that no theme could repaint, so the
- * right padding below simply reserves room for the native arrow.
+ * Select. A listbox rather than a native <select>, because the browser draws
+ * a native dropdown itself and ignores every token in the theme. The trigger
+ * would theme; the list would not.
  */
 
 .hal-select {
-  display: block;
+  position: relative;
+  display: inline-block;
+  min-width: var(--hal-select-min-width, 12rem);
+}
+
+.hal-select__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--hal-space-2);
   width: 100%;
-  background: var(--hal-select-bg, var(--hal-bg));
-  color: var(--hal-select-fg, var(--hal-fg));
-  border: 1px solid var(--hal-select-border, var(--hal-border));
+  background: var(--hal-select-bg, var(--hal-bg-raised));
+  border: 1px solid var(--hal-select-border, var(--hal-border-strong));
   border-radius: var(--hal-select-radius, var(--hal-radius));
+  color: var(--hal-select-fg, var(--hal-fg));
   font-family: inherit;
-  font-weight: var(--hal-select-weight, var(--hal-weight-normal));
-  line-height: var(--hal-select-leading, var(--hal-leading));
+  line-height: 1;
+  text-align: start;
   cursor: pointer;
   transition:
-    background-color var(--hal-duration) var(--hal-ease),
     border-color var(--hal-duration) var(--hal-ease),
-    color var(--hal-duration) var(--hal-ease);
+    background-color var(--hal-duration) var(--hal-ease);
 }
 
-.hal-select:hover:not(:disabled) {
-  border-color: var(--hal-select-border-hover, var(--hal-border-strong));
+.hal-select__trigger:hover:not(:disabled) {
+  border-color: var(--hal-select-border-hover, var(--hal-accent));
 }
 
-.hal-select:disabled {
-  background: var(--hal-select-bg-disabled, var(--hal-bg-subtle));
+.hal-select__trigger:disabled {
   opacity: var(--hal-select-disabled-opacity, 0.55);
   cursor: not-allowed;
 }
 
-.hal-select--invalid {
-  border-color: var(--hal-select-border-invalid, var(--hal-danger));
+.hal-select__value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* Sizes. The right padding leaves room for the native dropdown indicator. */
+.hal-select__value--placeholder {
+  color: var(--hal-select-placeholder-fg, var(--hal-fg-muted));
+}
 
-.hal-select--sm {
+/* A chevron drawn from borders, so it takes its color from a token. */
+.hal-select__arrow {
+  flex: none;
+  width: 0.45em;
+  height: 0.45em;
+  margin-block-start: -0.2em;
+  border-right: 1.5px solid var(--hal-select-arrow, var(--hal-fg-muted));
+  border-bottom: 1.5px solid var(--hal-select-arrow, var(--hal-fg-muted));
+  transform: rotate(45deg);
+}
+
+/* Sizes */
+
+.hal-select--sm .hal-select__trigger {
   min-height: var(--hal-select-height-sm, 2rem);
-  padding: var(--hal-select-py-sm, var(--hal-space-1))
-    var(--hal-select-pr-sm, var(--hal-space-6))
-    var(--hal-select-py-sm, var(--hal-space-1))
-    var(--hal-select-px-sm, var(--hal-space-3));
+  padding: 0 var(--hal-space-2) 0 var(--hal-space-3);
   font-size: var(--hal-select-text-sm, var(--hal-text-sm));
 }
 
-.hal-select--md {
+.hal-select--md .hal-select__trigger {
   min-height: var(--hal-select-height-md, 2.5rem);
-  padding: var(--hal-select-py-md, var(--hal-space-2))
-    var(--hal-select-pr-md, var(--hal-space-7))
-    var(--hal-select-py-md, var(--hal-space-2))
-    var(--hal-select-px-md, var(--hal-space-4));
+  padding: 0 var(--hal-space-3) 0 var(--hal-space-4);
   font-size: var(--hal-select-text-md, var(--hal-text-base));
 }
 
-.hal-select--lg {
+.hal-select--lg .hal-select__trigger {
   min-height: var(--hal-select-height-lg, 3rem);
-  padding: var(--hal-select-py-lg, var(--hal-space-3))
-    var(--hal-select-pr-lg, var(--hal-space-8))
-    var(--hal-select-py-lg, var(--hal-space-3))
-    var(--hal-select-px-lg, var(--hal-space-6));
+  padding: 0 var(--hal-space-4) 0 var(--hal-space-5);
   font-size: var(--hal-select-text-lg, var(--hal-text-lg));
+}
+
+.hal-select--invalid .hal-select__trigger {
+  border-color: var(--hal-select-border-invalid, var(--hal-danger));
+}
+
+/* The list the native element would not let us paint */
+
+.hal-select__list {
+  position: absolute;
+  z-index: var(--hal-select-list-z, 50);
+  inset-inline: 0;
+  top: calc(100% + var(--hal-space-1));
+  max-height: var(--hal-select-list-max-height, 15rem);
+  margin: 0;
+  padding: var(--hal-space-1);
+  overflow-y: auto;
+  list-style: none;
+  background: var(--hal-select-list-bg, var(--hal-bg-raised));
+  border: 1px solid var(--hal-select-list-border, var(--hal-border));
+  border-radius: var(--hal-select-radius, var(--hal-radius));
+  box-shadow: var(--hal-select-list-shadow, var(--hal-shadow-lg));
+}
+
+.hal-select__list--up {
+  top: auto;
+  bottom: calc(100% + var(--hal-space-1));
+}
+
+.hal-select__option {
+  display: flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0 var(--hal-space-3);
+  border-radius: var(--hal-select-option-radius, var(--hal-radius-sm));
+  color: var(--hal-select-option-fg, var(--hal-fg));
+  font-size: var(--hal-select-option-text, var(--hal-text-sm));
+  cursor: pointer;
+}
+
+.hal-select__option--active {
+  background: var(--hal-select-option-bg-active, var(--hal-bg-subtle));
+}
+
+.hal-select__option--selected {
+  color: var(--hal-select-option-fg-selected, var(--hal-accent));
+  font-weight: var(--hal-weight-medium);
+}
+
+.hal-select__option--disabled {
+  opacity: var(--hal-select-option-disabled-opacity, 0.45);
+  cursor: not-allowed;
 }

@@ -15,6 +15,15 @@ const stepUp = () => stepper('up')
 const stepDown = () => stepper('down')
 
 describe('NumberInput', () => {
+  it('centers the value between its steppers', () => {
+    // The field sits between a decrement and an increment button, so a
+    // right-aligned number reads as attached to the wrong control.
+    const { container } = render(<NumberInput aria-label="Quantity" defaultValue={3} />)
+    const field = container.querySelector('.hal-number-input__field')
+    expect(field).toBeInTheDocument()
+    expect(getComputedStyle(field as Element).textAlign).not.toBe('right')
+  })
+
   it('renders a spinbutton', () => {
     render(<NumberInput aria-label="Quantity" defaultValue={3} />)
     expect(screen.getByRole('spinbutton', { name: 'Quantity' })).toBeInTheDocument()

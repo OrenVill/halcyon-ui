@@ -115,8 +115,15 @@ Each is one folder, independent of the others, following Button exactly.
   `size` collision does not apply, but keep the prop out of the spread anyway
   for consistency.
 
-- [ ] **Task 5 — Select.** Native `<select>` with `children` as `<option>`s.
-  Props: `size`, `invalid`. Same `size` attribute collision as Input.
+- [ ] **Task 5 — Select.** **Revised during execution.** Originally specified as
+  a native `<select>`. That was wrong: the browser draws a native dropdown
+  itself, so the list ignores every theme token and only the closed trigger
+  themes. Rebuilt as a listbox: a `role="combobox"` trigger over a
+  `role="listbox"` panel, with `aria-activedescendant`, arrow-key navigation,
+  Home and End, type-ahead, Escape, click-outside, focus restored to the
+  trigger, disabled options skipped, and flip-up when there is no room below.
+  Takes an `options` array rather than `<option>` children, and renders a
+  hidden input so the value still participates in form submission.
 
 - [ ] **Task 6 — Checkbox.** `<input type="checkbox">`. Props: `size`,
   `indeterminate`. Indeterminate is not an attribute; it is a DOM property, so
@@ -188,6 +195,31 @@ Component stylesheets exist now and must reach `dist`.
 - [ ] **Step 3:** Wire both into CI and verify the full chain passes.
 
 ---
+
+## Execution record
+
+Executed 2026-09-09. Button was built first as the reference; the remaining
+nine were authored concurrently by four agents copying it. 231 tests pass with
+accessibility checks clean on every component.
+
+Three things changed during the run:
+
+- **Select was rebuilt.** See Task 5. A native select cannot be themed.
+- **The tree-shaking budget caught a real defect.** Every component is
+  `forwardRef(...)` at module scope, and a bundler cannot prove a bare call has
+  no side effects, so a consumer importing one component shipped all of them.
+  Marking the calls `/* @__PURE__ */` at the source fixed it: a lone Button
+  import fell from 2.88 KB to 0.41 KB. Setting esbuild's `pure` option through
+  the tsup config did not work; the annotation has to be in the source.
+- **The literal-color guard needed narrowing.** Its first version scanned whole
+  lines and flagged the word `white` inside the `white-space` property. It
+  scans declaration values only.
+
+| Measure | Result |
+| --- | --- |
+| Full library, gzipped | 4.54 KB against 45 KB |
+| A lone Button import | 0.41 KB against 2 KB |
+| Each theme stylesheet | about 3.8 KB against 10 KB |
 
 ## Done when
 

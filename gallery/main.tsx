@@ -107,6 +107,13 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
   )
 }
 
+const SORT_OPTIONS = [
+  { value: 'ascending', label: 'Ascending' },
+  { value: 'modified', label: 'By modified date' },
+  { value: 'archived', label: 'Archived', disabled: true },
+  { value: 'custom', label: 'Custom order' },
+]
+
 const BUTTON_VARIANTS = ['solid', 'soft', 'outline', 'ghost', 'danger'] as const
 const SIZES = ['sm', 'md', 'lg'] as const
 
@@ -131,6 +138,7 @@ function Gallery() {
   const [on, setOn] = useState(true)
   const [volume, setVolume] = useState(60)
   const [quantity, setQuantity] = useState(3)
+  const [sort, setSort] = useState('modified')
 
   const tokens = THEMES[theme]![mode]
   const style = useMemo(() => tokens as React.CSSProperties, [tokens])
@@ -308,23 +316,33 @@ function Gallery() {
             </Row>
           </Specimen>
 
-          <Specimen name="Select" note="Native select, so the platform draws the menu.">
+          <Specimen
+            name="Select"
+            note="A listbox, not a native select: the browser draws a native dropdown itself and ignores every token in the theme."
+          >
             <Row label="sizes">
               {SIZES.map((s) => (
-                <Select key={s} size={s} aria-label={`Select ${s}`} defaultValue="b">
-                  <option value="a">Ascending</option>
-                  <option value="b">By modified date</option>
-                  <option value="c">Custom order</option>
-                </Select>
+                <Select
+                  key={s}
+                  size={s}
+                  aria-label={`Select ${s}`}
+                  defaultValue="modified"
+                  options={SORT_OPTIONS}
+                />
               ))}
             </Row>
+            <Row label={`value ${sort}`}>
+              <Select
+                aria-label="Controlled sort"
+                value={sort}
+                onValueChange={setSort}
+                options={SORT_OPTIONS}
+              />
+            </Row>
             <Row label="states">
-              <Select aria-label="Invalid select" invalid defaultValue="a">
-                <option value="a">Invalid</option>
-              </Select>
-              <Select aria-label="Disabled select" disabled defaultValue="a">
-                <option value="a">Disabled</option>
-              </Select>
+              <Select aria-label="Placeholder select" options={SORT_OPTIONS} />
+              <Select aria-label="Invalid select" invalid options={SORT_OPTIONS} defaultValue="ascending" />
+              <Select aria-label="Disabled select" disabled options={SORT_OPTIONS} defaultValue="ascending" />
             </Row>
           </Specimen>
 

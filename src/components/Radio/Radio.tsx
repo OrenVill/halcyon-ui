@@ -11,7 +11,7 @@ export interface RadioProps
   size?: RadioSize
 }
 
-export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
+export const Radio = /* @__PURE__ */ forwardRef<HTMLInputElement, RadioProps>(function Radio(
   { size = 'md', className, ...rest },
   ref,
 ) {

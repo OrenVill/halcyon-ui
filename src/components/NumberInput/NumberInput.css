@@ -44,7 +44,7 @@
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
-  text-align: var(--hal-number-input-align, right);
+  text-align: var(--hal-number-input-align, center);
 }
 
 /* The wrapper already shows focus for the whole control. */

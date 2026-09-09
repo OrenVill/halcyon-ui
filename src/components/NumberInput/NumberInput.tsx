@@ -49,7 +49,7 @@ function formatNumber(n: number): string {
   return Number.isFinite(n) ? String(n) : ''
 }
 
-export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
+export const NumberInput = /* @__PURE__ */ forwardRef<HTMLInputElement, NumberInputProps>(
   function NumberInput(
     {
       value,

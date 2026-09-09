@@ -11,7 +11,7 @@ export interface SliderProps extends Omit<InputHTMLAttributes<HTMLInputElement>,
   size?: SliderSize
 }
 
-export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
+export const Slider = /* @__PURE__ */ forwardRef<HTMLInputElement, SliderProps>(function Slider(
   { size = 'md', className, ...rest },
   ref,
 ) {

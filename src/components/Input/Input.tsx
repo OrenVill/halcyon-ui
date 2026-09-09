@@ -14,7 +14,7 @@ export interface InputProps
   invalid?: boolean
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
+export const Input = /* @__PURE__ */ forwardRef<HTMLInputElement, InputProps>(function Input(
   // `size` is destructured out and never forwarded: `size="md"` on a real
   // <input> is invalid HTML.
   { size = 'md', invalid = false, className, ...rest },

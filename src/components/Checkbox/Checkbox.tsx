@@ -16,7 +16,7 @@ export interface CheckboxProps
   indeterminate?: boolean
 }
 
-export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
+export const Checkbox = /* @__PURE__ */ forwardRef<HTMLInputElement, CheckboxProps>(
   function Checkbox({ size = 'md', indeterminate = false, className, ...rest }, ref) {
     // The component needs the node itself to set `indeterminate`, and the
     // caller still gets their ref: one callback assigns both.
