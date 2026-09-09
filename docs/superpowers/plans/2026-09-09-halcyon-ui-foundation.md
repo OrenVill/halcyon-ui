@@ -77,8 +77,11 @@ npm install --save-dev \
   @testing-library/jest-dom vitest-axe axe-core \
   eslint @eslint/js typescript-eslint eslint-plugin-react-hooks \
   prettier @changesets/cli \
-  react react-dom @types/react @types/react-dom
+  react react-dom @types/react @types/react-dom @types/node
 ```
+
+`@types/node` is required: `scripts/build-css.ts` and `scripts/check-size.ts`
+import Node builtins, and `tsconfig.json` typechecks `scripts/`.
 
 Expected: installs without peer-dependency errors. `react` and `react-dom` are dev dependencies here because tests need them; they stay peer dependencies for consumers.
 
@@ -99,7 +102,10 @@ Expected: installs without peer-dependency errors. `react` and `react-dom` are d
     "esModuleInterop": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
-    "types": ["vitest/globals"]
+    // tsup's declaration builder sets baseUrl internally, which TypeScript 6
+    // deprecates and errors on. This unblocks the dts step.
+    "ignoreDeprecations": "6.0",
+    "types": ["vitest/globals", "node"]
   },
   "include": ["src", "scripts", "*.config.ts", "vitest.setup.ts"]
 }
@@ -212,7 +218,9 @@ export function stubMatchMedia(initialDark: boolean) {
 - [ ] **Step 4: Verify the runner starts**
 
 Run: `npx vitest run`
-Expected: exits 0 reporting "No test files found" — the harness loads, there is simply nothing to run yet.
+Expected: prints "No test files found, exiting with code 1". The non-zero exit
+is correct here and not a failure of the harness: Vitest treats an empty run as
+an error. The harness itself has loaded.
 
 - [ ] **Step 5: Commit**
 
@@ -1028,8 +1036,11 @@ Expected: tsup writes `dist/index.js` and `dist/index.d.ts`, then the CSS step w
 
 - [ ] **Step 3: Verify React was not bundled**
 
-Run: `grep -c "from \"react\"" dist/index.js`
-Expected: `1` or more. React stayed an external import rather than being inlined.
+Run: `grep -c "from 'react'" dist/index.js`
+Expected: `1`. React stayed an external import rather than being inlined. Note
+the single quotes: tsup emits single-quoted import specifiers, so a
+double-quoted pattern silently matches nothing and the check would pass while
+proving the opposite.
 
 Run: `node -e "import('./dist/index.js').then(m => console.log(Object.keys(m).sort().join(',')))"`
 Expected: `COLOR_MODE_STORAGE_KEY,ColorModeScript,useColorMode`
@@ -1198,12 +1209,35 @@ Create `.prettierignore`:
 dist
 node_modules
 package-lock.json
+docs
 ```
+
+`docs` is excluded deliberately. Prettier reformats Markdown, including the
+fenced code blocks inside the approved design spec, and the formatter must not
+rewrite signed-off documents.
 
 - [ ] **Step 3: Format the tree and fix what lint reports**
 
 Run: `npm run format && npm run lint`
-Expected: Prettier rewrites files; ESLint exits 0. If `consistent-type-imports` flags an import, change it to `import type`.
+Expected: Prettier rewrites files. ESLint then reports one error, and it is
+expected: `react-hooks/set-state-in-effect` on the stored-mode read in
+`useColorMode`. That read must stay in an effect, because reading storage
+during render is exactly what would break hydration. Suppress that single line
+and say why:
+
+```ts
+  useEffect(() => {
+    // Reading storage during render would make the first client render
+    // disagree with server-rendered markup. Correcting it once after mount
+    // is the trade the spec asks for, and the empty dependency array means
+    // it cannot cascade.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setModeState(readStoredMode())
+  }, [])
+```
+
+Re-run `npm run lint`; it should exit 0. If `consistent-type-imports` flags an
+import, change it to `import type`.
 
 - [ ] **Step 4: Confirm the tests still pass after formatting**
 
@@ -1286,10 +1320,22 @@ git commit -m "ci: verify typecheck, lint, test, build, and size on every push"
 **Files:**
 - Create: `.changeset/config.json`
 
-- [ ] **Step 1: Initialize Changesets**
+- [ ] **Step 1: Create the Changesets files**
 
-Run: `npx changeset init`
-Expected: creates `.changeset/config.json` and `.changeset/README.md`.
+`npx changeset init` is fully interactive in @changesets/cli 3.0.2. It asks four
+questions through a prompt library, offers no `--yes` flag, and cannot be driven
+by piping input or by a pseudo-terminal; it hangs and exits 13. Do not fight it.
+
+It performs exactly two file operations, so do them directly. Copy its own
+bundled default README, which keeps the file byte-identical to what the tool
+would have written:
+
+```bash
+mkdir -p .changeset
+cp node_modules/@changesets/cli/default-files/README.md .changeset/README.md
+```
+
+Then write `.changeset/config.json` as shown in Step 2.
 
 - [ ] **Step 2: Point it at the public repository**
 
@@ -1297,7 +1343,7 @@ Edit `.changeset/config.json` so `changelog` reads:
 
 ```json
 {
-  "$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
+  "$schema": "https://unpkg.com/@changesets/config@4.0.0/schema.json",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "access": "public",
@@ -1310,7 +1356,8 @@ Edit `.changeset/config.json` so `changelog` reads:
 - [ ] **Step 3: Verify it runs**
 
 Run: `npx changeset status --since=main`
-Expected: reports no changesets present, exit 0.
+Expected: prints an empty `Packages to be bumped:` list and exits 0. It does not
+say "no changesets"; the empty list is the signal.
 
 - [ ] **Step 4: Commit**
 
@@ -1329,6 +1376,25 @@ All of the following hold on a clean checkout:
 - `dist/` contains `index.js`, `index.d.ts`, and `base.css`.
 - Importing `dist/index.js` yields exactly `ColorModeScript`, `useColorMode`, and `COLOR_MODE_STORAGE_KEY`.
 - No runtime dependency appears in `package.json`.
+
+## Execution record
+
+Executed 2026-09-09. All thirteen tasks completed and committed. Tasks 3, 4 and
+5, 7 and 8, and 13 ran concurrently as four independent agents; the rest ran
+sequentially. Nine corrections were folded back into the text above after the
+run. The five that cost real time:
+
+| Surprise | Resolution |
+| --- | --- |
+| `@types/node` was never installed, and `types: ["vitest/globals"]` suppressed ambient types. Nothing imported a Node builtin until the CSS build, so it surfaced late. | Installed the package, added `"node"` to the types array. |
+| TypeScript 6 errors on `baseUrl`, which tsup's declaration builder sets internally. The dts build failed. | `"ignoreDeprecations": "6.0"` in tsconfig. |
+| `changeset init` is interactive with no non-interactive flag; it hangs and exits 13. | Wrote `config.json` directly and copied the tool's own bundled README. |
+| `npm run format` reformatted the approved design spec, rewriting its code fences. | Added `docs` to `.prettierignore` and reverted. |
+| `react-hooks/set-state-in-effect` flags the deliberate hydration read in `useColorMode`. | Suppressed that one line with the reason. The rule does not flag the same pattern four lines below. |
+
+Final state: `typecheck`, `lint`, `test` (20 tests in 4 files), `build`, and
+`check:size` all pass. The library is 0.83 KB gzipped against a 45 KB budget and
+the base stylesheet 0.97 KB against 10 KB.
 
 ## What this plan deliberately leaves out
 
