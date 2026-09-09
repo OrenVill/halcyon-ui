@@ -460,6 +460,40 @@ git commit -m "feat: export all eight themes and enforce contrast in CI"
 - Every theme subpath in `exports` resolves to a file that exists.
 - CI runs typecheck, lint, test, build, size, and contrast, and is green.
 
+## Execution record
+
+Executed 2026-09-09. All nine tasks complete. The contrast checker landed first,
+then the seven themes were authored concurrently by seven agents, then the
+packaging task. Every theme was verified independently of its author: token
+parity against base, byte-identical structural tokens, and a fresh contrast run.
+
+Measured result, tightest pair per theme:
+
+| Theme | Lowest ratio | Where |
+| --- | --- | --- |
+| base | 4.83:1 | text on danger, light |
+| midnight | 5.67:1 | text on danger, light |
+| aurora | 6.09:1 | text on accent, light |
+| ember | 6.02:1 | muted text on subtle, light |
+| forest | 6.40:1 | muted text on subtle, light |
+| sandstone | 5.58:1 | muted text on subtle, light |
+| mono | 6.27:1 | muted text on subtle, light |
+| neon | 5.61:1 | text on danger, light |
+
+Light mode is the binding constraint in every theme. All eight stylesheets are
+under 1 KB gzipped against a 10 KB budget.
+
+Two changes to the plan were made during the run:
+
+- The contrast checker gained an optional theme-name argument. Seven agents
+  working in one directory would otherwise each see the others' half-finished
+  files fail the shared run.
+- Release Please chose 1.0.0 for the first release rather than 0.1.0. From a
+  manifest at 0.0.0 that is its documented behavior, and `bump-minor-pre-major`
+  does not change it: that option governs how breaking changes behave once the
+  version is already below 1.0.0. A `Release-As: 0.1.0` commit footer overrides
+  the version for one release.
+
 ## What this plan leaves out
 
 | Deferred | Lands in |
