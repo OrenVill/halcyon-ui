@@ -1,6 +1,6 @@
 {
   "name": "halcyon-ui",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A lightweight, themeable, accessible React component library",
   "license": "MIT",
   "repository": {
