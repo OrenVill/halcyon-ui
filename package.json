@@ -30,7 +30,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "check:size": "tsx scripts/check-size.ts"
+    "check:size": "tsx scripts/check-size.ts",
+    "check:contrast": "tsx scripts/check-contrast.ts"
   },
   "peerDependencies": {
     "react": "^18 || ^19"
