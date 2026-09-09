@@ -1,0 +1,178 @@
+/*
+ * Drawer. A panel anchored to one edge of the viewport, portalled to the body.
+ * Every property reads a component token that falls back to a global one, so a
+ * consumer can restyle drawers alone without touching the theme.
+ */
+
+.hal-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--hal-drawer-z, 1000);
+  display: flex;
+  background-color: var(--hal-drawer-backdrop-bg, var(--hal-overlay));
+}
+
+/* The backdrop is the positioner: which edge the panel sits against is a
+   question of how this flex container aligns it. */
+.hal-drawer-backdrop--left {
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.hal-drawer-backdrop--right {
+  justify-content: flex-end;
+  align-items: stretch;
+}
+
+.hal-drawer-backdrop--top {
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.hal-drawer-backdrop--bottom {
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.hal-drawer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--hal-drawer-bg, var(--hal-bg-raised));
+  color: var(--hal-drawer-fg, var(--hal-fg));
+  border: 0 solid var(--hal-drawer-border, var(--hal-border));
+  box-shadow: var(--hal-drawer-shadow, var(--hal-shadow-lg));
+  font-size: var(--hal-drawer-text, var(--hal-text-base));
+}
+
+/* Sides. Only the edge facing the page is drawn, and only the corners away
+   from that edge are rounded. */
+
+.hal-drawer--left {
+  height: 100%;
+  max-width: 100%;
+  border-inline-end-width: var(--hal-drawer-border-width, 1px);
+  border-start-end-radius: var(--hal-drawer-radius, var(--hal-radius-lg));
+  border-end-end-radius: var(--hal-drawer-radius, var(--hal-radius-lg));
+}
+
+.hal-drawer--right {
+  height: 100%;
+  max-width: 100%;
+  border-inline-start-width: var(--hal-drawer-border-width, 1px);
+  border-start-start-radius: var(--hal-drawer-radius, var(--hal-radius-lg));
+  border-end-start-radius: var(--hal-drawer-radius, var(--hal-radius-lg));
+}
+
+.hal-drawer--top {
+  width: 100%;
+  max-height: 100%;
+  border-block-end-width: var(--hal-drawer-border-width, 1px);
+  border-end-start-radius: var(--hal-drawer-radius, var(--hal-radius-lg));
+  border-end-end-radius: var(--hal-drawer-radius, var(--hal-radius-lg));
+}
+
+.hal-drawer--bottom {
+  width: 100%;
+  max-height: 100%;
+  border-block-start-width: var(--hal-drawer-border-width, 1px);
+  border-start-start-radius: var(--hal-drawer-radius, var(--hal-radius-lg));
+  border-start-end-radius: var(--hal-drawer-radius, var(--hal-radius-lg));
+}
+
+/* Sizes measure the axis the drawer slides along: width on the sides, height
+   on the top and bottom. */
+
+.hal-drawer--left.hal-drawer--sm,
+.hal-drawer--right.hal-drawer--sm {
+  width: var(--hal-drawer-width-sm, 18rem);
+}
+
+.hal-drawer--left.hal-drawer--md,
+.hal-drawer--right.hal-drawer--md {
+  width: var(--hal-drawer-width-md, 24rem);
+}
+
+.hal-drawer--left.hal-drawer--lg,
+.hal-drawer--right.hal-drawer--lg {
+  width: var(--hal-drawer-width-lg, 34rem);
+}
+
+.hal-drawer--top.hal-drawer--sm,
+.hal-drawer--bottom.hal-drawer--sm {
+  height: var(--hal-drawer-height-sm, 12rem);
+}
+
+.hal-drawer--top.hal-drawer--md,
+.hal-drawer--bottom.hal-drawer--md {
+  height: var(--hal-drawer-height-md, 18rem);
+}
+
+.hal-drawer--top.hal-drawer--lg,
+.hal-drawer--bottom.hal-drawer--lg {
+  height: var(--hal-drawer-height-lg, 28rem);
+}
+
+.hal-drawer__header {
+  flex: none;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--hal-drawer-header-gap, var(--hal-space-3));
+  padding: var(--hal-drawer-header-py, var(--hal-space-4))
+    var(--hal-drawer-px, var(--hal-space-5));
+  border-block-end: var(--hal-drawer-divider-width, 1px) solid
+    var(--hal-drawer-divider, var(--hal-border));
+}
+
+.hal-drawer__title {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  color: var(--hal-drawer-title-fg, inherit);
+  font-size: var(--hal-drawer-title-text, var(--hal-text-lg));
+  font-weight: var(--hal-drawer-title-weight, var(--hal-weight-bold));
+  line-height: var(--hal-drawer-title-leading, 1.3);
+}
+
+/* Pushed to the end even with no title, so the control does not jump between
+   a titled and an untitled dialog. */
+.hal-drawer__close {
+  flex: none;
+  margin-inline-start: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--hal-drawer-close-size, 1.75rem);
+  height: var(--hal-drawer-close-size, 1.75rem);
+  padding: 0;
+  background: transparent;
+  color: var(--hal-drawer-close-fg, var(--hal-fg-muted));
+  border: var(--hal-drawer-close-border-width, 0) solid transparent;
+  border-radius: var(--hal-drawer-close-radius, var(--hal-radius-sm));
+  font-family: inherit;
+  font-size: var(--hal-drawer-close-text, var(--hal-text-xl));
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color var(--hal-duration) var(--hal-ease),
+    color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-drawer__close:hover {
+  background-color: var(--hal-drawer-close-bg-hover, var(--hal-bg-subtle));
+  color: var(--hal-drawer-close-fg-hover, var(--hal-fg));
+}
+
+.hal-drawer__close-glyph {
+  display: block;
+}
+
+/* The body scrolls, not the panel: the header stays put on a long drawer. */
+.hal-drawer__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--hal-drawer-body-py, var(--hal-space-5))
+    var(--hal-drawer-px, var(--hal-space-5));
+  color: var(--hal-drawer-body-fg, var(--hal-fg));
+}

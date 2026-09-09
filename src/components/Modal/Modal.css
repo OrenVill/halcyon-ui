@@ -1,0 +1,110 @@
+/*
+ * Modal. A centred panel over a full-viewport backdrop, portalled to the body.
+ * Every property reads a component token that falls back to a global one, so a
+ * consumer can restyle modals alone without touching the theme.
+ */
+
+.hal-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--hal-modal-z, 1000);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--hal-modal-inset, var(--hal-space-4));
+  background-color: var(--hal-modal-backdrop-bg, var(--hal-overlay));
+  overflow-y: auto;
+}
+
+.hal-modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: var(--hal-modal-max-height, calc(100vh - var(--hal-space-8)));
+  background-color: var(--hal-modal-bg, var(--hal-bg-raised));
+  color: var(--hal-modal-fg, var(--hal-fg));
+  border: var(--hal-modal-border-width, 1px) solid var(--hal-modal-border, var(--hal-border));
+  border-radius: var(--hal-modal-radius, var(--hal-radius-lg));
+  box-shadow: var(--hal-modal-shadow, var(--hal-shadow-lg));
+  font-size: var(--hal-modal-text, var(--hal-text-base));
+}
+
+/* Sizes: the panel is fluid up to a ceiling, so a small viewport still gets a
+   panel that fits rather than one that overflows. */
+
+.hal-modal--sm {
+  max-width: var(--hal-modal-width-sm, 24rem);
+}
+
+.hal-modal--md {
+  max-width: var(--hal-modal-width-md, 32rem);
+}
+
+.hal-modal--lg {
+  max-width: var(--hal-modal-width-lg, 44rem);
+}
+
+.hal-modal__header {
+  flex: none;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--hal-modal-header-gap, var(--hal-space-3));
+  padding: var(--hal-modal-header-py, var(--hal-space-4))
+    var(--hal-modal-px, var(--hal-space-5));
+  border-block-end: var(--hal-modal-divider-width, 1px) solid
+    var(--hal-modal-divider, var(--hal-border));
+}
+
+.hal-modal__title {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  color: var(--hal-modal-title-fg, inherit);
+  font-size: var(--hal-modal-title-text, var(--hal-text-lg));
+  font-weight: var(--hal-modal-title-weight, var(--hal-weight-bold));
+  line-height: var(--hal-modal-title-leading, 1.3);
+}
+
+/* Pushed to the end even with no title, so the control does not jump between
+   a titled and an untitled dialog. */
+.hal-modal__close {
+  flex: none;
+  margin-inline-start: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--hal-modal-close-size, 1.75rem);
+  height: var(--hal-modal-close-size, 1.75rem);
+  padding: 0;
+  background: transparent;
+  color: var(--hal-modal-close-fg, var(--hal-fg-muted));
+  border: var(--hal-modal-close-border-width, 0) solid transparent;
+  border-radius: var(--hal-modal-close-radius, var(--hal-radius-sm));
+  font-family: inherit;
+  font-size: var(--hal-modal-close-text, var(--hal-text-xl));
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color var(--hal-duration) var(--hal-ease),
+    color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-modal__close:hover {
+  background-color: var(--hal-modal-close-bg-hover, var(--hal-bg-subtle));
+  color: var(--hal-modal-close-fg-hover, var(--hal-fg));
+}
+
+.hal-modal__close-glyph {
+  display: block;
+}
+
+/* The body scrolls, not the panel: the header stays put on a long dialog. */
+.hal-modal__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--hal-modal-body-py, var(--hal-space-5))
+    var(--hal-modal-px, var(--hal-space-5));
+  color: var(--hal-modal-body-fg, var(--hal-fg));
+}
