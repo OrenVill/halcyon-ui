@@ -157,12 +157,23 @@ function checkPalette(tokens: Tokens, theme: string, mode: string): string[] {
 function main(): void {
   const root = fileURLToPath(new URL('..', import.meta.url))
   const themesDir = join(root, 'src/styles/themes')
+
+  // An optional theme name limits the run to one file. Themes are authored in
+  // parallel, so an author needs to see their own result without another
+  // half-finished theme failing the run out from under them.
+  const only = process.argv[2]
+
   const themes = readdirSync(themesDir)
     .filter((file) => file.endsWith('.css'))
+    .filter((file) => only === undefined || basename(file, '.css') === only)
     .sort()
 
   if (themes.length === 0) {
-    throw new Error(`No theme stylesheets found in ${themesDir}`)
+    throw new Error(
+      only === undefined
+        ? `No theme stylesheets found in ${themesDir}`
+        : `No theme named "${only}" in ${themesDir}`,
+    )
   }
 
   const failures: string[] = []
