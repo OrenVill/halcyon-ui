@@ -1,0 +1,74 @@
+/*
+ * Tooltip. Portalled to the body and positioned with fixed coordinates, so no
+ * ancestor's overflow can clip it and no scroll offset has to be undone.
+ *
+ * Every property reads a component token that falls back to a global one, so a
+ * consumer can restyle tooltips alone without touching the theme.
+ */
+
+.hal-tooltip {
+  z-index: var(--hal-tooltip-z, 70);
+  max-width: var(--hal-tooltip-max-width, 18rem);
+  padding: var(--hal-tooltip-py, var(--hal-space-1)) var(--hal-tooltip-px, var(--hal-space-2));
+  background: var(--hal-tooltip-bg, var(--hal-fg));
+  border-radius: var(--hal-tooltip-radius, var(--hal-radius-sm));
+  box-shadow: var(--hal-tooltip-shadow, var(--hal-shadow));
+  color: var(--hal-tooltip-fg, var(--hal-bg));
+  font-size: var(--hal-tooltip-text, var(--hal-text-sm));
+  line-height: var(--hal-tooltip-leading, var(--hal-leading));
+  text-align: start;
+  /* Never a hit target. A tooltip that can be hovered can also be clicked
+     through by mistake, and it must never hold interactive content anyway. */
+  pointer-events: none;
+  animation: hal-tooltip-in var(--hal-duration) var(--hal-ease);
+}
+
+/*
+ * The arrow. `data-side` carries the side actually used after a flip, which is
+ * not always the side that was asked for, so the arrow always points back at
+ * the trigger. It sits on the cross-axis centre, which is where the trigger is
+ * under the default align="center".
+ */
+
+.hal-tooltip::after {
+  content: '';
+  position: absolute;
+  width: var(--hal-tooltip-arrow-size, 0.5rem);
+  height: var(--hal-tooltip-arrow-size, 0.5rem);
+  background: var(--hal-tooltip-bg, var(--hal-fg));
+  transform: rotate(45deg);
+}
+
+.hal-tooltip[data-side='top']::after {
+  bottom: var(--hal-tooltip-arrow-inset, -0.2rem);
+  left: 50%;
+  margin-left: var(--hal-tooltip-arrow-nudge, -0.25rem);
+}
+
+.hal-tooltip[data-side='bottom']::after {
+  top: var(--hal-tooltip-arrow-inset, -0.2rem);
+  left: 50%;
+  margin-left: var(--hal-tooltip-arrow-nudge, -0.25rem);
+}
+
+.hal-tooltip[data-side='left']::after {
+  right: var(--hal-tooltip-arrow-inset, -0.2rem);
+  top: 50%;
+  margin-top: var(--hal-tooltip-arrow-nudge, -0.25rem);
+}
+
+.hal-tooltip[data-side='right']::after {
+  left: var(--hal-tooltip-arrow-inset, -0.2rem);
+  top: 50%;
+  margin-top: var(--hal-tooltip-arrow-nudge, -0.25rem);
+}
+
+@keyframes hal-tooltip-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

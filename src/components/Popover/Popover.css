@@ -1,0 +1,56 @@
+/*
+ * Popover. Portalled to the body and positioned with fixed coordinates, so no
+ * ancestor's overflow can clip it and no scroll offset has to be undone.
+ *
+ * Every property reads a component token that falls back to a global one, so a
+ * consumer can restyle popovers alone without touching the theme.
+ */
+
+.hal-popover {
+  z-index: var(--hal-popover-z, 60);
+  min-width: var(--hal-popover-min-width, 12rem);
+  max-width: var(--hal-popover-max-width, 22rem);
+  padding: var(--hal-popover-padding, var(--hal-space-4));
+  background: var(--hal-popover-bg, var(--hal-bg-raised));
+  border: 1px solid var(--hal-popover-border, var(--hal-border));
+  border-radius: var(--hal-popover-radius, var(--hal-radius-lg));
+  box-shadow: var(--hal-popover-shadow, var(--hal-shadow-lg));
+  color: var(--hal-popover-fg, var(--hal-fg));
+  font-size: var(--hal-popover-text, var(--hal-text-base));
+  line-height: var(--hal-popover-leading, var(--hal-leading));
+  animation: hal-popover-in var(--hal-duration) var(--hal-ease);
+}
+
+/*
+ * `data-side` carries the side actually used after a flip, not the side that
+ * was asked for, so the panel always grows out of the anchor and a consumer's
+ * arrow always points back at it.
+ */
+
+.hal-popover[data-side='top'] {
+  transform-origin: bottom center;
+}
+
+.hal-popover[data-side='bottom'] {
+  transform-origin: top center;
+}
+
+.hal-popover[data-side='left'] {
+  transform-origin: center right;
+}
+
+.hal-popover[data-side='right'] {
+  transform-origin: center left;
+}
+
+@keyframes hal-popover-in {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
