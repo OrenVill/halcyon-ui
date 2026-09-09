@@ -1,0 +1,100 @@
+/*
+ * Button. Every property reads a component token that falls back to a global
+ * one, so a consumer can restyle buttons alone without touching the theme.
+ */
+
+.hal-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--hal-button-gap, var(--hal-space-2));
+  border: 1px solid transparent;
+  border-radius: var(--hal-button-radius, var(--hal-radius));
+  font-family: inherit;
+  font-weight: var(--hal-button-weight, var(--hal-weight-medium));
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--hal-duration) var(--hal-ease),
+    border-color var(--hal-duration) var(--hal-ease),
+    color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-button:disabled {
+  opacity: var(--hal-button-disabled-opacity, 0.55);
+  cursor: not-allowed;
+}
+
+.hal-button--full {
+  width: 100%;
+}
+
+/* Sizes */
+
+.hal-button--sm {
+  min-height: var(--hal-button-height-sm, 2rem);
+  padding: 0 var(--hal-button-px-sm, var(--hal-space-3));
+  font-size: var(--hal-button-text-sm, var(--hal-text-sm));
+}
+
+.hal-button--md {
+  min-height: var(--hal-button-height-md, 2.5rem);
+  padding: 0 var(--hal-button-px-md, var(--hal-space-4));
+  font-size: var(--hal-button-text-md, var(--hal-text-base));
+}
+
+.hal-button--lg {
+  min-height: var(--hal-button-height-lg, 3rem);
+  padding: 0 var(--hal-button-px-lg, var(--hal-space-6));
+  font-size: var(--hal-button-text-lg, var(--hal-text-lg));
+}
+
+/* Variants */
+
+.hal-button--solid {
+  background: var(--hal-button-bg, var(--hal-accent));
+  color: var(--hal-button-fg, var(--hal-accent-fg));
+}
+
+.hal-button--solid:hover:not(:disabled) {
+  background: var(--hal-button-bg-hover, var(--hal-accent-hover));
+}
+
+.hal-button--soft {
+  background: var(--hal-button-soft-bg, var(--hal-bg-subtle));
+  color: var(--hal-button-soft-fg, var(--hal-accent));
+}
+
+.hal-button--soft:hover:not(:disabled) {
+  border-color: var(--hal-button-soft-border-hover, var(--hal-border-strong));
+}
+
+.hal-button--outline {
+  background: transparent;
+  border-color: var(--hal-button-outline-border, var(--hal-border-strong));
+  color: var(--hal-button-outline-fg, var(--hal-fg));
+}
+
+.hal-button--outline:hover:not(:disabled) {
+  background: var(--hal-button-outline-bg-hover, var(--hal-bg-subtle));
+}
+
+.hal-button--ghost {
+  background: transparent;
+  color: var(--hal-button-ghost-fg, var(--hal-fg));
+}
+
+.hal-button--ghost:hover:not(:disabled) {
+  background: var(--hal-button-ghost-bg-hover, var(--hal-bg-subtle));
+}
+
+.hal-button--danger {
+  background: var(--hal-button-danger-bg, var(--hal-danger));
+  color: var(--hal-button-danger-fg, var(--hal-danger-fg));
+}
+
+.hal-button--danger:hover:not(:disabled) {
+  filter: brightness(0.92);
+}
