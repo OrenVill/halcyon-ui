@@ -225,7 +225,8 @@ scripts/
 | Lint and format | ESLint with the TypeScript and React Hooks configs, Prettier |
 | Tests | Vitest, Testing Library, jsdom, `vitest-axe` |
 | CI | GitHub Actions: typecheck, lint, test, build, size, contrast |
-| Releases | Changesets, publish to npm with provenance from CI |
+| Releases | Release Please (`release-type: node`), publishing to npm with provenance from CI |
+| Commit messages | Conventional Commits, required: Release Please derives every version bump from them |
 
 `package.json` declares `"type": "module"`, `"sideEffects": ["**/*.css"]`, and an
 `exports` map with the root entry plus one subpath per theme and `./base`.
@@ -262,7 +263,14 @@ TypeScript types.
 
 ## 10. Open items
 
-- Publishing requires `npm login` on this machine, which only the user can run.
-  Everything up to `npm publish` will be prepared and verified first.
+- Publishing runs from CI, not from a developer machine. It requires an `NPM_TOKEN`
+  repository secret with publish rights, which only the user can create. Everything
+  up to that secret is prepared and verified first.
+- Release Please reads Conventional Commit prefixes to decide version bumps. A
+  `feat:` commit gives a minor bump, `fix:` a patch, and `feat!:` or a
+  `BREAKING CHANGE:` footer a major. Commits with no recognized prefix produce no
+  release at all. The fifteen commits that built the foundation predate this
+  decision and carry no prefixes, so they will never trigger a release; the first
+  release comes from the next `feat:` commit and will be `0.1.0`.
 - Commits are authored as `OrenVill <124083716+OrenVill@users.noreply.github.com>`
   passed per commit. No git identity is written to any config file.

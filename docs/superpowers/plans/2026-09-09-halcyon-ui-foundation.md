@@ -6,7 +6,7 @@
 
 **Architecture:** A TypeScript source tree compiled to ESM by tsup and a separate CSS pipeline that concatenates `src/styles/base.css` (structure) with one theme's token file, minifies it through Lightning CSS, and writes `dist/<theme>.css`. Color mode is a hook that writes `data-mode` on the document element and a tiny inline script that does the same before first paint. No runtime dependencies; React is a peer dependency.
 
-**Tech Stack:** TypeScript (strict), tsup, Lightning CSS, Vitest, Testing Library, jsdom, vitest-axe, ESLint, Prettier, Changesets, GitHub Actions.
+**Tech Stack:** TypeScript (strict), tsup, Lightning CSS, Vitest, Testing Library, jsdom, vitest-axe, ESLint, Prettier, Release Please, GitHub Actions.
 
 **Source spec:** `docs/superpowers/specs/2026-09-09-halcyon-ui-design.md`
 
@@ -1317,54 +1317,144 @@ git commit -m "ci: verify typecheck, lint, test, build, and size on every push"
 
 ### Task 13: Release tooling
 
+Superseded. The plan originally specified Changesets, and Changesets was
+installed and verified. The user then chose Release Please instead, so
+Changesets was removed and replaced. What follows is the replacement as built.
+
+Release Please watches `main`, reads Conventional Commit prefixes, and keeps an
+open pull request that bumps the version and writes the changelog. Merging that
+pull request cuts a tag and a GitHub release, which triggers the publish job.
+
 **Files:**
-- Create: `.changeset/config.json`
+- Create: `release-please-config.json`
+- Create: `.release-please-manifest.json`
+- Create: `.github/workflows/release.yml`
+- Delete: `.changeset/`
+- Modify: `package.json` (drop the `@changesets/cli` dev dependency)
 
-- [ ] **Step 1: Create the Changesets files**
-
-`npx changeset init` is fully interactive in @changesets/cli 3.0.2. It asks four
-questions through a prompt library, offers no `--yes` flag, and cannot be driven
-by piping input or by a pseudo-terminal; it hangs and exits 13. Do not fight it.
-
-It performs exactly two file operations, so do them directly. Copy its own
-bundled default README, which keeps the file byte-identical to what the tool
-would have written:
+- [ ] **Step 1: Remove Changesets**
 
 ```bash
-mkdir -p .changeset
-cp node_modules/@changesets/cli/default-files/README.md .changeset/README.md
+rm -rf .changeset
+npm uninstall @changesets/cli
 ```
 
-Then write `.changeset/config.json` as shown in Step 2.
-
-- [ ] **Step 2: Point it at the public repository**
-
-Edit `.changeset/config.json` so `changelog` reads:
+- [ ] **Step 2: Write `release-please-config.json`**
 
 ```json
 {
-  "$schema": "https://unpkg.com/@changesets/config@4.0.0/schema.json",
-  "changelog": "@changesets/cli/changelog",
-  "commit": false,
-  "access": "public",
-  "baseBranch": "main",
-  "updateInternalDependencies": "patch",
-  "ignore": []
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "packages": {
+    ".": {
+      "release-type": "node",
+      "package-name": "halcyon-ui",
+      "changelog-path": "CHANGELOG.md",
+      "include-component-in-tag": false,
+      "bump-minor-pre-major": true,
+      "bump-patch-for-minor-pre-major": false
+    }
+  }
 }
 ```
 
-- [ ] **Step 3: Verify it runs**
+`bump-minor-pre-major` keeps a breaking change below 1.0.0 at a minor bump
+rather than jumping to 2.0.0, which is what a library with no components yet
+wants.
 
-Run: `npx changeset status --since=main`
-Expected: prints an empty `Packages to be bumped:` list and exits 0. It does not
-say "no changesets"; the empty list is the signal.
+- [ ] **Step 3: Write `.release-please-manifest.json`**
 
-- [ ] **Step 4: Commit**
+```json
+{
+  ".": "0.0.0"
+}
+```
+
+Starting at `0.0.0` means the first `feat:` commit produces `0.1.0`.
+
+- [ ] **Step 4: Write `.github/workflows/release.yml`**
+
+```yaml
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  publish:
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # Required for npm provenance, which package.json requests.
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.release-please.outputs.tag_name }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+          cache: npm
+
+      - run: npm ci
+
+      # The tag is already cut, so verify before anything reaches the registry.
+      - name: Verify
+        run: |
+          npm run typecheck
+          npm run lint
+          npm test
+          npm run build
+          npm run check:size
+
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+```
+
+- [ ] **Step 5: Verify the configuration parses and the toolchain still builds**
 
 ```bash
-git add .changeset
-git commit -m "chore: add Changesets for releases"
+node -e "JSON.parse(require('fs').readFileSync('release-please-config.json','utf8'))"
+node -e "JSON.parse(require('fs').readFileSync('.release-please-manifest.json','utf8'))"
+npm run typecheck && npm run lint && npm test && npm run build && npm run check:size
 ```
+
+Expected: no JSON errors, and the full chain still passes after the dependency
+removal.
+
+- [ ] **Step 6: Commit**
+
+```bash
+git add release-please-config.json .release-please-manifest.json \
+  .github/workflows/release.yml package.json package-lock.json
+git commit -m "ci: replace Changesets with Release Please"
+```
+
+**Requires user action, cannot be done from here:** an `NPM_TOKEN` repository
+secret with publish rights. Without it the publish job fails at `npm publish`;
+the release pull request and the tag still work.
 
 ---
 
@@ -1388,13 +1478,20 @@ run. The five that cost real time:
 | --- | --- |
 | `@types/node` was never installed, and `types: ["vitest/globals"]` suppressed ambient types. Nothing imported a Node builtin until the CSS build, so it surfaced late. | Installed the package, added `"node"` to the types array. |
 | TypeScript 6 errors on `baseUrl`, which tsup's declaration builder sets internally. The dts build failed. | `"ignoreDeprecations": "6.0"` in tsconfig. |
-| `changeset init` is interactive with no non-interactive flag; it hangs and exits 13. | Wrote `config.json` directly and copied the tool's own bundled README. |
+| `changeset init` is interactive with no non-interactive flag; it hangs and exits 13. | Wrote `config.json` directly and copied the tool's own bundled README. Later removed entirely, see below. |
 | `npm run format` reformatted the approved design spec, rewriting its code fences. | Added `docs` to `.prettierignore` and reverted. |
 | `react-hooks/set-state-in-effect` flags the deliberate hydration read in `useColorMode`. | Suppressed that one line with the reason. The rule does not flag the same pattern four lines below. |
 
 Final state: `typecheck`, `lint`, `test` (20 tests in 4 files), `build`, and
 `check:size` all pass. The library is 0.83 KB gzipped against a 45 KB budget and
 the base stylesheet 0.97 KB against 10 KB.
+
+**Amended after the run.** The user replaced Changesets with Release Please.
+Task 13 above is the replacement as built. One consequence is worth recording:
+the plan called for Conventional Commit messages and the run used plain ones
+instead, so none of the fifteen foundation commits carry a prefix Release Please
+recognizes. They will never produce a release. The first release will be `0.1.0`,
+cut from the next `feat:` commit. Every commit from here needs a prefix.
 
 ## What this plan deliberately leaves out
 
