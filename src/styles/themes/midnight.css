@@ -1,0 +1,117 @@
+/*
+ * halcyon-ui theme: midnight.
+ * The flagship: deep blue-black surfaces and a cool indigo accent, crisp and
+ * technical. Cool white and blue-grey in light, deep navy-black in dark.
+ */
+
+:root {
+  /* Color */
+  --hal-bg: #fbfcfe;
+  --hal-bg-subtle: #eef1f8;
+  --hal-bg-raised: #ffffff;
+  --hal-fg: #0d1424;
+  --hal-fg-muted: #4a5572;
+  --hal-border: #d9e0ec;
+  --hal-border-strong: #b2bdd2;
+  --hal-accent: #4338ca;
+  --hal-accent-fg: #ffffff;
+  --hal-accent-hover: #3730a3;
+  --hal-success: #0f766e;
+  --hal-warning: #a15c07;
+  --hal-danger: #c81e3a;
+  --hal-danger-fg: #ffffff;
+  --hal-info: #1d4ed8;
+  --hal-overlay: rgb(8 12 26 / 0.55);
+  --hal-focus-ring: #4338ca;
+
+  /* Elevation */
+  --hal-shadow-sm: 0 1px 2px rgb(8 12 26 / 0.08);
+  --hal-shadow: 0 2px 8px rgb(8 12 26 / 0.12);
+  --hal-shadow-lg: 0 12px 32px rgb(8 12 26 / 0.2);
+
+  /* Spacing */
+  --hal-space-1: 0.25rem;
+  --hal-space-2: 0.5rem;
+  --hal-space-3: 0.75rem;
+  --hal-space-4: 1rem;
+  --hal-space-5: 1.25rem;
+  --hal-space-6: 1.5rem;
+  --hal-space-7: 2rem;
+  --hal-space-8: 3rem;
+
+  /* Radius */
+  --hal-radius-sm: 0.25rem;
+  --hal-radius: 0.5rem;
+  --hal-radius-lg: 0.75rem;
+  --hal-radius-full: 9999px;
+
+  /* Type */
+  --hal-font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --hal-font-mono:
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+  --hal-text-xs: 0.75rem;
+  --hal-text-sm: 0.875rem;
+  --hal-text-base: 1rem;
+  --hal-text-lg: 1.125rem;
+  --hal-text-xl: 1.25rem;
+  --hal-weight-normal: 400;
+  --hal-weight-medium: 500;
+  --hal-weight-bold: 700;
+  --hal-leading: 1.5;
+
+  /* Motion */
+  --hal-duration: 150ms;
+  --hal-ease: cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-mode='light']) {
+    --hal-bg: #080b16;
+    --hal-bg-subtle: #0f1424;
+    --hal-bg-raised: #161d31;
+    --hal-fg: #e6eaf7;
+    --hal-fg-muted: #98a3c2;
+    --hal-border: #212a42;
+    --hal-border-strong: #35405e;
+    --hal-accent: #818cf8;
+    --hal-accent-fg: #0b1024;
+    --hal-accent-hover: #a5b4fc;
+    --hal-success: #34d399;
+    --hal-warning: #fbbf24;
+    --hal-danger: #fb7185;
+    --hal-danger-fg: #23060f;
+    --hal-info: #60a5fa;
+    --hal-overlay: rgb(3 5 12 / 0.68);
+    --hal-focus-ring: #818cf8;
+
+    --hal-shadow-sm: 0 1px 2px rgb(2 4 10 / 0.5);
+    --hal-shadow: 0 2px 8px rgb(2 4 10 / 0.6);
+    --hal-shadow-lg: 0 12px 32px rgb(2 4 10 / 0.72);
+  }
+}
+
+:root[data-mode='dark'] {
+  --hal-bg: #080b16;
+  --hal-bg-subtle: #0f1424;
+  --hal-bg-raised: #161d31;
+  --hal-fg: #e6eaf7;
+  --hal-fg-muted: #98a3c2;
+  --hal-border: #212a42;
+  --hal-border-strong: #35405e;
+  --hal-accent: #818cf8;
+  --hal-accent-fg: #0b1024;
+  --hal-accent-hover: #a5b4fc;
+  --hal-success: #34d399;
+  --hal-warning: #fbbf24;
+  --hal-danger: #fb7185;
+  --hal-danger-fg: #23060f;
+  --hal-info: #60a5fa;
+  --hal-overlay: rgb(3 5 12 / 0.68);
+  --hal-focus-ring: #818cf8;
+
+  --hal-shadow-sm: 0 1px 2px rgb(2 4 10 / 0.5);
+  --hal-shadow: 0 2px 8px rgb(2 4 10 / 0.6);
+  --hal-shadow-lg: 0 12px 32px rgb(2 4 10 / 0.72);
+}
