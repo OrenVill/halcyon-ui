@@ -1,0 +1,99 @@
+/*
+ * IconButton. A square, icon-only button. Every property reads a component
+ * token that falls back to a global one, so a consumer can restyle icon
+ * buttons alone without touching the theme.
+ */
+
+.hal-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Square: the size rules set width and height to the same token, and no
+     padding is allowed to stretch it back into a rectangle. */
+  padding: 0;
+  flex: none;
+  border: 1px solid transparent;
+  border-radius: var(--hal-icon-button-radius, var(--hal-radius));
+  font-family: inherit;
+  font-weight: var(--hal-icon-button-weight, var(--hal-weight-medium));
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--hal-duration) var(--hal-ease),
+    border-color var(--hal-duration) var(--hal-ease),
+    color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-icon-button:disabled {
+  opacity: var(--hal-icon-button-disabled-opacity, 0.55);
+  cursor: not-allowed;
+}
+
+/* Sizes */
+
+.hal-icon-button--sm {
+  width: var(--hal-icon-button-size-sm, 2rem);
+  height: var(--hal-icon-button-size-sm, 2rem);
+  font-size: var(--hal-icon-button-text-sm, var(--hal-text-sm));
+}
+
+.hal-icon-button--md {
+  width: var(--hal-icon-button-size-md, 2.5rem);
+  height: var(--hal-icon-button-size-md, 2.5rem);
+  font-size: var(--hal-icon-button-text-md, var(--hal-text-base));
+}
+
+.hal-icon-button--lg {
+  width: var(--hal-icon-button-size-lg, 3rem);
+  height: var(--hal-icon-button-size-lg, 3rem);
+  font-size: var(--hal-icon-button-text-lg, var(--hal-text-lg));
+}
+
+/* Variants */
+
+.hal-icon-button--solid {
+  background: var(--hal-icon-button-bg, var(--hal-accent));
+  color: var(--hal-icon-button-fg, var(--hal-accent-fg));
+}
+
+.hal-icon-button--solid:hover:not(:disabled) {
+  background: var(--hal-icon-button-bg-hover, var(--hal-accent-hover));
+}
+
+.hal-icon-button--soft {
+  background: var(--hal-icon-button-soft-bg, var(--hal-bg-subtle));
+  color: var(--hal-icon-button-soft-fg, var(--hal-accent));
+}
+
+.hal-icon-button--soft:hover:not(:disabled) {
+  border-color: var(--hal-icon-button-soft-border-hover, var(--hal-border-strong));
+}
+
+.hal-icon-button--outline {
+  background: transparent;
+  border-color: var(--hal-icon-button-outline-border, var(--hal-border-strong));
+  color: var(--hal-icon-button-outline-fg, var(--hal-fg));
+}
+
+.hal-icon-button--outline:hover:not(:disabled) {
+  background: var(--hal-icon-button-outline-bg-hover, var(--hal-bg-subtle));
+}
+
+.hal-icon-button--ghost {
+  background: transparent;
+  color: var(--hal-icon-button-ghost-fg, var(--hal-fg));
+}
+
+.hal-icon-button--ghost:hover:not(:disabled) {
+  background: var(--hal-icon-button-ghost-bg-hover, var(--hal-bg-subtle));
+}
+
+.hal-icon-button--danger {
+  background: var(--hal-icon-button-danger-bg, var(--hal-danger));
+  color: var(--hal-icon-button-danger-fg, var(--hal-danger-fg));
+}
+
+.hal-icon-button--danger:hover:not(:disabled) {
+  filter: brightness(0.92);
+}

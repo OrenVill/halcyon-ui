@@ -1,0 +1,64 @@
+/*
+ * Textarea. Every property reads a component token that falls back to a global
+ * one, so a consumer can restyle multi-line fields alone without touching the
+ * theme.
+ */
+
+.hal-textarea {
+  display: block;
+  width: 100%;
+  min-height: var(--hal-textarea-min-height, 5rem);
+  /* Vertical only: a field that can be dragged wider breaks the form layout
+     around it. */
+  resize: vertical;
+  background: var(--hal-textarea-bg, var(--hal-bg));
+  color: var(--hal-textarea-fg, var(--hal-fg));
+  border: 1px solid var(--hal-textarea-border, var(--hal-border));
+  border-radius: var(--hal-textarea-radius, var(--hal-radius));
+  font-family: inherit;
+  font-weight: var(--hal-textarea-weight, var(--hal-weight-normal));
+  line-height: var(--hal-textarea-leading, var(--hal-leading));
+  transition:
+    background-color var(--hal-duration) var(--hal-ease),
+    border-color var(--hal-duration) var(--hal-ease),
+    color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-textarea::placeholder {
+  color: var(--hal-textarea-placeholder, var(--hal-fg-muted));
+}
+
+.hal-textarea:hover:not(:disabled) {
+  border-color: var(--hal-textarea-border-hover, var(--hal-border-strong));
+}
+
+.hal-textarea:disabled {
+  background: var(--hal-textarea-bg-disabled, var(--hal-bg-subtle));
+  opacity: var(--hal-textarea-disabled-opacity, 0.55);
+  cursor: not-allowed;
+  resize: none;
+}
+
+.hal-textarea--invalid {
+  border-color: var(--hal-textarea-border-invalid, var(--hal-danger));
+}
+
+/* Sizes */
+
+.hal-textarea--sm {
+  padding: var(--hal-textarea-py-sm, var(--hal-space-2))
+    var(--hal-textarea-px-sm, var(--hal-space-3));
+  font-size: var(--hal-textarea-text-sm, var(--hal-text-sm));
+}
+
+.hal-textarea--md {
+  padding: var(--hal-textarea-py-md, var(--hal-space-3))
+    var(--hal-textarea-px-md, var(--hal-space-4));
+  font-size: var(--hal-textarea-text-md, var(--hal-text-base));
+}
+
+.hal-textarea--lg {
+  padding: var(--hal-textarea-py-lg, var(--hal-space-4))
+    var(--hal-textarea-px-lg, var(--hal-space-5));
+  font-size: var(--hal-textarea-text-lg, var(--hal-text-lg));
+}

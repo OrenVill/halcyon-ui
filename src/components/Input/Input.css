@@ -1,0 +1,67 @@
+/*
+ * Input. A styled native <input>. Every property reads a component token that
+ * falls back to a global one, so a consumer can restyle fields alone without
+ * touching the theme.
+ */
+
+.hal-input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  background: var(--hal-input-bg, var(--hal-bg));
+  color: var(--hal-input-fg, var(--hal-fg));
+  border: 1px solid var(--hal-input-border, var(--hal-border-strong));
+  border-radius: var(--hal-input-radius, var(--hal-radius));
+  font-family: inherit;
+  font-weight: var(--hal-input-weight, var(--hal-weight-normal));
+  line-height: 1;
+  transition:
+    background-color var(--hal-duration) var(--hal-ease),
+    border-color var(--hal-duration) var(--hal-ease),
+    color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-input::placeholder {
+  color: var(--hal-input-placeholder-fg, var(--hal-fg-muted));
+  opacity: 1;
+}
+
+.hal-input:hover:not(:disabled):not(:read-only) {
+  border-color: var(--hal-input-border-hover, var(--hal-border-strong));
+}
+
+.hal-input:disabled {
+  background: var(--hal-input-disabled-bg, var(--hal-bg-subtle));
+  opacity: var(--hal-input-disabled-opacity, 0.55);
+  cursor: not-allowed;
+}
+
+/* Sizes */
+
+.hal-input--sm {
+  min-height: var(--hal-input-height-sm, 2rem);
+  padding: 0 var(--hal-input-px-sm, var(--hal-space-2));
+  font-size: var(--hal-input-text-sm, var(--hal-text-sm));
+}
+
+.hal-input--md {
+  min-height: var(--hal-input-height-md, 2.5rem);
+  padding: 0 var(--hal-input-px-md, var(--hal-space-3));
+  font-size: var(--hal-input-text-md, var(--hal-text-base));
+}
+
+.hal-input--lg {
+  min-height: var(--hal-input-height-lg, 3rem);
+  padding: 0 var(--hal-input-px-lg, var(--hal-space-4));
+  font-size: var(--hal-input-text-lg, var(--hal-text-lg));
+}
+
+/* State */
+
+.hal-input--invalid {
+  border-color: var(--hal-input-invalid-border, var(--hal-danger));
+}
+
+.hal-input--invalid:focus-visible {
+  outline-color: var(--hal-input-invalid-ring, var(--hal-danger));
+}

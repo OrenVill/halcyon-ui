@@ -1,0 +1,68 @@
+/*
+ * Select. Every property reads a component token that falls back to a global
+ * one, so a consumer can restyle selects alone without touching the theme.
+ *
+ * The dropdown indicator is the browser's own. An inlined SVG data URI would
+ * bake a literal color into the stylesheet that no theme could repaint, so the
+ * right padding below simply reserves room for the native arrow.
+ */
+
+.hal-select {
+  display: block;
+  width: 100%;
+  background: var(--hal-select-bg, var(--hal-bg));
+  color: var(--hal-select-fg, var(--hal-fg));
+  border: 1px solid var(--hal-select-border, var(--hal-border));
+  border-radius: var(--hal-select-radius, var(--hal-radius));
+  font-family: inherit;
+  font-weight: var(--hal-select-weight, var(--hal-weight-normal));
+  line-height: var(--hal-select-leading, var(--hal-leading));
+  cursor: pointer;
+  transition:
+    background-color var(--hal-duration) var(--hal-ease),
+    border-color var(--hal-duration) var(--hal-ease),
+    color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-select:hover:not(:disabled) {
+  border-color: var(--hal-select-border-hover, var(--hal-border-strong));
+}
+
+.hal-select:disabled {
+  background: var(--hal-select-bg-disabled, var(--hal-bg-subtle));
+  opacity: var(--hal-select-disabled-opacity, 0.55);
+  cursor: not-allowed;
+}
+
+.hal-select--invalid {
+  border-color: var(--hal-select-border-invalid, var(--hal-danger));
+}
+
+/* Sizes. The right padding leaves room for the native dropdown indicator. */
+
+.hal-select--sm {
+  min-height: var(--hal-select-height-sm, 2rem);
+  padding: var(--hal-select-py-sm, var(--hal-space-1))
+    var(--hal-select-pr-sm, var(--hal-space-6))
+    var(--hal-select-py-sm, var(--hal-space-1))
+    var(--hal-select-px-sm, var(--hal-space-3));
+  font-size: var(--hal-select-text-sm, var(--hal-text-sm));
+}
+
+.hal-select--md {
+  min-height: var(--hal-select-height-md, 2.5rem);
+  padding: var(--hal-select-py-md, var(--hal-space-2))
+    var(--hal-select-pr-md, var(--hal-space-7))
+    var(--hal-select-py-md, var(--hal-space-2))
+    var(--hal-select-px-md, var(--hal-space-4));
+  font-size: var(--hal-select-text-md, var(--hal-text-base));
+}
+
+.hal-select--lg {
+  min-height: var(--hal-select-height-lg, 3rem);
+  padding: var(--hal-select-py-lg, var(--hal-space-3))
+    var(--hal-select-pr-lg, var(--hal-space-8))
+    var(--hal-select-py-lg, var(--hal-space-3))
+    var(--hal-select-px-lg, var(--hal-space-6));
+  font-size: var(--hal-select-text-lg, var(--hal-text-lg));
+}
