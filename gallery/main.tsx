@@ -126,8 +126,10 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 }
 
 // Inlined rather than fetched: a published artifact blocks external image
-// hosts, so any remote avatar URL would fail there and prove nothing.
-const PORTRAIT = 'data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2064%2064%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%270%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%236b8cae%27%2F%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%233c5a78%27%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%2764%27%20height%3D%2764%27%20fill%3D%27url%28%23g%29%27%2F%3E%3Ccircle%20cx%3D%2732%27%20cy%3D%2725%27%20r%3D%2711%27%20fill%3D%27%23e8eef5%27%2F%3E%3Cpath%20d%3D%27M10%2064c0-13%2010-21%2022-21s22%208%2022%2021z%27%20fill%3D%27%23e8eef5%27%2F%3E%3C%2Fsvg%3E'
+// hosts, so any remote avatar URL could never load there. Base64 rather than
+// percent-encoding, so no quoting or reserved character can be misread on the
+// way through JavaScript, the bundler and the HTML attribute.
+const PORTRAIT = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiM2YjhjYWUiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMzYzVhNzgiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9InVybCgjZykiLz48Y2lyY2xlIGN4PSIzMiIgY3k9IjI1IiByPSIxMSIgZmlsbD0iI2U4ZWVmNSIvPjxwYXRoIGQ9Ik0xMCA2NGMwLTEzIDEwLTIxIDIyLTIxczIyIDggMjIgMjF6IiBmaWxsPSIjZThlZWY1Ii8+PC9zdmc+'
 
 const SORT_OPTIONS = [
   { value: 'ascending', label: 'Ascending' },
