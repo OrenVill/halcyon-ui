@@ -7,6 +7,23 @@ describe('public API', () => {
     expect(typeof api.ColorModeScript).toBe('function')
   })
 
+  it('exports every form component', () => {
+    const expected = [
+      'Button',
+      'Checkbox',
+      'IconButton',
+      'Input',
+      'NumberInput',
+      'Radio',
+      'Select',
+      'Slider',
+      'Switch',
+      'Textarea',
+    ]
+    const missing = expected.filter((name) => !(name in api))
+    expect(missing).toEqual([])
+  })
+
   it('does not leak internal helpers', () => {
     expect('cx' in api).toBe(false)
   })

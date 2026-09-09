@@ -35,3 +35,6 @@ jobs:
 
       - name: Contrast
         run: npm run check:contrast
+
+      - name: Component CSS is themeable
+        run: npm run check:css
