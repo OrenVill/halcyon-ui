@@ -9,6 +9,17 @@ describe('public API', () => {
 
   it('exports every component', () => {
     const expected = [
+      'Drawer',
+      'DropdownMenu',
+      'Modal',
+      'Popover',
+      'Toast',
+      'ToastProvider',
+      'Tooltip',
+      'computePosition',
+      'useDismissable',
+      'useFocusTrap',
+      'useToast',
       'Alert',
       'Avatar',
       'Badge',

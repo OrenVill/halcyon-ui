@@ -6,7 +6,7 @@
  * It is dev-only: package.json ships "files": ["dist"], so none of this is
  * published to npm.
  */
-import { StrictMode, useMemo, useState } from 'react'
+import { StrictMode, useMemo, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
   Alert,
@@ -15,6 +15,10 @@ import {
   Button,
   Card,
   Checkbox,
+  Drawer,
+  DropdownMenu,
+  Modal,
+  Popover,
   IconButton,
   Input,
   NumberInput,
@@ -28,6 +32,9 @@ import {
   Table,
   Tag,
   Textarea,
+  ToastProvider,
+  Tooltip,
+  useToast,
 } from '../src/index'
 
 declare const __THEMES__: Record<string, Record<'light' | 'dark', Record<string, string>>>
@@ -94,6 +101,12 @@ const SECTIONS = [
   'Progress',
   'Spinner',
   'Skeleton',
+  'Modal',
+  'Drawer',
+  'Tooltip',
+  'Popover',
+  'DropdownMenu',
+  'Toast',
 ] as const
 
 function Specimen({
@@ -151,6 +164,29 @@ function PlusIcon() {
 
 /* ---------- the app ---------- */
 
+function ToastButtons() {
+  const { toast } = useToast()
+  return (
+    <>
+      {(['info', 'success', 'warning', 'danger'] as const).map((variant) => (
+        <Button
+          key={variant}
+          variant="outline"
+          onClick={() =>
+            toast({
+              variant,
+              title: `${variant} toast`,
+              description: 'Hover it and the countdown pauses.',
+            })
+          }
+        >
+          {variant}
+        </Button>
+      ))}
+    </>
+  )
+}
+
 function Gallery() {
   const [theme, setTheme] = useState('midnight')
   const [mode, setMode] = useState<Mode>('dark')
@@ -164,6 +200,10 @@ function Gallery() {
   const [quantity, setQuantity] = useState(3)
   const [sort, setSort] = useState('modified')
   const [tags, setTags] = useState(['design', 'accessibility', 'tokens'])
+  const [modalOpen, setModalOpen] = useState(false)
+  const [drawerSide, setDrawerSide] = useState<'left' | 'right' | 'top' | 'bottom' | null>(null)
+  const [popoverOpen, setPopoverOpen] = useState(false)
+  const popoverAnchor = useRef<HTMLButtonElement>(null)
 
   const tokens = THEMES[theme]![mode]
   const style = useMemo(() => tokens as React.CSSProperties, [tokens])
@@ -643,6 +683,109 @@ function Gallery() {
               <Skeleton variant="rect" width={120} height={40} />
             </Row>
           </Specimen>
+
+          <Specimen name="Modal" note="Traps focus, restores it on close, and locks page scroll while open.">
+            <Row label="open it">
+              <Button onClick={() => setModalOpen(true)}>Open modal</Button>
+              <Modal
+                open={modalOpen}
+                onClose={() => setModalOpen(false)}
+                title="Delete this theme?"
+              >
+                <p style={{ marginTop: 0, color: 'var(--hal-fg-muted)' }}>
+                  Removing a theme also removes its stylesheet from the build. Tab around: focus
+                  cannot leave this dialog, and Escape returns it to the button behind.
+                </p>
+                <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+                  <Button variant="ghost" onClick={() => setModalOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button variant="danger" onClick={() => setModalOpen(false)}>
+                    Delete
+                  </Button>
+                </div>
+              </Modal>
+            </Row>
+          </Specimen>
+
+          <Specimen name="Drawer" note="The same dialog semantics, anchored to an edge.">
+            <Row label="sides">
+              {(['left', 'right', 'top', 'bottom'] as const).map((side) => (
+                <Button key={side} variant="outline" onClick={() => setDrawerSide(side)}>
+                  {side}
+                </Button>
+              ))}
+              <Drawer
+                open={drawerSide !== null}
+                side={drawerSide ?? 'right'}
+                onClose={() => setDrawerSide(null)}
+                title={`Drawer from the ${drawerSide ?? ''}`}
+              >
+                <p style={{ marginTop: 0, color: 'var(--hal-fg-muted)' }}>
+                  Escape, the backdrop, or the close button all dismiss it.
+                </p>
+              </Drawer>
+            </Row>
+          </Specimen>
+
+          <Specimen name="Tooltip" note="Describes, never defines: it is unreachable on touch, so nothing lives only here.">
+            <Row label="sides">
+              {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
+                <Tooltip key={side} side={side} content={`Anchored ${side}`}>
+                  <Button variant="outline">{side}</Button>
+                </Tooltip>
+              ))}
+            </Row>
+            <Row label="on focus">
+              <Tooltip content="Focus opens it with no delay">
+                <Button variant="ghost">Tab to me</Button>
+              </Tooltip>
+            </Row>
+          </Specimen>
+
+          <Specimen name="Popover" note="An anchored dialog: focus trapped, Escape and click-outside dismiss.">
+            <Row label="open it">
+              <Button ref={popoverAnchor} onClick={() => setPopoverOpen((v) => !v)}>
+                Toggle popover
+              </Button>
+              <Popover
+                open={popoverOpen}
+                onClose={() => setPopoverOpen(false)}
+                anchorRef={popoverAnchor}
+                aria-label="Filter results"
+              >
+                <div style={{ display: 'grid', gap: '0.5rem', minWidth: '14rem' }}>
+                  <strong>Filter</strong>
+                  <label className="field">
+                    <Checkbox defaultChecked /> Passing contrast
+                  </label>
+                  <label className="field">
+                    <Checkbox /> Over budget
+                  </label>
+                </div>
+              </Popover>
+            </Row>
+          </Specimen>
+
+          <Specimen name="DropdownMenu" note="Roving DOM focus, because menu items are real focus targets.">
+            <Row label="menu">
+              <DropdownMenu
+                trigger="Actions"
+                items={[
+                  { id: 'rename', label: 'Rename' },
+                  { id: 'duplicate', label: 'Duplicate' },
+                  { id: 'archive', label: 'Archive', disabled: true },
+                  { id: 'delete', label: 'Delete' },
+                ]}
+              />
+            </Row>
+          </Specimen>
+
+          <Specimen name="Toast" note="Timers pause on hover and on focus, and bank the remaining time.">
+            <Row label="variants">
+              <ToastButtons />
+            </Row>
+          </Specimen>
         </main>
       </div>
     </>
@@ -651,6 +794,8 @@ function Gallery() {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Gallery />
+    <ToastProvider>
+      <Gallery />
+    </ToastProvider>
   </StrictMode>,
 )

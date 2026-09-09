@@ -21,6 +21,25 @@ export type { CheckboxProps, CheckboxSize } from './components/Checkbox'
 export { ColorModeScript } from './components/ColorModeScript'
 export type { ColorModeScriptProps } from './components/ColorModeScript'
 
+export { computePosition } from './internal/position'
+export type {
+  Align,
+  Placement,
+  PositionOptions,
+  Rect,
+  Side,
+  Size,
+} from './internal/position'
+
+export { Drawer } from './components/Drawer'
+export type { DrawerProps, DrawerSide, DrawerSize } from './components/Drawer'
+
+export { DropdownMenu } from './components/DropdownMenu'
+export type {
+  DropdownMenuItem,
+  DropdownMenuProps,
+} from './components/DropdownMenu'
+
 export { IconButton } from './components/IconButton'
 export type {
   IconButtonProps,
@@ -31,8 +50,14 @@ export type {
 export { Input } from './components/Input'
 export type { InputProps, InputSize } from './components/Input'
 
+export { Modal } from './components/Modal'
+export type { ModalProps, ModalSize } from './components/Modal'
+
 export { NumberInput } from './components/NumberInput'
 export type { NumberInputProps, NumberInputSize } from './components/NumberInput'
+
+export { Popover } from './components/Popover'
+export type { PopoverProps } from './components/Popover'
 
 export { Progress } from './components/Progress'
 export type {
@@ -68,9 +93,27 @@ export type { TagProps, TagSize, TagVariant } from './components/Tag'
 export { Textarea } from './components/Textarea'
 export type { TextareaProps, TextareaSize } from './components/Textarea'
 
+export { Toast, ToastProvider, useToast } from './components/Toast'
+export type {
+  ToastContextValue,
+  ToastOptions,
+  ToastProps,
+  ToastProviderProps,
+  ToastRecord,
+  ToastVariant,
+} from './components/Toast'
+
+export { Tooltip } from './components/Tooltip'
+export type { TooltipProps } from './components/Tooltip'
+
 export { useColorMode, COLOR_MODE_STORAGE_KEY } from './hooks/useColorMode'
 export type {
   ColorMode,
   ResolvedColorMode,
   UseColorModeResult,
 } from './hooks/useColorMode'
+
+export { useDismissable } from './hooks/useDismissable'
+export type { DismissableOptions } from './hooks/useDismissable'
+
+export { useFocusTrap } from './hooks/useFocusTrap'

@@ -172,6 +172,38 @@ component.
 
 ---
 
+## Execution record
+
+Executed 2026-09-09. The three shared pieces were built by the coordinator with
+34 tests before any component task started; the six components then ran as
+three parallel agents. 556 tests pass across the library.
+
+| Measure | Result |
+| --- | --- |
+| Full library, gzipped | 11.30 KB against 45 KB |
+| A lone Button import | 0.48 KB against 2 KB |
+
+Findings worth keeping:
+
+- **The focus trap was silently disabled under test.** Its first version
+  filtered focusable elements by `offsetParent`, which jsdom reports as null
+  for every element, emptying the list. It now uses `checkVisibility`, which
+  browsers implement and jsdom does not, so it degrades to "visible" under test
+  and behaves correctly in a browser.
+- **The scroll lock moved into `internal/`.** Both Modal and Drawer need one
+  shared counter, and the first implementation put it behind a `globalThis` key
+  in each component to avoid a cross-component import. The no-cross-import rule
+  is about components; a shared helper is what `internal/` is for.
+- **Tooltip clones its trigger rather than wrapping it.** A wrapper either
+  injects a box into the caller's layout or, with `display: contents`, has no
+  box at all, and an element with no box cannot be measured for positioning.
+- **user-event deadlocks against fake timers here.** Both agents that needed a
+  fake clock hit it independently and fell back to `fireEvent`. Worth knowing
+  before writing the next timer-driven component.
+- **Portalled content is not inside the render container**, so accessibility
+  assertions had to target the live element. Asserting on the container would
+  have checked an empty div and passed.
+
 ## Done when
 
 - Three shared pieces exist with their own tests.
