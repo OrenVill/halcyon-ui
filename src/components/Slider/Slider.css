@@ -1,0 +1,117 @@
+/*
+ * Slider. A native <input type="range">, restyled.
+ * Every property reads a component token that falls back to a global one, so a
+ * consumer can restyle sliders alone without touching the theme.
+ *
+ * The track and thumb pseudo-elements are written as one rule each on purpose:
+ * a selector list containing a pseudo-element the engine does not recognise is
+ * dropped whole, so WebKit and Gecko can never share a rule here.
+ */
+
+.hal-slider {
+  appearance: none;
+  -webkit-appearance: none;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--hal-slider-thumb-bg, var(--hal-accent));
+  font-family: inherit;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.hal-slider:disabled {
+  opacity: var(--hal-slider-disabled-opacity, 0.55);
+  cursor: not-allowed;
+}
+
+/* Sizes. Each size sets the shared geometry tokens the pseudo-element rules
+   below read, so the four engine-specific rules stay in sync. */
+
+.hal-slider--sm {
+  --hal-slider-track-height: var(--hal-slider-track-height-sm, 0.25rem);
+  --hal-slider-thumb-size: var(--hal-slider-thumb-size-sm, 0.875rem);
+  height: var(--hal-slider-height-sm, 1.25rem);
+}
+
+.hal-slider--md {
+  --hal-slider-track-height: var(--hal-slider-track-height-md, 0.375rem);
+  --hal-slider-thumb-size: var(--hal-slider-thumb-size-md, 1.125rem);
+  height: var(--hal-slider-height-md, 1.5rem);
+}
+
+.hal-slider--lg {
+  --hal-slider-track-height: var(--hal-slider-track-height-lg, 0.5rem);
+  --hal-slider-thumb-size: var(--hal-slider-thumb-size-lg, 1.375rem);
+  height: var(--hal-slider-height-lg, 1.75rem);
+}
+
+/* Track: WebKit / Blink */
+
+.hal-slider::-webkit-slider-runnable-track {
+  height: var(--hal-slider-track-height, 0.375rem);
+  border-radius: var(--hal-slider-track-radius, var(--hal-radius-full));
+  background: var(--hal-slider-track-bg, var(--hal-bg-subtle));
+  border: 1px solid var(--hal-slider-track-border, var(--hal-border));
+}
+
+/* Track: Gecko */
+
+.hal-slider::-moz-range-track {
+  height: var(--hal-slider-track-height, 0.375rem);
+  border-radius: var(--hal-slider-track-radius, var(--hal-radius-full));
+  background: var(--hal-slider-track-bg, var(--hal-bg-subtle));
+  border: 1px solid var(--hal-slider-track-border, var(--hal-border));
+}
+
+/* The filled portion is only expressible in Gecko without JavaScript. */
+
+.hal-slider::-moz-range-progress {
+  height: var(--hal-slider-track-height, 0.375rem);
+  border-radius: var(--hal-slider-track-radius, var(--hal-radius-full));
+  background: var(--hal-slider-fill-bg, var(--hal-accent));
+}
+
+/* Thumb: WebKit / Blink. Centred by hand, since WebKit lays the thumb out
+   from the top of the track box rather than its middle. */
+
+.hal-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: var(--hal-slider-thumb-size, 1.125rem);
+  height: var(--hal-slider-thumb-size, 1.125rem);
+  margin-top: calc(
+    (var(--hal-slider-track-height, 0.375rem) - var(--hal-slider-thumb-size, 1.125rem)) / 2
+  );
+  border-radius: var(--hal-slider-thumb-radius, var(--hal-radius-full));
+  background: var(--hal-slider-thumb-bg, var(--hal-accent));
+  border: var(--hal-slider-thumb-border-width, 2px) solid
+    var(--hal-slider-thumb-border, var(--hal-bg-raised));
+  box-shadow: var(--hal-slider-thumb-shadow, var(--hal-shadow-sm));
+  transition: background-color var(--hal-duration) var(--hal-ease);
+}
+
+/* Thumb: Gecko */
+
+.hal-slider::-moz-range-thumb {
+  appearance: none;
+  width: var(--hal-slider-thumb-size, 1.125rem);
+  height: var(--hal-slider-thumb-size, 1.125rem);
+  box-sizing: border-box;
+  border-radius: var(--hal-slider-thumb-radius, var(--hal-radius-full));
+  background: var(--hal-slider-thumb-bg, var(--hal-accent));
+  border: var(--hal-slider-thumb-border-width, 2px) solid
+    var(--hal-slider-thumb-border, var(--hal-bg-raised));
+  box-shadow: var(--hal-slider-thumb-shadow, var(--hal-shadow-sm));
+  transition: background-color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-slider:hover:not(:disabled)::-webkit-slider-thumb {
+  background: var(--hal-slider-thumb-bg-hover, var(--hal-accent-hover));
+}
+
+.hal-slider:hover:not(:disabled)::-moz-range-thumb {
+  background: var(--hal-slider-thumb-bg-hover, var(--hal-accent-hover));
+}

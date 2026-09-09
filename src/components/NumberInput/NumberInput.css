@@ -1,0 +1,138 @@
+/*
+ * NumberInput. A text field flanked by two stepper buttons.
+ * Every property reads a component token that falls back to a global one, so a
+ * consumer can restyle number inputs alone without touching the theme.
+ */
+
+.hal-number-input {
+  display: inline-flex;
+  align-items: stretch;
+  overflow: hidden;
+  border: 1px solid var(--hal-number-input-border, var(--hal-border-strong));
+  border-radius: var(--hal-number-input-radius, var(--hal-radius));
+  background: var(--hal-number-input-bg, var(--hal-bg-raised));
+  color: var(--hal-number-input-fg, var(--hal-fg));
+  transition:
+    border-color var(--hal-duration) var(--hal-ease),
+    box-shadow var(--hal-duration) var(--hal-ease);
+}
+
+/* The wrapper carries the focus ring, because the field inside it has no
+   border of its own to show one on. */
+.hal-number-input:focus-within {
+  border-color: var(--hal-number-input-border-focus, var(--hal-accent));
+  outline: 2px solid var(--hal-focus-ring);
+  outline-offset: 2px;
+}
+
+.hal-number-input--invalid {
+  border-color: var(--hal-number-input-border-invalid, var(--hal-danger));
+}
+
+.hal-number-input--disabled {
+  opacity: var(--hal-number-input-disabled-opacity, 0.55);
+  cursor: not-allowed;
+}
+
+.hal-number-input__field {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0;
+  margin: 0;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  text-align: var(--hal-number-input-align, right);
+}
+
+/* The wrapper already shows focus for the whole control. */
+.hal-number-input__field:focus,
+.hal-number-input__field:focus-visible {
+  outline: none;
+}
+
+.hal-number-input__field:disabled {
+  cursor: not-allowed;
+}
+
+.hal-number-input__step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border: 0;
+  padding: 0;
+  background: var(--hal-number-input-step-bg, var(--hal-bg-subtle));
+  color: var(--hal-number-input-step-fg, var(--hal-fg-muted));
+  font-family: inherit;
+  font-weight: var(--hal-number-input-step-weight, var(--hal-weight-medium));
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--hal-duration) var(--hal-ease),
+    color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-number-input__step:hover:not(:disabled) {
+  background: var(--hal-number-input-step-bg-hover, var(--hal-border));
+  color: var(--hal-number-input-step-fg-hover, var(--hal-fg));
+}
+
+.hal-number-input__step:disabled {
+  cursor: not-allowed;
+}
+
+.hal-number-input__step--down {
+  border-right: 1px solid var(--hal-number-input-divider, var(--hal-border));
+}
+
+.hal-number-input__step--up {
+  border-left: 1px solid var(--hal-number-input-divider, var(--hal-border));
+}
+
+/* Sizes */
+
+.hal-number-input--sm {
+  min-height: var(--hal-number-input-height-sm, 2rem);
+  font-size: var(--hal-number-input-text-sm, var(--hal-text-sm));
+}
+
+.hal-number-input--sm .hal-number-input__field {
+  padding: 0 var(--hal-number-input-px-sm, var(--hal-space-2));
+}
+
+.hal-number-input--sm .hal-number-input__step {
+  width: var(--hal-number-input-step-width-sm, 2rem);
+  font-size: var(--hal-number-input-step-text-sm, var(--hal-text-sm));
+}
+
+.hal-number-input--md {
+  min-height: var(--hal-number-input-height-md, 2.5rem);
+  font-size: var(--hal-number-input-text-md, var(--hal-text-base));
+}
+
+.hal-number-input--md .hal-number-input__field {
+  padding: 0 var(--hal-number-input-px-md, var(--hal-space-3));
+}
+
+.hal-number-input--md .hal-number-input__step {
+  width: var(--hal-number-input-step-width-md, 2.5rem);
+  font-size: var(--hal-number-input-step-text-md, var(--hal-text-base));
+}
+
+.hal-number-input--lg {
+  min-height: var(--hal-number-input-height-lg, 3rem);
+  font-size: var(--hal-number-input-text-lg, var(--hal-text-lg));
+}
+
+.hal-number-input--lg .hal-number-input__field {
+  padding: 0 var(--hal-number-input-px-lg, var(--hal-space-4));
+}
+
+.hal-number-input--lg .hal-number-input__step {
+  width: var(--hal-number-input-step-width-lg, 3rem);
+  font-size: var(--hal-number-input-step-text-lg, var(--hal-text-lg));
+}
