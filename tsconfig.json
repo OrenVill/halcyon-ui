@@ -15,5 +15,5 @@
     "ignoreDeprecations": "6.0",
     "types": ["vitest/globals", "node"]
   },
-  "include": ["src", "scripts", "*.config.ts", "vitest.setup.ts"]
+  "include": ["src", "scripts", "gallery", "*.config.ts", "vitest.setup.ts"]
 }
