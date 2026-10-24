@@ -23,11 +23,14 @@ aspiration: React is the only dependency and it is a peer dependency.
 
 ## 2. Consumer API
 
-One theme import at app start, one package import for components.
+One theme import at app start. Components import from the package root or from a
+category slice (`form`, `navigation`, `overlay`, `display`, `primitives`,
+`hooks`).
 
 ```jsx
 import 'halcyon-ui/midnight'          // theme: ships light AND dark
 import { Button, Modal, useColorMode } from 'halcyon-ui'
+import { Tabs, Breadcrumb, Pagination } from 'halcyon-ui/navigation'
 
 function Header() {
   const { mode, setMode, toggle } = useColorMode()

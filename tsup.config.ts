@@ -1,7 +1,15 @@
 import { defineConfig } from 'tsup'
 
 export default defineConfig({
-  entry: ['src/index.ts'],
+  entry: [
+    'src/index.ts',
+    'src/display.ts',
+    'src/form.ts',
+    'src/hooks.ts',
+    'src/navigation.ts',
+    'src/overlay.ts',
+    'src/primitives.ts',
+  ],
   format: ['esm'],
   dts: true,
   // Runs first in `npm run build`, so it owns wiping dist. The CSS build
