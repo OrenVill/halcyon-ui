@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Card } from '../../components/Card'
 import { Link } from '../../components/Link'
 import { CheckoutLayout } from '../../structures/CheckoutLayout'
 import { ErrorPageLayout } from '../../structures/ErrorPageLayout'
@@ -10,6 +11,9 @@ import type { MarketingSiteLayoutProps } from '../../structures/MarketingSiteLay
 import type { ErrorPageLayoutProps } from '../../structures/ErrorPageLayout'
 import type { SiteNavLink } from '../../structures/types'
 import type { WebsiteRoute } from '../types'
+import { CommerceCheckoutForm, CommerceOrderSummary } from './CommerceCheckoutForm'
+
+export { CommerceCheckoutForm, CommerceOrderSummary } from './CommerceCheckoutForm'
 
 export const commerceWebsitePaths = {
   store: '/',
@@ -33,7 +37,7 @@ export type CommerceWebsiteStoreProps = Omit<MarketingSiteLayoutProps, 'brand' |
   catalog?: ReactNode
 }
 
-function CommerceWebsiteStore({ brand, catalog, hero, navLinks, ...rest }: CommerceWebsiteStoreProps) {
+function CommerceWebsiteStore({ brand, catalog, hero, navLinks, actions, ...rest }: CommerceWebsiteStoreProps) {
   const links =
     navLinks ??
     [
@@ -41,36 +45,76 @@ function CommerceWebsiteStore({ brand, catalog, hero, navLinks, ...rest }: Comme
       { href: commerceWebsitePaths.checkout, label: 'Cart' },
     ]
 
+  const defaultCatalog = (
+    <div
+      style={{
+        display: 'grid',
+        gap: '0.75rem',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(11rem, 1fr))',
+      }}
+    >
+      {[
+        { name: 'Desk lamp', price: '$32' },
+        { name: 'Notebook set', price: '$16' },
+        { name: 'Pen trio', price: '$12' },
+      ].map((item) => (
+        <Card key={item.name} padding="md">
+          <strong>{item.name}</strong>
+          <p style={{ margin: '0.25rem 0 0.75rem', color: 'var(--hal-fg-muted)' }}>{item.price}</p>
+          <Link href={commerceWebsitePaths.checkout} className="hal-button hal-button--soft hal-button--sm">
+            Add to cart
+          </Link>
+        </Card>
+      ))}
+    </div>
+  )
+
   return (
     <MarketingSiteLayout
       {...rest}
       brand={brand}
       navLinks={links}
+      actions={
+        actions ?? (
+          <Link href={commerceWebsitePaths.checkout} className="hal-button hal-button--solid hal-button--sm">
+            Checkout
+          </Link>
+        )
+      }
       hero={
         hero ?? {
           title: 'Everything for your desk',
           description: 'Curated tools with fast checkout.',
+          actions: (
+            <Link href={commerceWebsitePaths.checkout} className="hal-button hal-button--solid hal-button--md">
+              Shop now
+            </Link>
+          ),
         }
       }
     >
-      {catalog ? (
-        <MarketingSiteLayout.Section title="Featured" variant="muted">
-          {catalog}
-        </MarketingSiteLayout.Section>
-      ) : null}
+      <MarketingSiteLayout.Section title="Featured" description="Ships in 2–3 days." variant="muted">
+        {catalog ?? defaultCatalog}
+      </MarketingSiteLayout.Section>
     </MarketingSiteLayout>
   )
 }
 
-export type CommerceWebsiteCheckoutProps = Omit<CheckoutLayoutProps, 'brand' | 'orderSummary'> & {
+export type CommerceWebsiteCheckoutProps = Omit<
+  CheckoutLayoutProps,
+  'brand' | 'orderSummary' | 'children'
+> & {
   brand: ReactNode
   orderSummary?: ReactNode
+  children?: ReactNode
 }
 
 function CommerceWebsiteCheckout({
   brand,
   orderSummary,
+  children,
   stepLabel = 'Step 2 of 3',
+  secureNote = '256-bit TLS · PCI-ready form layout',
   ...rest
 }: CommerceWebsiteCheckoutProps) {
   return (
@@ -78,15 +122,11 @@ function CommerceWebsiteCheckout({
       {...rest}
       brand={brand}
       stepLabel={stepLabel}
-      orderSummary={
-        orderSummary ?? (
-          <div>
-            <p style={{ margin: 0 }}>Subtotal · $48.00</p>
-            <strong style={{ display: 'block', marginTop: '0.5rem' }}>Total · $48.00</strong>
-          </div>
-        )
-      }
-    />
+      secureNote={secureNote}
+      orderSummary={orderSummary ?? <CommerceOrderSummary />}
+    >
+      {children ?? <CommerceCheckoutForm />}
+    </CheckoutLayout>
   )
 }
 

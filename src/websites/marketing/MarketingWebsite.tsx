@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Card } from '../../components/Card'
 import { Link } from '../../components/Link'
 import { ErrorPageLayout } from '../../structures/ErrorPageLayout'
 import { ForgotPasswordLayout } from '../../structures/ForgotPasswordLayout'
@@ -12,6 +13,13 @@ import type { SignupLayoutProps } from '../../structures/SignupLayout'
 import type { ForgotPasswordLayoutProps } from '../../structures/ForgotPasswordLayout'
 import type { ErrorPageLayoutProps } from '../../structures/ErrorPageLayout'
 import type { WebsiteRoute } from '../types'
+import {
+  MarketingForgotPasswordForm,
+  MarketingLoginForm,
+  MarketingSignupForm,
+} from './MarketingAuthForms'
+
+export { MarketingForgotPasswordForm, MarketingLoginForm, MarketingSignupForm } from './MarketingAuthForms'
 
 export const marketingWebsitePaths = {
   home: '/',
@@ -55,6 +63,22 @@ function MarketingWebsiteHome({
       { href: marketingWebsitePaths.home, label: 'Blog' },
     ]
 
+  const features =
+    featureSection ??
+    (
+      <div
+        style={{
+          display: 'grid',
+          gap: '0.75rem',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(10rem, 1fr))',
+        }}
+      >
+        <Card padding="md">8 themes</Card>
+        <Card padding="md">Tree-shakeable</Card>
+        <Card padding="md">WCAG AA</Card>
+      </div>
+    )
+
   return (
     <MarketingSiteLayout
       {...rest}
@@ -87,15 +111,13 @@ function MarketingWebsiteHome({
         }
       }
     >
-      {featureSection ? (
-        <MarketingSiteLayout.Section
-          title="Built for product teams"
-          description="Atoms, slices, and full site layouts in one package."
-          variant="muted"
-        >
-          {featureSection}
-        </MarketingSiteLayout.Section>
-      ) : null}
+      <MarketingSiteLayout.Section
+        title="Built for product teams"
+        description="Atoms, slices, and full site layouts in one package."
+        variant="muted"
+      >
+        {features}
+      </MarketingSiteLayout.Section>
       {children}
       <MarketingSiteLayout.Cta
         title="Ready to try it?"
@@ -118,14 +140,16 @@ function MarketingWebsiteHome({
   )
 }
 
-export type MarketingWebsiteLoginProps = Omit<LoginLayoutProps, 'brand' | 'footer'> & {
+export type MarketingWebsiteLoginProps = Omit<LoginLayoutProps, 'brand' | 'footer' | 'children'> & {
   brand: ReactNode
   signupHref?: string
+  children?: ReactNode
 }
 
 function MarketingWebsiteLogin({
   brand,
   signupHref = marketingWebsitePaths.signup,
+  children,
   ...rest
 }: MarketingWebsiteLoginProps) {
   return (
@@ -137,18 +161,22 @@ function MarketingWebsiteLogin({
           Need an account? Sign up
         </Link>
       }
-    />
+    >
+      {children ?? <MarketingLoginForm />}
+    </LoginLayout>
   )
 }
 
-export type MarketingWebsiteSignupProps = Omit<SignupLayoutProps, 'brand' | 'footer'> & {
+export type MarketingWebsiteSignupProps = Omit<SignupLayoutProps, 'brand' | 'footer' | 'children'> & {
   brand: ReactNode
   loginHref?: string
+  children?: ReactNode
 }
 
 function MarketingWebsiteSignup({
   brand,
   loginHref = marketingWebsitePaths.login,
+  children,
   ...rest
 }: MarketingWebsiteSignupProps) {
   return (
@@ -160,24 +188,32 @@ function MarketingWebsiteSignup({
           Already have an account? Sign in
         </Link>
       }
-    />
+    >
+      {children ?? <MarketingSignupForm />}
+    </SignupLayout>
   )
 }
 
 export type MarketingWebsiteForgotPasswordProps = Omit<
   ForgotPasswordLayoutProps,
-  'brand' | 'backHref'
+  'brand' | 'backHref' | 'children'
 > & {
   brand: ReactNode
   loginHref?: string
+  children?: ReactNode
 }
 
 function MarketingWebsiteForgotPassword({
   brand,
   loginHref = marketingWebsitePaths.login,
+  children,
   ...rest
 }: MarketingWebsiteForgotPasswordProps) {
-  return <ForgotPasswordLayout {...rest} brand={brand} backHref={loginHref} />
+  return (
+    <ForgotPasswordLayout {...rest} brand={brand} backHref={loginHref}>
+      {children ?? <MarketingForgotPasswordForm />}
+    </ForgotPasswordLayout>
+  )
 }
 
 export type MarketingWebsiteNotFoundProps = ErrorPageLayoutProps

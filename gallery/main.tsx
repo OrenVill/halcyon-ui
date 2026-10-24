@@ -9,6 +9,7 @@
 import { StrictMode, useCallback, useMemo, useRef, useState, useSyncExternalStore, type MouseEvent } from 'react'
 import { isWebsitePlaygroundPath, normalizePath, WebsitePlayground } from './website-playground'
 import type { SiteNavLink, SitePagerLink } from '../src/structures/types'
+import { CommerceCheckoutForm, CommerceOrderSummary } from '../src/websites/commerce/CommerceCheckoutForm'
 import { CommerceWebsite, DocsWebsite, MarketingWebsite, SaasWebsite } from '../src/websites'
 import { createRoot } from 'react-dom/client'
 import {
@@ -1597,30 +1598,15 @@ function Gallery() {
               </div>
             </Specimen>
 
-            <Specimen name="CheckoutLayout" note="Payment form plus order summary column.">
+            <Specimen name="CheckoutLayout" note="Contact, shipping, and full card payment form plus order summary.">
               <div className="site-layout-preview site-layout-preview--tall">
                 <CheckoutLayout
                   brand="Shop"
                   stepLabel="Step 2 of 3"
-                  orderSummary={
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <span>Pro plan</span>
-                        <span>$12/mo</span>
-                      </div>
-                      <strong style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <span>Total</span>
-                        <span>$12</span>
-                      </strong>
-                    </div>
-                  }
-                  secureNote="Payments are processed securely."
+                  orderSummary={<CommerceOrderSummary />}
+                  secureNote="256-bit TLS · PCI-ready form layout"
                 >
-                  <Field>
-                    <Field.Label>Card number</Field.Label>
-                    <Input aria-label="Card number" placeholder="4242 4242 4242 4242" />
-                  </Field>
-                  <Button>Pay now</Button>
+                  <CommerceCheckoutForm />
                 </CheckoutLayout>
               </div>
             </Specimen>
@@ -1640,21 +1626,13 @@ function Gallery() {
               note="Home, login, signup, forgot password, and 404 — cross-linked by default."
             >
               <div className="site-layout-preview site-layout-preview--auth">
-                <MarketingWebsite.Login brand="Halcyon">
-                  <Field>
-                    <Field.Label>Email</Field.Label>
-                    <Input type="email" aria-label="Email" />
-                  </Field>
-                  <Button style={{ width: '100%' }}>Sign in</Button>
-                </MarketingWebsite.Login>
+                <MarketingWebsite.Login brand="Halcyon" />
               </div>
             </Specimen>
 
             <Specimen name="SaasWebsite" note="Dashboard, settings, onboarding, auth, and 404 for SaaS apps.">
               <div className="site-layout-preview site-layout-preview--tall">
-                <SaasWebsite.Dashboard brand="Acme">
-                  <Card variant="subtle" padding="md">MRR · $24k</Card>
-                </SaasWebsite.Dashboard>
+                <SaasWebsite.Dashboard brand="Acme" />
               </div>
             </Specimen>
 
@@ -1668,13 +1646,7 @@ function Gallery() {
 
             <Specimen name="CommerceWebsite" note="Storefront, checkout, sign-in, and 404 for commerce flows.">
               <div className="site-layout-preview site-layout-preview--marketing">
-                <CommerceWebsite.Store brand="Shop">
-                  <div style={{ display: 'grid', gap: '0.75rem', gridTemplateColumns: 'repeat(3, 1fr)' }}>
-                    <Card padding="md">Desk lamp</Card>
-                    <Card padding="md">Notebook</Card>
-                    <Card padding="md">Pen set</Card>
-                  </div>
-                </CommerceWebsite.Store>
+                <CommerceWebsite.Store brand="Shop" />
               </div>
             </Specimen>
           </section>

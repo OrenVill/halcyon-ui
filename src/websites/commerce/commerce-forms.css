@@ -1,0 +1,32 @@
+.hal-commerce-summary__lines {
+  margin: 0 0 var(--hal-space-3);
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--hal-space-2);
+  font-size: var(--hal-text-sm);
+}
+
+.hal-commerce-summary__lines li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--hal-space-2);
+}
+
+.hal-commerce-summary__row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--hal-space-2);
+  margin-top: var(--hal-space-2);
+  font-size: var(--hal-text-sm);
+  color: var(--hal-fg-muted);
+}
+
+.hal-commerce-summary__row--total {
+  margin-top: var(--hal-space-3);
+  padding-top: var(--hal-space-3);
+  border-top: 1px solid var(--hal-border);
+  color: var(--hal-fg);
+  font-size: var(--hal-text-base);
+}

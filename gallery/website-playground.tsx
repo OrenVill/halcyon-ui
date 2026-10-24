@@ -1,5 +1,5 @@
 import { useEffect, type MouseEvent, type ReactNode } from 'react'
-import { Button, Card, Field, Input, Link } from '../src/index'
+import { Link } from '../src/components/Link'
 import { CommerceWebsite, DocsWebsite, MarketingWebsite, SaasWebsite } from '../src/websites'
 
 const KIT_PATHS = new Set([
@@ -28,97 +28,22 @@ export function normalizePath(pathname: string): string {
 
 type Navigate = (path: string) => void
 
-function AuthFields() {
-  return (
-    <>
-      <Field>
-        <Field.Label>Email</Field.Label>
-        <Input type="email" aria-label="Email" placeholder="you@example.com" />
-      </Field>
-      <Field>
-        <Field.Label>Password</Field.Label>
-        <Input type="password" aria-label="Password" />
-      </Field>
-    </>
-  )
-}
-
 function renderPage(path: string): ReactNode {
   switch (path) {
     case '/':
-      return (
-        <MarketingWebsite.Home
-          brand="Halcyon"
-          featureSection={
-            <div
-              style={{
-                display: 'grid',
-                gap: '0.75rem',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(10rem, 1fr))',
-              }}
-            >
-              <Card padding="md">8 themes</Card>
-              <Card padding="md">Tree-shakeable</Card>
-              <Card padding="md">WCAG AA</Card>
-            </div>
-          }
-        />
-      )
+      return <MarketingWebsite.Home brand="Halcyon" />
     case '/login':
-      return (
-        <MarketingWebsite.Login brand="Halcyon">
-          <AuthFields />
-          <Button style={{ width: '100%' }}>Sign in</Button>
-        </MarketingWebsite.Login>
-      )
+      return <MarketingWebsite.Login brand="Halcyon" />
     case '/signup':
-      return (
-        <MarketingWebsite.Signup brand="Halcyon">
-          <AuthFields />
-          <Button style={{ width: '100%' }}>Create account</Button>
-        </MarketingWebsite.Signup>
-      )
+      return <MarketingWebsite.Signup brand="Halcyon" />
     case '/forgot-password':
-      return (
-        <MarketingWebsite.ForgotPassword brand="Halcyon">
-          <Field>
-            <Field.Label>Email</Field.Label>
-            <Input type="email" aria-label="Email" />
-          </Field>
-          <Button style={{ width: '100%' }}>Send reset link</Button>
-        </MarketingWebsite.ForgotPassword>
-      )
+      return <MarketingWebsite.ForgotPassword brand="Halcyon" />
     case '/app':
-      return (
-        <SaasWebsite.Dashboard brand="Acme">
-          <Card variant="subtle" padding="md">MRR · $24k</Card>
-        </SaasWebsite.Dashboard>
-      )
+      return <SaasWebsite.Dashboard brand="Acme" />
     case '/app/settings':
-      return (
-        <SaasWebsite.Settings brand="Acme">
-          <Field>
-            <Field.Label>Display name</Field.Label>
-            <Input aria-label="Display name" defaultValue="Ada Lovelace" />
-          </Field>
-          <Button size="sm">Save</Button>
-        </SaasWebsite.Settings>
-      )
+      return <SaasWebsite.Settings brand="Acme" />
     case '/onboarding':
-      return (
-        <SaasWebsite.Onboarding
-          brand="Acme"
-          currentStepId="project"
-          footer={
-            <>
-              <Button variant="ghost" size="sm">Back</Button>
-              <Button size="sm">Continue</Button>
-            </>
-          }
-        >
-          <Input aria-label="Project name" placeholder="halcyon-ui" />
-        </SaasWebsite.Onboarding>
-      )
+      return <SaasWebsite.Onboarding brand="Acme" currentStepId="project" />
     case '/docs':
       return (
         <DocsWebsite.Docs brand="halcyon-ui">
@@ -128,15 +53,7 @@ function renderPage(path: string): ReactNode {
     case '/blog':
       return <DocsWebsite.Blog brand="halcyon-ui" />
     case '/checkout':
-      return (
-        <CommerceWebsite.Checkout brand="Shop">
-          <Field>
-            <Field.Label>Card number</Field.Label>
-            <Input aria-label="Card number" placeholder="4242 4242 4242 4242" />
-          </Field>
-          <Button>Pay now</Button>
-        </CommerceWebsite.Checkout>
-      )
+      return <CommerceWebsite.Checkout brand="Shop" />
     case '/404':
       return (
         <MarketingWebsite.NotFound
@@ -149,11 +66,7 @@ function renderPage(path: string): ReactNode {
         />
       )
     default:
-      return (
-        <MarketingWebsite.NotFound
-          actions={<Link href="/">Go home</Link>}
-        />
-      )
+      return <MarketingWebsite.NotFound actions={<Link href="/">Go home</Link>} />
   }
 }
 

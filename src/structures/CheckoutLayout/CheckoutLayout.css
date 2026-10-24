@@ -61,7 +61,34 @@
 .hal-checkout-layout__form {
   display: flex;
   flex-direction: column;
+  gap: var(--hal-space-6);
+}
+
+.hal-checkout-layout__section {
+  display: flex;
+  flex-direction: column;
   gap: var(--hal-space-4);
+}
+
+.hal-checkout-layout__section-title {
+  margin: 0;
+  font-size: var(--hal-text-sm);
+  font-weight: var(--hal-weight-medium);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--hal-fg-muted);
+}
+
+.hal-checkout-layout__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--hal-space-3);
+}
+
+@media (max-width: 520px) {
+  .hal-checkout-layout__row {
+    grid-template-columns: 1fr;
+  }
 }
 
 .hal-checkout-layout__secure {
