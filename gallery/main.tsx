@@ -6,7 +6,8 @@
  * It is dev-only: package.json ships "files": ["dist"], so none of this is
  * published to npm.
  */
-import { StrictMode, useMemo, useRef, useState } from 'react'
+import { StrictMode, useMemo, useRef, useState, type MouseEvent } from 'react'
+import type { SiteNavLink, SitePagerLink } from '../src/structures/types'
 import { createRoot } from 'react-dom/client'
 import {
   Accordion,
@@ -252,6 +253,218 @@ function PlusIcon() {
     <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none">
       <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
     </svg>
+  )
+}
+
+function inAppNav(select: () => void): Pick<SiteNavLink, 'href' | 'onClick'> {
+  return {
+    href: '#',
+    onClick: (event: MouseEvent<HTMLAnchorElement>) => {
+      event.preventDefault()
+      select()
+    },
+  }
+}
+
+function inAppPager(select: () => void): Pick<SitePagerLink, 'href' | 'onClick'> {
+  return {
+    href: '#',
+    onClick: (event: MouseEvent<HTMLAnchorElement>) => {
+      event.preventDefault()
+      select()
+    },
+  }
+}
+
+const DASHBOARD_PAGES = {
+  overview: {
+    label: 'Overview',
+    title: 'Overview',
+    description: 'Metrics for the last 30 days.',
+    metric: '12,480 active users today',
+  },
+  reports: {
+    label: 'Reports',
+    title: 'Reports',
+    description: 'Scheduled and on-demand exports.',
+    metric: '6 reports ready to download',
+  },
+  alerts: {
+    label: 'Alerts',
+    title: 'Alerts',
+    description: 'Open incidents and muted rules.',
+    metric: '2 alerts need review',
+  },
+} as const
+
+type DashboardPageId = keyof typeof DASHBOARD_PAGES
+
+function DashboardLayoutGalleryDemo() {
+  const [page, setPage] = useState<DashboardPageId>('overview')
+  const active = DASHBOARD_PAGES[page]
+
+  const sidebarLinks: SiteNavLink[] = (Object.keys(DASHBOARD_PAGES) as DashboardPageId[]).map(
+    (id) => ({
+      label: DASHBOARD_PAGES[id].label,
+      active: page === id,
+      ...inAppNav(() => setPage(id)),
+    }),
+  )
+
+  return (
+    <DashboardLayout
+      brand="Acme Cloud"
+      sidebarTitle="Analytics"
+      sidebarLinks={sidebarLinks}
+      breadcrumbs={[
+        { label: 'Home', ...inAppNav(() => setPage('overview')) },
+        { label: active.label, href: '#', active: true },
+      ]}
+      pageTitle={active.title}
+      pageDescription={active.description}
+      pageActions={<Button size="sm">Export</Button>}
+      actions={<Button size="sm" variant="ghost">Help</Button>}
+    >
+      <Card variant="subtle" padding="md">
+        <strong>{active.title}</strong>
+        <p style={{ margin: '0.25rem 0 0', color: 'var(--hal-fg-muted)' }}>{active.metric}</p>
+      </Card>
+    </DashboardLayout>
+  )
+}
+
+const DOCS_PAGES = [
+  {
+    id: 'install',
+    label: 'Install',
+    title: 'Install',
+    lead: 'Add the package and import one theme.',
+    body: (
+      <>
+        <p>Run <Kbd>npm install halcyon-ui</Kbd>, then import a theme CSS file at startup.</p>
+        <p>Import components from the root or from a category slice.</p>
+      </>
+    ),
+  },
+  {
+    id: 'themes',
+    label: 'Themes',
+    title: 'Themes',
+    lead: 'Eight palettes with light and dark modes.',
+    body: <p>Apply a theme class on a root element and toggle <Kbd>data-mode</Kbd> for dark mode.</p>,
+  },
+  {
+    id: 'components',
+    label: 'Components',
+    title: 'Components',
+    lead: 'Atoms, overlays, and full site layouts.',
+    body: <p>Import only what you need from category slices like <Kbd>halcyon-ui/form</Kbd>.</p>,
+  },
+] as const
+
+function DocsSiteLayoutGalleryDemo() {
+  const [index, setIndex] = useState(0)
+  const page = DOCS_PAGES[index]!
+  const prev = index > 0 ? DOCS_PAGES[index - 1] : undefined
+  const next = index < DOCS_PAGES.length - 1 ? DOCS_PAGES[index + 1] : undefined
+
+  const sidebarLinks: SiteNavLink[] = DOCS_PAGES.map((entry, i) => ({
+    label: entry.label,
+    active: i === index,
+    ...inAppNav(() => setIndex(i)),
+  }))
+
+  return (
+    <DocsSiteLayout
+      brand="halcyon-ui"
+      version="docs"
+      sidebarLinks={sidebarLinks}
+      pageTitle={page.title}
+      pageDescription={page.lead}
+      prevPage={
+        prev
+          ? { label: prev.label, ...inAppPager(() => setIndex(index - 1)) }
+          : undefined
+      }
+      nextPage={
+        next
+          ? { label: next.label, ...inAppPager(() => setIndex(index + 1)) }
+          : undefined
+      }
+    >
+      {page.body}
+    </DocsSiteLayout>
+  )
+}
+
+const MARKETING_PAGES = {
+  product: { label: 'Product', blurb: 'Composable React primitives and full site shells.' },
+  pricing: { label: 'Pricing', blurb: 'Free for open source; team plans for design systems.' },
+  blog: { label: 'Blog', blurb: 'Release notes, patterns, and accessibility deep dives.' },
+} as const
+
+type MarketingPageId = keyof typeof MARKETING_PAGES
+
+function MarketingSiteLayoutGalleryDemo() {
+  const [page, setPage] = useState<MarketingPageId>('pricing')
+  const active = MARKETING_PAGES[page]
+
+  const navLinks: SiteNavLink[] = (Object.keys(MARKETING_PAGES) as MarketingPageId[]).map(
+    (id) => ({
+      label: MARKETING_PAGES[id].label,
+      active: page === id,
+      ...inAppNav(() => setPage(id)),
+    }),
+  )
+
+  return (
+    <MarketingSiteLayout
+      brand="Halcyon"
+      navLinks={navLinks}
+      actions={<Button size="sm">Start free</Button>}
+      hero={{
+        title: 'Ship accessible UI faster',
+        description: 'Themeable React components with no runtime CSS engine.',
+        actions: <Button>Get started</Button>,
+      }}
+      copyright="© Halcyon UI"
+      footerColumns={[
+        {
+          title: 'Product',
+          links: [
+            { label: 'Components', ...inAppNav(() => setPage('product')) },
+            { label: 'Pricing', ...inAppNav(() => setPage('pricing')) },
+          ],
+        },
+        {
+          title: 'Learn',
+          links: [{ label: 'Blog', ...inAppNav(() => setPage('blog')) }],
+        },
+      ]}
+    >
+      <MarketingSiteLayout.Section
+        title={`${active.label} spotlight`}
+        description={active.blurb}
+        variant="muted"
+      >
+        <div
+          style={{
+            display: 'grid',
+            gap: '0.75rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(10rem, 1fr))',
+          }}
+        >
+          <Card padding="md">8 themes</Card>
+          <Card padding="md">Tree-shakeable</Card>
+          <Card padding="md">WCAG AA</Card>
+        </div>
+      </MarketingSiteLayout.Section>
+      <MarketingSiteLayout.Cta
+        title="Ready to try it?"
+        description="Install from npm and open the gallery proof sheet."
+        actions={<Button variant="outline">View docs</Button>}
+      />
+    </MarketingSiteLayout>
   )
 }
 
@@ -1172,97 +1385,28 @@ function Gallery() {
 
             <Specimen
               name="DashboardLayout"
-              note="Drop content in the main area; page title, breadcrumbs, and chrome are built in."
+              note="Interactive preview: sidebar and breadcrumbs switch the page without leaving the gallery."
             >
-              <div style={{ border: '1px solid var(--hal-border)', borderRadius: 'var(--hal-radius)', overflow: 'hidden' }}>
-                <DashboardLayout
-                  style={{ minHeight: '18rem' }}
-                  brand="Acme Cloud"
-                  sidebarTitle="Analytics"
-                  sidebarLinks={[
-                    { href: '#', label: 'Overview', active: true },
-                    { href: '#', label: 'Reports' },
-                    { href: '#', label: 'Alerts' },
-                  ]}
-                  breadcrumbs={[
-                    { href: '#', label: 'Home' },
-                    { href: '#', label: 'Analytics', active: true },
-                  ]}
-                  pageTitle="Overview"
-                  pageDescription="Metrics for the last 30 days."
-                  pageActions={<Button size="sm">Export</Button>}
-                  actions={<Button size="sm" variant="ghost">Help</Button>}
-                >
-                  <Card variant="subtle" padding="md">
-                    <strong>Active users</strong>
-                    <p style={{ margin: '0.25rem 0 0', color: 'var(--hal-fg-muted)' }}>12,480 today</p>
-                  </Card>
-                </DashboardLayout>
+              <div className="site-layout-preview">
+                <DashboardLayoutGalleryDemo />
               </div>
             </Specimen>
 
             <Specimen
               name="DocsSiteLayout"
-              note="Docs shell: sidebar TOC, title, prose body, and prev/next pager."
+              note="Interactive preview: doc nav and prev/next pager update the article in place."
             >
-              <div style={{ border: '1px solid var(--hal-border)', borderRadius: 'var(--hal-radius)', overflow: 'hidden' }}>
-                <DocsSiteLayout
-                  style={{ minHeight: '16rem' }}
-                  brand="halcyon-ui"
-                  version="docs"
-                  sidebarLinks={[
-                    { href: '#', label: 'Install', active: true },
-                    { href: '#', label: 'Themes' },
-                    { href: '#', label: 'Components' },
-                  ]}
-                  pageTitle="Install"
-                  pageDescription="Add the package and import one theme."
-                  prevPage={{ href: '#', label: 'Introduction' }}
-                  nextPage={{ href: '#', label: 'Themes' }}
-                >
-                  <p>Run <Kbd>npm install halcyon-ui</Kbd>, then import a theme CSS file at startup.</p>
-                  <p>Import components from the root or from a category slice.</p>
-                </DocsSiteLayout>
+              <div className="site-layout-preview">
+                <DocsSiteLayoutGalleryDemo />
               </div>
             </Specimen>
 
             <Specimen
               name="MarketingSiteLayout"
-              note="Marketing shell: hero prop, Section blocks, CTA band, and footer."
+              note="Interactive preview: top nav and footer links switch the spotlight section."
             >
-              <div style={{ border: '1px solid var(--hal-border)', borderRadius: 'var(--hal-radius)', overflow: 'hidden' }}>
-                <MarketingSiteLayout
-                  brand="Halcyon"
-                  navLinks={[
-                    { href: '#', label: 'Product' },
-                    { href: '#', label: 'Pricing', active: true },
-                    { href: '#', label: 'Blog' },
-                  ]}
-                  actions={<Button size="sm">Start free</Button>}
-                  hero={{
-                    title: 'Ship accessible UI faster',
-                    description: 'Themeable React components with no runtime CSS engine.',
-                    actions: <Button>Get started</Button>,
-                  }}
-                  copyright="© Halcyon UI"
-                >
-                  <MarketingSiteLayout.Section
-                    title="Built for product teams"
-                    description="Atoms, slices, and full site layouts in one package."
-                    variant="muted"
-                  >
-                    <div style={{ display: 'grid', gap: '0.75rem', gridTemplateColumns: 'repeat(auto-fit, minmax(10rem, 1fr))' }}>
-                      <Card padding="md">8 themes</Card>
-                      <Card padding="md">Tree-shakeable</Card>
-                      <Card padding="md">WCAG AA</Card>
-                    </div>
-                  </MarketingSiteLayout.Section>
-                  <MarketingSiteLayout.Cta
-                    title="Ready to try it?"
-                    description="Install from npm and open the gallery proof sheet."
-                    actions={<Button variant="outline">View docs</Button>}
-                  />
-                </MarketingSiteLayout>
+              <div className="site-layout-preview">
+                <MarketingSiteLayoutGalleryDemo />
               </div>
             </Specimen>
           </section>

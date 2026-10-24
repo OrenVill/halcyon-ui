@@ -1,5 +1,5 @@
 import { createContext, forwardRef, useContext, useMemo } from 'react'
-import type { HTMLAttributes, LiHTMLAttributes, ReactNode } from 'react'
+import type { AnchorHTMLAttributes, HTMLAttributes, LiHTMLAttributes, ReactNode } from 'react'
 import { Link } from '../../components/Link'
 import { cx } from '../../internal/cx'
 
@@ -74,19 +74,21 @@ export const NavbarLinks = /* @__PURE__ */ forwardRef<HTMLUListElement, NavbarLi
   },
 )
 
-export interface NavbarLinkProps extends LiHTMLAttributes<HTMLLIElement> {
+export interface NavbarLinkProps extends Omit<LiHTMLAttributes<HTMLLIElement>, 'onClick'> {
   href: string
   label: ReactNode
   current?: boolean
+  onClick?: AnchorHTMLAttributes<HTMLAnchorElement>['onClick']
 }
 
 export const NavbarLink = /* @__PURE__ */ forwardRef<HTMLLIElement, NavbarLinkProps>(
-  function NavbarLink({ href, label, current = false, className, ...rest }, ref) {
+  function NavbarLink({ href, label, current = false, onClick, className, ...rest }, ref) {
     useNavbarContext()
     return (
       <li {...rest} ref={ref} className={cx('hal-navbar__item', className)}>
         <Link
           href={href}
+          onClick={onClick}
           variant="muted"
           className={cx('hal-navbar__link', current && 'hal-navbar__link--current')}
           aria-current={current ? 'page' : undefined}

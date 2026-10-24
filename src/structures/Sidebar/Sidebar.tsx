@@ -1,5 +1,5 @@
 import { forwardRef } from 'react'
-import type { HTMLAttributes, LiHTMLAttributes, ReactNode } from 'react'
+import type { AnchorHTMLAttributes, HTMLAttributes, LiHTMLAttributes, ReactNode } from 'react'
 import { Link } from '../../components/Link'
 import { cx } from '../../internal/cx'
 
@@ -77,18 +77,20 @@ export const SidebarLinks = /* @__PURE__ */ forwardRef<HTMLUListElement, Sidebar
   },
 )
 
-export interface SidebarLinkProps extends LiHTMLAttributes<HTMLLIElement> {
+export interface SidebarLinkProps extends Omit<LiHTMLAttributes<HTMLLIElement>, 'onClick'> {
   href: string
   label: ReactNode
   active?: boolean
+  onClick?: AnchorHTMLAttributes<HTMLAnchorElement>['onClick']
 }
 
 export const SidebarLink = /* @__PURE__ */ forwardRef<HTMLLIElement, SidebarLinkProps>(
-  function SidebarLink({ href, label, active = false, className, ...rest }, ref) {
+  function SidebarLink({ href, label, active = false, onClick, className, ...rest }, ref) {
     return (
       <li {...rest} ref={ref} className={cx('hal-sidebar__item', className)}>
         <Link
           href={href}
+          onClick={onClick}
           variant="muted"
           className={cx('hal-sidebar__link', active && 'hal-sidebar__link--active')}
           aria-current={active ? 'page' : undefined}

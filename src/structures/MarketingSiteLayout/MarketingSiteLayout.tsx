@@ -136,10 +136,11 @@ const MarketingSiteLayoutRoot = /* @__PURE__ */ forwardRef<
             <Navbar.Links>
               {navLinks.map((link) => (
                 <Navbar.Link
-                  key={String(link.href)}
+                  key={`${String(link.href)}-${String(link.label)}`}
                   href={link.href}
                   label={link.label}
                   current={link.active}
+                  onClick={link.onClick}
                 />
               ))}
             </Navbar.Links>
@@ -162,8 +163,13 @@ const MarketingSiteLayoutRoot = /* @__PURE__ */ forwardRef<
               <p className="hal-marketing-layout__footer-title">{column.title}</p>
               <ul className="hal-marketing-layout__footer-links">
                 {column.links.map((link) => (
-                  <li key={String(link.href)}>
-                    <Link href={link.href} variant="muted" className="hal-marketing-layout__footer-link">
+                  <li key={`${String(link.href)}-${String(link.label)}`}>
+                    <Link
+                      href={link.href}
+                      onClick={link.onClick}
+                      variant="muted"
+                      className="hal-marketing-layout__footer-link"
+                    >
                       {link.label}
                     </Link>
                   </li>

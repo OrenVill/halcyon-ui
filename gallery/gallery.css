@@ -304,6 +304,17 @@ body {
   font-size: 12px;
 }
 
+.site-layout-preview {
+  --hal-dashboard-layout-min-height: auto;
+  --hal-docs-layout-min-height: auto;
+  --hal-marketing-layout-min-height: auto;
+  max-height: 28rem;
+  overflow: auto;
+  border: 1px solid var(--hal-border);
+  border-radius: var(--hal-radius);
+  overscroll-behavior: contain;
+}
+
 .spec {
   padding: 1.5rem 0;
   border-bottom: 1px solid var(--hal-border);

@@ -68,10 +68,11 @@ function DocsSiteLayoutRoot(
               <Navbar.Links>
                 {navbarLinks.map((link) => (
                   <Navbar.Link
-                    key={String(link.href)}
+                    key={`${String(link.href)}-${String(link.label)}`}
                     href={link.href}
                     label={link.label}
                     current={link.active}
+                    onClick={link.onClick}
                   />
                 ))}
               </Navbar.Links>
@@ -89,10 +90,11 @@ function DocsSiteLayoutRoot(
               <Sidebar.Links>
                 {sidebarLinks.map((link) => (
                   <Sidebar.Link
-                    key={String(link.href)}
+                    key={`${String(link.href)}-${String(link.label)}`}
                     href={link.href}
                     label={link.label}
                     active={link.active}
+                    onClick={link.onClick}
                   />
                 ))}
               </Sidebar.Links>
@@ -109,7 +111,7 @@ function DocsSiteLayoutRoot(
             {prevPage || nextPage ? (
               <DocsPager>
                 {prevPage ? (
-                  <Link href={prevPage.href} className="hal-docs-layout__pager-link">
+                  <Link href={prevPage.href} onClick={prevPage.onClick} className="hal-docs-layout__pager-link">
                     <span className="hal-docs-layout__pager-label">Previous</span>
                     <span>{prevPage.label}</span>
                   </Link>
@@ -119,6 +121,7 @@ function DocsSiteLayoutRoot(
                 {nextPage ? (
                   <Link
                     href={nextPage.href}
+                    onClick={nextPage.onClick}
                     className="hal-docs-layout__pager-link hal-docs-layout__pager-link--next"
                   >
                     <span className="hal-docs-layout__pager-label">Next</span>

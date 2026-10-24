@@ -1,5 +1,5 @@
 import { forwardRef } from 'react'
-import type { HTMLAttributes, ReactNode } from 'react'
+import type { AnchorHTMLAttributes, HTMLAttributes, ReactNode } from 'react'
 import { cx } from '../../internal/cx'
 
 export type BreadcrumbVariant = 'plain' | 'subtle'
@@ -8,6 +8,7 @@ export type BreadcrumbSize = 'sm' | 'md' | 'lg'
 export interface BreadcrumbItem {
   label: ReactNode
   href?: string
+  onClick?: AnchorHTMLAttributes<HTMLAnchorElement>['onClick']
 }
 
 export interface BreadcrumbProps extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
@@ -69,7 +70,7 @@ export const Breadcrumb = /* @__PURE__ */ forwardRef<HTMLElement, BreadcrumbProp
                     {item.label}
                   </span>
                 ) : (
-                  <a className="hal-breadcrumb__link" href={item.href}>
+                  <a className="hal-breadcrumb__link" href={item.href} onClick={item.onClick}>
                     {item.label}
                   </a>
                 )}

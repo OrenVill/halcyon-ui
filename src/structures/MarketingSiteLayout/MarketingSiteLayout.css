@@ -9,18 +9,39 @@
 .hal-marketing-layout__header {
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 2;
+  background: var(--hal-marketing-layout-header-bg, var(--hal-bg-raised));
+  border-bottom: 1px solid var(--hal-marketing-layout-header-border, var(--hal-border));
+}
+
+.hal-marketing-layout__header .hal-navbar {
+  border-bottom: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.hal-marketing-layout__header .hal-navbar__inner {
+  max-width: var(--hal-marketing-layout-content-max, 72rem);
 }
 
 .hal-marketing-layout__main {
+  display: flex;
   flex: 1;
+  flex-direction: column;
   width: 100%;
+  min-width: 0;
 }
 
 .hal-marketing-layout__hero {
   padding: var(--hal-marketing-layout-hero-padding, var(--hal-space-12) var(--hal-space-4));
-  background: var(--hal-marketing-layout-hero-bg, var(--hal-bg-subtle));
-  border-bottom: 1px solid var(--hal-border);
+  background: var(
+    --hal-marketing-layout-hero-bg,
+    linear-gradient(
+      180deg,
+      var(--hal-bg-subtle) 0%,
+      var(--hal-marketing-layout-bg, var(--hal-bg)) 100%
+    )
+  );
 }
 
 .hal-marketing-layout__hero-inner {
@@ -56,7 +77,8 @@
 }
 
 .hal-marketing-layout__section--muted {
-  background: var(--hal-bg-subtle);
+  background: var(--hal-marketing-layout-section-muted-bg, var(--hal-bg-subtle));
+  border-block: 1px solid var(--hal-border);
 }
 
 .hal-marketing-layout__section-inner {
@@ -108,6 +130,29 @@
   justify-content: center;
   gap: var(--hal-space-2);
   margin-top: var(--hal-space-5);
+}
+
+.hal-marketing-layout__cta .hal-button--outline {
+  border-color: color-mix(in srgb, currentColor 45%, transparent);
+  color: inherit;
+}
+
+.hal-marketing-layout__cta .hal-button--outline:hover:not(:disabled) {
+  background: color-mix(in srgb, currentColor 12%, transparent);
+  border-color: color-mix(in srgb, currentColor 65%, transparent);
+}
+
+.hal-marketing-layout__cta .hal-button--solid {
+  background: var(--hal-marketing-layout-cta-button-bg, var(--hal-accent-fg));
+  color: var(--hal-marketing-layout-cta-button-fg, var(--hal-accent));
+}
+
+.hal-marketing-layout__cta .hal-button--solid:hover:not(:disabled) {
+  background: color-mix(
+    in srgb,
+    var(--hal-marketing-layout-cta-button-bg, var(--hal-accent-fg)) 88%,
+    var(--hal-marketing-layout-cta-bg, var(--hal-accent))
+  );
 }
 
 .hal-marketing-layout__footer {

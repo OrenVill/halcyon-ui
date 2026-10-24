@@ -92,10 +92,11 @@ function DashboardLayoutRoot(
               <Navbar.Links>
                 {navbarLinks.map((link) => (
                   <Navbar.Link
-                    key={String(link.href)}
+                    key={`${String(link.href)}-${String(link.label)}`}
                     href={link.href}
                     label={link.label}
                     current={link.active}
+                    onClick={link.onClick}
                   />
                 ))}
               </Navbar.Links>
@@ -112,10 +113,11 @@ function DashboardLayoutRoot(
               <Sidebar.Links>
                 {sidebarLinks.map((link) => (
                   <Sidebar.Link
-                    key={String(link.href)}
+                    key={`${String(link.href)}-${String(link.label)}`}
                     href={link.href}
                     label={link.label}
                     active={link.active}
+                    onClick={link.onClick}
                   />
                 ))}
               </Sidebar.Links>
@@ -131,6 +133,7 @@ function DashboardLayoutRoot(
                 items={breadcrumbs.map((item) => ({
                   label: item.label,
                   href: item.active ? undefined : item.href,
+                  onClick: item.onClick,
                 }))}
               />
             ) : null}
