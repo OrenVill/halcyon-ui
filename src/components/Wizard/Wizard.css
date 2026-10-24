@@ -1,0 +1,107 @@
+/*
+ * Wizard. Step state container with its own decorative step indicator.
+ */
+
+.hal-wizard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hal-wizard-gap, var(--hal-space-6));
+  font-family: inherit;
+  color: var(--hal-wizard-fg, var(--hal-fg));
+}
+
+.hal-wizard__list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hal-wizard__steps--horizontal .hal-wizard__list {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--hal-wizard-steps-gap, var(--hal-space-4));
+}
+
+.hal-wizard__steps--vertical .hal-wizard__list {
+  flex-direction: column;
+  gap: var(--hal-wizard-steps-vertical-gap, var(--hal-space-4));
+}
+
+.hal-wizard__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--hal-wizard-item-gap, var(--hal-space-3));
+  min-width: 0;
+  flex: 1;
+}
+
+.hal-wizard__steps--vertical .hal-wizard__item {
+  flex: none;
+}
+
+.hal-wizard__marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--hal-wizard-marker-size, 1.75rem);
+  height: var(--hal-wizard-marker-size, 1.75rem);
+  border-radius: var(--hal-wizard-marker-radius, var(--hal-radius-full));
+  border: 2px solid var(--hal-wizard-marker-border, var(--hal-border-strong));
+  background: var(--hal-wizard-marker-bg, var(--hal-bg));
+  font-size: var(--hal-wizard-marker-text, var(--hal-text-sm));
+  font-weight: var(--hal-wizard-marker-weight, var(--hal-weight-medium));
+  line-height: 1;
+}
+
+.hal-wizard__item--current .hal-wizard__marker {
+  border-color: var(--hal-wizard-current-border, var(--hal-accent));
+  color: var(--hal-wizard-current-fg, var(--hal-accent));
+}
+
+.hal-wizard__item--complete .hal-wizard__marker {
+  border-color: var(--hal-wizard-complete-border, var(--hal-accent));
+  background: var(--hal-wizard-complete-bg, var(--hal-accent));
+  color: var(--hal-wizard-complete-fg, var(--hal-accent-fg));
+}
+
+.hal-wizard--accent .hal-wizard__item--upcoming .hal-wizard__marker {
+  border-color: var(--hal-wizard-upcoming-border, var(--hal-border));
+}
+
+.hal-wizard__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hal-wizard-text-gap, var(--hal-space-1));
+  min-width: 0;
+}
+
+.hal-wizard__label {
+  font-weight: var(--hal-wizard-label-weight, var(--hal-weight-medium));
+}
+
+.hal-wizard__description {
+  color: var(--hal-wizard-description-fg, var(--hal-fg-muted));
+}
+
+.hal-wizard__content {
+  min-width: 0;
+}
+
+.hal-wizard__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--hal-wizard-footer-gap, var(--hal-space-3));
+}
+
+.hal-wizard--sm {
+  font-size: var(--hal-wizard-text-sm, var(--hal-text-sm));
+}
+
+.hal-wizard--md {
+  font-size: var(--hal-wizard-text-md, var(--hal-text-base));
+}
+
+.hal-wizard--lg {
+  font-size: var(--hal-wizard-text-lg, var(--hal-text-lg));
+}

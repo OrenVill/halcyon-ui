@@ -1,0 +1,22 @@
+/*
+ * Separator. A one-pixel rule between blocks. Orientation only changes which
+ * axis grows; the color always comes from a token.
+ */
+
+.hal-separator {
+  flex-shrink: 0;
+  border: none;
+  margin: 0;
+  background: var(--hal-separator-bg, var(--hal-border));
+}
+
+.hal-separator--horizontal {
+  width: 100%;
+  height: var(--hal-separator-thickness, 1px);
+}
+
+.hal-separator--vertical {
+  width: var(--hal-separator-thickness, 1px);
+  height: 100%;
+  align-self: stretch;
+}

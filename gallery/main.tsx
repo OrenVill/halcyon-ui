@@ -6,35 +6,77 @@
  * It is dev-only: package.json ships "files": ["dist"], so none of this is
  * published to npm.
  */
-import { StrictMode, useMemo, useRef, useState } from 'react'
+import { StrictMode, useCallback, useMemo, useRef, useState, useSyncExternalStore, type MouseEvent } from 'react'
+import { isWebsitePlaygroundPath, normalizePath, WebsitePlayground } from './website-playground'
+import type { SiteNavLink, SitePagerLink } from '../src/structures/types'
+import { CommerceCheckoutForm, CommerceOrderSummary } from '../src/websites/commerce/CommerceCheckoutForm'
+import { CommerceWebsite, DocsWebsite, MarketingWebsite, SaasWebsite } from '../src/websites'
 import { createRoot } from 'react-dom/client'
 import {
+  Accordion,
   Alert,
+  AppShell,
   Avatar,
   Badge,
+  Breadcrumb,
   Button,
   Card,
   Checkbox,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+  Combobox,
+  BlogLayout,
+  CheckoutLayout,
+  DashboardLayout,
+  DataList,
+  DatePicker,
+  DocsSiteLayout,
+  ErrorPageLayout,
+  ForgotPasswordLayout,
   Drawer,
   DropdownMenu,
-  Modal,
-  Popover,
+  EmptyState,
+  Field,
+  FileUpload,
+  FormLayout,
   IconButton,
+  InlineMessage,
   Input,
+  Kbd,
+  Link,
+  LoginLayout,
+  Meter,
+  MarketingSiteLayout,
+  OnboardingLayout,
+  Modal,
+  Navbar,
   NumberInput,
-  Radio,
+  Pagination,
+  Popover,
   Progress,
+  Radio,
+  SegmentedControl,
   Select,
+  Separator,
+  SettingsLayout,
+  Sidebar,
+  SignupLayout,
   Skeleton,
   Slider,
   Spinner,
+  Stepper,
   Switch,
   Table,
+  Tabs,
   Tag,
   Textarea,
   ToastProvider,
+  ToggleGroup,
   Tooltip,
+  useFieldControlProps,
   useToast,
+  Wizard,
 } from '../src/index'
 
 declare const __THEMES__: Record<string, Record<'light' | 'dark', Record<string, string>>>
@@ -81,7 +123,7 @@ const PAIRS: Array<[string, string, string]> = [
 
 /* ---------- layout pieces ---------- */
 
-const SECTIONS = [
+const COMPONENT_SECTIONS = [
   'Button',
   'IconButton',
   'Input',
@@ -92,6 +134,30 @@ const SECTIONS = [
   'Switch',
   'Slider',
   'NumberInput',
+  'Combobox',
+  'DatePicker',
+  'FileUpload',
+  'Separator',
+  'Link',
+  'Field',
+  'InlineMessage',
+  'SegmentedControl',
+  'ToggleGroup',
+  'Collapsible',
+  'Kbd',
+  'EmptyState',
+  'Meter',
+  'DataList',
+  'Tabs',
+  'Accordion',
+  'Pagination',
+  'Breadcrumb',
+  'Stepper',
+  'Wizard',
+  'Navbar',
+  'Sidebar',
+  'AppShell',
+  'FormLayout',
   'Card',
   'Badge',
   'Tag',
@@ -108,6 +174,54 @@ const SECTIONS = [
   'DropdownMenu',
   'Toast',
 ] as const
+
+const SITE_LAYOUT_SECTIONS = [
+  'DashboardLayout',
+  'DocsSiteLayout',
+  'MarketingSiteLayout',
+  'LoginLayout',
+  'SignupLayout',
+  'ForgotPasswordLayout',
+  'ErrorPageLayout',
+  'BlogLayout',
+  'SettingsLayout',
+  'OnboardingLayout',
+  'CheckoutLayout',
+] as const
+
+const COMPLETE_WEBSITE_KITS = [
+  'MarketingWebsite',
+  'SaasWebsite',
+  'DocsWebsite',
+  'CommerceWebsite',
+] as const
+
+function preventGalleryNav(event: MouseEvent<HTMLAnchorElement>) {
+  event.preventDefault()
+}
+
+const FRUIT_OPTIONS = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+
+const TAB_ITEMS = [
+  { id: 'overview', label: 'Overview', content: <p style={{ margin: 0 }}>Summary metrics and health.</p> },
+  { id: 'deploys', label: 'Deploys', content: <p style={{ margin: 0 }}>Recent releases across environments.</p> },
+  { id: 'settings', label: 'Settings', content: <p style={{ margin: 0 }}>Theme tokens and team access.</p>, disabled: true },
+]
+
+const ACCORDION_ITEMS = [
+  { id: 'tokens', title: 'Design tokens', content: 'Every component reads layered CSS variables.' },
+  { id: 'a11y', title: 'Accessibility', content: 'Keyboard behavior follows the ARIA authoring practices.' },
+]
+
+
+function GalleryFieldInput() {
+  const props = useFieldControlProps()
+  return <Input {...props} placeholder="you@example.com" />
+}
 
 function Specimen({
   name,
@@ -151,6 +265,16 @@ const SORT_OPTIONS = [
   { value: 'custom', label: 'Custom order' },
 ]
 
+const WIZARD_STEPS = [
+  { id: 'name', label: 'Name', content: <Input aria-label="Project name" placeholder="halcyon-ui" /> },
+  {
+    id: 'theme',
+    label: 'Theme',
+    content: <Select aria-label="Theme" options={SORT_OPTIONS} defaultValue="modified" />,
+  },
+  { id: 'done', label: 'Done', content: <p style={{ margin: 0 }}>Review and create the project.</p> },
+]
+
 const BUTTON_VARIANTS = ['solid', 'soft', 'outline', 'ghost', 'danger'] as const
 const SIZES = ['sm', 'md', 'lg'] as const
 
@@ -159,6 +283,219 @@ function PlusIcon() {
     <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none">
       <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
     </svg>
+  )
+}
+
+function inAppNav(select: () => void): Pick<SiteNavLink, 'href' | 'onClick'> {
+  return {
+    href: '#',
+    onClick: (event: MouseEvent<HTMLAnchorElement>) => {
+      event.preventDefault()
+      select()
+    },
+  }
+}
+
+function inAppPager(select: () => void): Pick<SitePagerLink, 'href' | 'onClick'> {
+  return {
+    href: '#',
+    onClick: (event: MouseEvent<HTMLAnchorElement>) => {
+      event.preventDefault()
+      select()
+    },
+  }
+}
+
+const DASHBOARD_PAGES = {
+  overview: {
+    label: 'Overview',
+    title: 'Overview',
+    description: 'Metrics for the last 30 days.',
+    metric: '12,480 active users today',
+  },
+  reports: {
+    label: 'Reports',
+    title: 'Reports',
+    description: 'Scheduled and on-demand exports.',
+    metric: '6 reports ready to download',
+  },
+  alerts: {
+    label: 'Alerts',
+    title: 'Alerts',
+    description: 'Open incidents and muted rules.',
+    metric: '2 alerts need review',
+  },
+} as const
+
+type DashboardPageId = keyof typeof DASHBOARD_PAGES
+
+function DashboardLayoutGalleryDemo() {
+  const [page, setPage] = useState<DashboardPageId>('overview')
+  const active = DASHBOARD_PAGES[page]
+
+  const sidebarLinks: SiteNavLink[] = (Object.keys(DASHBOARD_PAGES) as DashboardPageId[]).map(
+    (id) => ({
+      label: DASHBOARD_PAGES[id].label,
+      active: page === id,
+      ...inAppNav(() => setPage(id)),
+    }),
+  )
+
+  return (
+    <DashboardLayout
+      brand="Acme Cloud"
+      sidebarTitle="Analytics"
+      sidebarLinks={sidebarLinks}
+      breadcrumbs={[
+        { label: 'Home', ...inAppNav(() => setPage('overview')) },
+        { label: active.label, href: '#', active: true },
+      ]}
+      pageTitle={active.title}
+      pageDescription={active.description}
+      pageActions={<Button size="sm">Export</Button>}
+      actions={<Button size="sm" variant="ghost">Help</Button>}
+    >
+      <Card variant="subtle" padding="md">
+        <strong>{active.title}</strong>
+        <p style={{ margin: '0.25rem 0 0', color: 'var(--hal-fg-muted)' }}>{active.metric}</p>
+      </Card>
+    </DashboardLayout>
+  )
+}
+
+const DOCS_PAGES = [
+  {
+    id: 'install',
+    label: 'Install',
+    title: 'Install',
+    lead: 'Add the package and import one theme.',
+    body: (
+      <>
+        <p>Run <Kbd>npm install halcyon-ui</Kbd>, then import a theme CSS file at startup.</p>
+        <p>Import components from the root or from a category slice.</p>
+      </>
+    ),
+  },
+  {
+    id: 'themes',
+    label: 'Themes',
+    title: 'Themes',
+    lead: 'Eight palettes with light and dark modes.',
+    body: <p>Apply a theme class on a root element and toggle <Kbd>data-mode</Kbd> for dark mode.</p>,
+  },
+  {
+    id: 'components',
+    label: 'Components',
+    title: 'Components',
+    lead: 'Atoms, overlays, and full site layouts.',
+    body: <p>Import only what you need from category slices like <Kbd>halcyon-ui/form</Kbd>.</p>,
+  },
+] as const
+
+function DocsSiteLayoutGalleryDemo() {
+  const [index, setIndex] = useState(0)
+  const page = DOCS_PAGES[index]!
+  const prev = index > 0 ? DOCS_PAGES[index - 1] : undefined
+  const next = index < DOCS_PAGES.length - 1 ? DOCS_PAGES[index + 1] : undefined
+
+  const sidebarLinks: SiteNavLink[] = DOCS_PAGES.map((entry, i) => ({
+    label: entry.label,
+    active: i === index,
+    ...inAppNav(() => setIndex(i)),
+  }))
+
+  return (
+    <DocsSiteLayout
+      brand="halcyon-ui"
+      version="docs"
+      sidebarLinks={sidebarLinks}
+      pageTitle={page.title}
+      pageDescription={page.lead}
+      prevPage={
+        prev
+          ? { label: prev.label, ...inAppPager(() => setIndex(index - 1)) }
+          : undefined
+      }
+      nextPage={
+        next
+          ? { label: next.label, ...inAppPager(() => setIndex(index + 1)) }
+          : undefined
+      }
+    >
+      {page.body}
+    </DocsSiteLayout>
+  )
+}
+
+const MARKETING_PAGES = {
+  product: { label: 'Product', blurb: 'Composable React primitives and full site shells.' },
+  pricing: { label: 'Pricing', blurb: 'Free for open source; team plans for design systems.' },
+  blog: { label: 'Blog', blurb: 'Release notes, patterns, and accessibility deep dives.' },
+} as const
+
+type MarketingPageId = keyof typeof MARKETING_PAGES
+
+function MarketingSiteLayoutGalleryDemo() {
+  const [page, setPage] = useState<MarketingPageId>('pricing')
+  const active = MARKETING_PAGES[page]
+
+  const navLinks: SiteNavLink[] = (Object.keys(MARKETING_PAGES) as MarketingPageId[]).map(
+    (id) => ({
+      label: MARKETING_PAGES[id].label,
+      active: page === id,
+      ...inAppNav(() => setPage(id)),
+    }),
+  )
+
+  return (
+    <MarketingSiteLayout
+      className="hal-marketing-layout--compact"
+      brand="Halcyon"
+      navLinks={navLinks}
+      actions={<Button size="sm">Start free</Button>}
+      hero={{
+        title: 'Ship accessible UI faster',
+        description: 'Themeable React components with no runtime CSS engine.',
+        actions: <Button>Get started</Button>,
+      }}
+      copyright="© Halcyon UI"
+      footerColumns={[
+        {
+          title: 'Product',
+          links: [
+            { label: 'Components', ...inAppNav(() => setPage('product')) },
+            { label: 'Pricing', ...inAppNav(() => setPage('pricing')) },
+          ],
+        },
+        {
+          title: 'Learn',
+          links: [{ label: 'Blog', ...inAppNav(() => setPage('blog')) }],
+        },
+      ]}
+    >
+      <MarketingSiteLayout.Section
+        title={`${active.label} spotlight`}
+        description={active.blurb}
+        variant="muted"
+      >
+        <div
+          style={{
+            display: 'grid',
+            gap: '0.75rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(10rem, 1fr))',
+          }}
+        >
+          <Card padding="md">8 themes</Card>
+          <Card padding="md">Tree-shakeable</Card>
+          <Card padding="md">WCAG AA</Card>
+        </div>
+      </MarketingSiteLayout.Section>
+      <MarketingSiteLayout.Cta
+        title="Ready to try it?"
+        description="Install from npm and open the gallery proof sheet."
+        actions={<Button variant="outline">View docs</Button>}
+      />
+    </MarketingSiteLayout>
   )
 }
 
@@ -204,6 +541,11 @@ function Gallery() {
   const [drawerSide, setDrawerSide] = useState<'left' | 'right' | 'top' | 'bottom' | null>(null)
   const [popoverOpen, setPopoverOpen] = useState(false)
   const popoverAnchor = useRef<HTMLButtonElement>(null)
+  const [segment, setSegment] = useState('week')
+  const [toggleView, setToggleView] = useState('grid')
+  const [page, setPage] = useState(2)
+  const [pickedDate, setPickedDate] = useState<Date | null>(new Date())
+  const [uploadFiles, setUploadFiles] = useState<File[]>([])
 
   const tokens = THEMES[theme]![mode]
   const style = useMemo(() => tokens as React.CSSProperties, [tokens])
@@ -259,10 +601,34 @@ function Gallery() {
       </header>
 
       <div className="shell">
-        <nav className="rail" aria-label="Components">
+        <nav className="rail" aria-label="Gallery">
           <p className="rail__title">Components</p>
           <ol className="rail__list">
-            {SECTIONS.map((name) => (
+            {COMPONENT_SECTIONS.map((name) => (
+              <li key={name}>
+                <a href={`#${name}`}>{name}</a>
+              </li>
+            ))}
+          </ol>
+
+          <p className="rail__title">Site layouts</p>
+          <ol className="rail__list">
+            <li>
+              <a href="#site-layouts">Overview</a>
+            </li>
+            {SITE_LAYOUT_SECTIONS.map((name) => (
+              <li key={name}>
+                <a href={`#${name}`}>{name}</a>
+              </li>
+            ))}
+          </ol>
+
+          <p className="rail__title">Complete websites</p>
+          <ol className="rail__list">
+            <li>
+              <a href="#complete-websites">Overview</a>
+            </li>
+            {COMPLETE_WEBSITE_KITS.map((name) => (
               <li key={name}>
                 <a href={`#${name}`}>{name}</a>
               </li>
@@ -513,6 +879,270 @@ function Gallery() {
               <NumberInput aria-label="Invalid quantity" invalid defaultValue={2} />
               <NumberInput aria-label="Disabled quantity" disabled defaultValue={2} />
             </Row>
+          </Specimen>
+
+          <Specimen name="Combobox" note="Filterable listbox with optional multi-select chips.">
+            <Row label="single">
+              <Combobox options={FRUIT_OPTIONS} aria-label="Fruit" defaultValue="apple" />
+            </Row>
+            <Row label="multi">
+              <Combobox options={FRUIT_OPTIONS} multi aria-label="Fruit basket" defaultValue={['apple']} />
+            </Row>
+          </Specimen>
+
+          <Specimen name="DatePicker" note="Calendar popover with Intl weekday and month labels.">
+            <Row label="single">
+              <DatePicker
+                aria-label="Ship date"
+                value={pickedDate}
+                onValueChange={(value) => setPickedDate(value instanceof Date ? value : null)}
+              />
+            </Row>
+          </Specimen>
+
+          <Specimen name="FileUpload" note="Reports files to the app; it never uploads by itself.">
+            <Row label="dropzone">
+              <FileUpload files={uploadFiles} onFilesChange={setUploadFiles} accept="image/*" multiple />
+            </Row>
+          </Specimen>
+
+          <Specimen name="Separator" note="Decorative or semantic divider between blocks.">
+            <Row label="horizontal">
+              <div style={{ width: '100%' }}>
+                <p style={{ margin: '0 0 0.5rem' }}>Above</p>
+                <Separator />
+                <p style={{ margin: '0.5rem 0 0' }}>Below</p>
+              </div>
+            </Row>
+          </Specimen>
+
+          <Specimen name="Link" note="Themed anchor with an external variant.">
+            <Row label="variants">
+              <Link href="#">default</Link>
+              <Link href="#" variant="muted">muted</Link>
+              <Link href="https://example.com" external>external</Link>
+            </Row>
+          </Specimen>
+
+          <Specimen name="Field" note="Wires label, description, and error to the control.">
+            <Field invalid style={{ maxWidth: '20rem' }}>
+              <Field.Label>Email</Field.Label>
+              <GalleryFieldInput />
+              <Field.Description>We send receipts here.</Field.Description>
+              <Field.Error>Enter a valid address.</Field.Error>
+            </Field>
+          </Specimen>
+
+          <Specimen name="InlineMessage" note="Compact validation text under a control.">
+            <Row label="variants">
+              {(['info', 'success', 'warning', 'danger'] as const).map((v) => (
+                <InlineMessage key={v} variant={v}>
+                  {v} message
+                </InlineMessage>
+              ))}
+            </Row>
+          </Specimen>
+
+          <Specimen name="SegmentedControl" note="Radio group styled as a single control.">
+            <Row label="period">
+              <SegmentedControl
+                value={segment}
+                onValueChange={setSegment}
+                options={[
+                  { value: 'day', label: 'Day' },
+                  { value: 'week', label: 'Week' },
+                  { value: 'month', label: 'Month' },
+                ]}
+                aria-label="Period"
+              />
+            </Row>
+          </Specimen>
+
+          <Specimen name="ToggleGroup" note="Toolbar-style single selection.">
+            <Row label="view">
+              <ToggleGroup
+                type="single"
+                value={toggleView}
+                onValueChange={(v) => setToggleView(v as string)}
+                options={[
+                  { value: 'grid', label: 'Grid' },
+                  { value: 'list', label: 'List' },
+                ]}
+                aria-label="View mode"
+              />
+            </Row>
+          </Specimen>
+
+          <Specimen name="Collapsible" note="One disclosure region with an explicit trigger.">
+            <Collapsible>
+              <CollapsibleTrigger>Token layers</CollapsibleTrigger>
+              <CollapsibleContent>
+                Global tokens, component tokens, then className escape hatches.
+              </CollapsibleContent>
+            </Collapsible>
+          </Specimen>
+
+          <Specimen name="Kbd" note="Keyboard hints for shortcuts.">
+            <Row label="combo">
+              <span>
+                Save <Kbd>Ctrl</Kbd> + <Kbd>S</Kbd>
+              </span>
+            </Row>
+          </Specimen>
+
+          <Specimen name="EmptyState" note="Centered placeholder when a list has no items.">
+            <EmptyState title="No themes yet" description="Import a stylesheet to preview tokens here.">
+              <Button variant="outline">Create theme</Button>
+            </EmptyState>
+          </Specimen>
+
+          <Specimen name="Meter" note="Quota usage with role=meter.">
+            <Row label="storage">
+              <Meter value={72} min={0} max={100} aria-label="Storage used" />
+            </Row>
+          </Specimen>
+
+          <Specimen name="DataList" note="Key–value rows without a full table.">
+            <DataList
+              items={[
+                { term: 'Package', description: 'halcyon-ui' },
+                { term: 'Themes', description: '8' },
+                { term: 'React', description: 'peer dependency' },
+              ]}
+            />
+          </Specimen>
+
+          <Specimen name="Tabs" note="Tablist with arrow-key navigation.">
+            <Tabs tabs={TAB_ITEMS} defaultValue="overview" />
+          </Specimen>
+
+          <Specimen name="Accordion" note="Expandable sections; danger uses role=alert elsewhere, not here.">
+            <Accordion items={ACCORDION_ITEMS} defaultValue={['tokens']} type="multiple" />
+          </Specimen>
+
+          <Specimen name="Pagination" note="Previous and next with numbered pages.">
+            <Pagination page={page} pageCount={8} onPageChange={setPage} />
+          </Specimen>
+
+          <Specimen name="Breadcrumb" note="Navigation trail with aria-current on the last item.">
+            <Breadcrumb
+              items={[
+                { label: 'Home', href: '#' },
+                { label: 'Themes', href: '#' },
+                { label: 'Midnight' },
+              ]}
+            />
+          </Specimen>
+
+          <Specimen name="Stepper" note="Visual progress through discrete steps.">
+            <Stepper
+              steps={[
+                { id: '1', label: 'Account' },
+                { id: '2', label: 'Billing' },
+                { id: '3', label: 'Confirm' },
+              ]}
+              activeStep={1}
+            />
+          </Specimen>
+
+          <Specimen name="Wizard" note="Step state container with optional per-step validation.">
+            <Wizard steps={WIZARD_STEPS} defaultActiveStep={0}>
+              {(api) => (
+                <div style={{ display: 'grid', gap: '0.75rem' }}>
+                  {WIZARD_STEPS[api.activeStep]?.content}
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <Button variant="ghost" disabled={!api.canGoBack} onClick={() => api.back()}>
+                      Back
+                    </Button>
+                    <Button disabled={!api.canGoNext} onClick={() => api.next()}>
+                      {api.activeStep === WIZARD_STEPS.length - 1 ? 'Finish' : 'Next'}
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </Wizard>
+          </Specimen>
+
+          <Specimen name="Navbar" note="Top chrome: brand, inline links, trailing actions.">
+            <Navbar variant="raised">
+              <Navbar.Brand>
+                <Link href="#" variant="accent">halcyon-ui</Link>
+              </Navbar.Brand>
+              <Navbar.Nav>
+                <Navbar.Links>
+                  <Navbar.Link href="#" label="Docs" />
+                  <Navbar.Link href="#" label="Gallery" current />
+                </Navbar.Links>
+              </Navbar.Nav>
+              <Navbar.Actions>
+                <Button variant="ghost" size="sm">Sign in</Button>
+              </Navbar.Actions>
+            </Navbar>
+          </Specimen>
+
+          <Specimen name="Sidebar" note="Vertical section rail for settings or app areas.">
+            <div
+              style={{
+                display: 'flex',
+                width: '16rem',
+                minHeight: '12rem',
+                border: '1px solid var(--hal-border)',
+                borderRadius: 'var(--hal-radius)',
+              }}
+            >
+              <Sidebar style={{ width: '100%' }}>
+                <Sidebar.Header>Project</Sidebar.Header>
+                <Sidebar.Nav>
+                  <Sidebar.Links>
+                    <Sidebar.Link href="#" label="Overview" active />
+                    <Sidebar.Link href="#" label="Themes" />
+                    <Sidebar.Link href="#" label="Tokens" />
+                  </Sidebar.Links>
+                </Sidebar.Nav>
+              </Sidebar>
+            </div>
+          </Specimen>
+
+          <Specimen name="AppShell" note="Navbar plus sidebar and main — a full app frame.">
+            <div style={{ border: '1px solid var(--hal-border)', borderRadius: 'var(--hal-radius)' }}>
+              <AppShell style={{ minHeight: '14rem' }}>
+                <AppShell.Header>
+                  <Navbar>
+                    <Navbar.Brand>Dashboard</Navbar.Brand>
+                  </Navbar>
+                </AppShell.Header>
+                <AppShell.Body>
+                  <AppShell.Sidebar>
+                    <Sidebar>
+                      <Sidebar.Nav>
+                        <Sidebar.Links>
+                          <Sidebar.Link href="#" label="Home" active />
+                        </Sidebar.Links>
+                      </Sidebar.Nav>
+                    </Sidebar>
+                  </AppShell.Sidebar>
+                  <AppShell.Main>Main content area</AppShell.Main>
+                </AppShell.Body>
+              </AppShell>
+            </div>
+          </Specimen>
+
+          <Specimen name="FormLayout" note="Opinionated form page: header, sections, action row.">
+            <FormLayout width="md">
+              <FormLayout.Header title="Invite teammate" description="They receive an email invite." />
+              <FormLayout.Body>
+                <FormLayout.Section title="Contact">
+                  <Field>
+                    <Field.Label>Email</Field.Label>
+                    <Input aria-label="Email" type="email" />
+                  </Field>
+                </FormLayout.Section>
+              </FormLayout.Body>
+              <FormLayout.Actions>
+                <Button variant="ghost">Cancel</Button>
+                <Button>Send invite</Button>
+              </FormLayout.Actions>
+            </FormLayout>
           </Specimen>
 
           <Specimen name="Card" note="Variants differ in weight, not decoration: a border, an elevation, or a fill.">
@@ -786,16 +1416,324 @@ function Gallery() {
               <ToastButtons />
             </Row>
           </Specimen>
+
+          <section className="sheet-group" id="site-layouts" aria-labelledby="site-layouts-title">
+            <header className="sheet-group__head">
+              <h2 className="sheet-group__title" id="site-layouts-title">Site layouts</h2>
+              <p className="sheet-group__note">
+                Full-page scaffolds from <code>halcyon-ui/structures</code>. Pass nav data and drop your
+                content in — headers, sidebars, heroes, and footers are already wired.
+              </p>
+            </header>
+
+            <Specimen
+              name="DashboardLayout"
+              note="Interactive preview: sidebar and breadcrumbs switch the page without leaving the gallery."
+            >
+              <div className="site-layout-preview">
+                <DashboardLayoutGalleryDemo />
+              </div>
+            </Specimen>
+
+            <Specimen
+              name="DocsSiteLayout"
+              note="Interactive preview: doc nav and prev/next pager update the article in place."
+            >
+              <div className="site-layout-preview">
+                <DocsSiteLayoutGalleryDemo />
+              </div>
+            </Specimen>
+
+            <Specimen
+              name="MarketingSiteLayout"
+              note="Interactive preview: top nav and footer links switch the spotlight section."
+            >
+              <div className="site-layout-preview site-layout-preview--marketing">
+                <MarketingSiteLayoutGalleryDemo />
+              </div>
+            </Specimen>
+
+            <Specimen name="LoginLayout" note="Centered sign-in card — drop your form fields in the body.">
+              <div className="site-layout-preview site-layout-preview--auth">
+                <LoginLayout
+                  brand="Halcyon"
+                  footer={
+                    <Link href="#" variant="muted" onClick={preventGalleryNav}>
+                      Need an account? Sign up
+                    </Link>
+                  }
+                >
+                  <Field>
+                    <Field.Label>Email</Field.Label>
+                    <Input type="email" aria-label="Email" placeholder="you@example.com" />
+                  </Field>
+                  <Field>
+                    <Field.Label>Password</Field.Label>
+                    <Input type="password" aria-label="Password" />
+                  </Field>
+                  <Button style={{ width: '100%' }}>Sign in</Button>
+                </LoginLayout>
+              </div>
+            </Specimen>
+
+            <Specimen name="SignupLayout" note="Wider auth panel for registration flows.">
+              <div className="site-layout-preview site-layout-preview--auth">
+                <SignupLayout
+                  brand="Halcyon"
+                  footer={
+                    <Link href="#" variant="muted" onClick={preventGalleryNav}>
+                      Already have an account? Sign in
+                    </Link>
+                  }
+                >
+                  <Field>
+                    <Field.Label>Work email</Field.Label>
+                    <Input type="email" aria-label="Work email" />
+                  </Field>
+                  <Field>
+                    <Field.Label>Password</Field.Label>
+                    <Input type="password" aria-label="Password" />
+                  </Field>
+                  <Button style={{ width: '100%' }}>Create account</Button>
+                </SignupLayout>
+              </div>
+            </Specimen>
+
+            <Specimen name="ForgotPasswordLayout" note="Password reset request with a back link to sign in.">
+              <div className="site-layout-preview site-layout-preview--auth">
+                <ForgotPasswordLayout
+                  brand="Halcyon"
+                  backHref="#"
+                  onBackClick={preventGalleryNav}
+                >
+                  <Field>
+                    <Field.Label>Email</Field.Label>
+                    <Input type="email" aria-label="Email" />
+                  </Field>
+                  <Button style={{ width: '100%' }}>Send reset link</Button>
+                </ForgotPasswordLayout>
+              </div>
+            </Specimen>
+
+            <Specimen name="ErrorPageLayout" note="404/500 style status page with actions.">
+              <div className="site-layout-preview site-layout-preview--auth">
+                <ErrorPageLayout
+                  actions={
+                    <>
+                      <Button>Go home</Button>
+                      <Button variant="ghost">Contact support</Button>
+                    </>
+                  }
+                />
+              </div>
+            </Specimen>
+
+            <Specimen name="BlogLayout" note="Post feed or article mode via pageTitle.">
+              <div className="site-layout-preview site-layout-preview--tall">
+                <BlogLayout
+                  brand="Halcyon"
+                  navLinks={[{ href: '#', label: 'Blog', active: true }]}
+                  posts={[
+                    {
+                      href: '#',
+                      title: 'Design tokens in production',
+                      meta: 'Mar 12 · 6 min read',
+                      excerpt: 'How we ship eight themes without a runtime CSS engine.',
+                      onClick: preventGalleryNav,
+                    },
+                    {
+                      href: '#',
+                      title: 'Accessible overlays',
+                      meta: 'Feb 3 · 8 min read',
+                      excerpt: 'Focus traps, scroll lock, and polite announcements.',
+                      onClick: preventGalleryNav,
+                    },
+                  ]}
+                />
+              </div>
+            </Specimen>
+
+            <Specimen name="SettingsLayout" note="Account settings shell with a section sidebar.">
+              <div className="site-layout-preview site-layout-preview--tall">
+                <SettingsLayout
+                  brand="Acme"
+                  sectionLinks={[
+                    { href: '#', label: 'Profile', active: true, onClick: preventGalleryNav },
+                    { href: '#', label: 'Security', onClick: preventGalleryNav },
+                    { href: '#', label: 'Billing', onClick: preventGalleryNav },
+                  ]}
+                  pageTitle="Profile"
+                  pageDescription="Update how you appear to teammates."
+                >
+                  <Field>
+                    <Field.Label>Display name</Field.Label>
+                    <Input aria-label="Display name" defaultValue="Ada Lovelace" />
+                  </Field>
+                  <Button size="sm">Save changes</Button>
+                </SettingsLayout>
+              </div>
+            </Specimen>
+
+            <Specimen name="OnboardingLayout" note="Step progress header and centered step content.">
+              <div className="site-layout-preview site-layout-preview--tall">
+                <OnboardingLayout
+                  brand="Halcyon"
+                  steps={[
+                    { id: 'team', label: 'Team' },
+                    { id: 'project', label: 'Project' },
+                    { id: 'done', label: 'Done' },
+                  ]}
+                  currentStepId="project"
+                  title="Name your project"
+                  description="You can rename it later."
+                  footer={
+                    <>
+                      <Button variant="ghost" size="sm">Back</Button>
+                      <Button size="sm">Continue</Button>
+                    </>
+                  }
+                >
+                  <Input aria-label="Project name" placeholder="halcyon-ui" />
+                </OnboardingLayout>
+              </div>
+            </Specimen>
+
+            <Specimen name="CheckoutLayout" note="Contact, shipping, and full card payment form plus order summary.">
+              <div className="site-layout-preview site-layout-preview--tall">
+                <CheckoutLayout
+                  brand="Shop"
+                  stepLabel="Step 2 of 3"
+                  orderSummary={<CommerceOrderSummary />}
+                  secureNote="256-bit TLS · PCI-ready form layout"
+                >
+                  <CommerceCheckoutForm />
+                </CheckoutLayout>
+              </div>
+            </Specimen>
+          </section>
+
+          <section className="sheet-group" id="complete-websites" aria-labelledby="complete-websites-title">
+            <header className="sheet-group__head">
+              <h2 className="sheet-group__title" id="complete-websites-title">Complete websites</h2>
+              <p className="sheet-group__note">
+                Import a full multi-page kit from <code>halcyon-ui/websites</code>. Each kit exposes
+                page components plus <code>paths</code> and <code>routes</code> for your router.
+              </p>
+            </header>
+
+            <Specimen
+              name="MarketingWebsite"
+              note="Home, login, signup, forgot password, and 404 — cross-linked by default."
+            >
+              <div className="site-layout-preview site-layout-preview--auth">
+                <MarketingWebsite.Login brand="Halcyon" />
+              </div>
+            </Specimen>
+
+            <Specimen name="SaasWebsite" note="Dashboard, settings, onboarding, auth, and 404 for SaaS apps.">
+              <div className="site-layout-preview site-layout-preview--tall">
+                <SaasWebsite.Dashboard brand="Acme" />
+              </div>
+            </Specimen>
+
+            <Specimen name="DocsWebsite" note="Documentation, blog index, blog post, and 404.">
+              <div className="site-layout-preview site-layout-preview--tall">
+                <DocsWebsite.Docs brand="halcyon-ui">
+                  <p>Your MDX or markdown content.</p>
+                </DocsWebsite.Docs>
+              </div>
+            </Specimen>
+
+            <Specimen name="CommerceWebsite" note="Storefront, checkout, sign-in, and 404 for commerce flows.">
+              <div className="site-layout-preview site-layout-preview--marketing">
+                <CommerceWebsite.Store brand="Shop" />
+              </div>
+            </Specimen>
+          </section>
         </main>
       </div>
     </>
   )
 }
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+function subscribeToPath(onStoreChange: () => void) {
+  window.addEventListener('popstate', onStoreChange)
+  return () => window.removeEventListener('popstate', onStoreChange)
+}
+
+function readPath() {
+  return window.location.pathname
+}
+
+function GalleryApp() {
+  const path = useSyncExternalStore(subscribeToPath, readPath, readPath)
+  const navigate = useCallback((next: string) => {
+    window.history.pushState(null, '', next)
+    window.dispatchEvent(new PopStateEvent('popstate'))
+  }, [])
+
+  const [playgroundTheme, setPlaygroundTheme] = useState('midnight')
+  const [playgroundMode, setPlaygroundMode] = useState<Mode>('dark')
+  const playgroundTokens = useMemo(
+    () => THEMES[playgroundTheme]![playgroundMode] as React.CSSProperties,
+    [playgroundTheme, playgroundMode],
+  )
+
+  const normalized = normalizePath(path)
+  const showPlayground = isWebsitePlaygroundPath(normalized) && normalized !== '/gallery'
+
+  if (showPlayground) {
+    return (
+      <div
+        className="website-playground-shell"
+        style={playgroundTokens}
+        data-theme-name={playgroundTheme}
+        data-mode={playgroundMode}
+      >
+        <header className="website-playground__bar">
+          <span className="website-playground__label">halcyon-ui · website kit preview</span>
+          <div className="website-playground__themes" role="group" aria-label="Theme">
+            {THEME_NAMES.map((name) => (
+              <button
+                key={name}
+                type="button"
+                className={`chip${name === playgroundTheme ? ' chip--on' : ''}`}
+                onClick={() => setPlaygroundTheme(name)}
+                aria-pressed={name === playgroundTheme}
+              >
+                {name}
+              </button>
+            ))}
+          </div>
+          <div className="website-playground__modes" role="group" aria-label="Color mode">
+            {(['light', 'dark'] as const).map((m) => (
+              <button
+                key={m}
+                type="button"
+                className={`seg${m === playgroundMode ? ' seg--on' : ''}`}
+                onClick={() => setPlaygroundMode(m)}
+                aria-pressed={m === playgroundMode}
+              >
+                {m}
+              </button>
+            ))}
+          </div>
+          <a className="website-playground__gallery-link" href="/gallery">Component gallery</a>
+        </header>
+        <WebsitePlayground path={normalized} onNavigate={navigate} />
+      </div>
+    )
+  }
+
+  return (
     <ToastProvider>
       <Gallery />
     </ToastProvider>
+  )
+}
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <GalleryApp />
   </StrictMode>,
 )

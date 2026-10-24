@@ -17,12 +17,13 @@ interface Budget {
 
 const THEMES = ['base', 'midnight', 'aurora', 'ember', 'forest', 'sandstone', 'mono', 'neon']
 
+const FULL_LIBRARY_LIMIT_KB = 52
+
 const BUDGETS: Budget[] = [
-  { file: 'dist/index.js', limitKb: 45, label: 'full library' },
   // Generated, so a new theme cannot be added without also being budgeted.
   ...THEMES.map((theme) => ({
     file: `dist/${theme}.css`,
-    limitKb: 10,
+    limitKb: 16,
     label: `theme stylesheet: ${theme}`,
   })),
 ]
@@ -40,10 +41,17 @@ function gzippedKb(path: string): number {
  * Button cost". Bundling a synthetic entry against the built package measures
  * real tree-shaking of the artifact consumers actually install.
  */
-async function gzippedKbOfImport(names: string[]): Promise<number> {
+async function gzippedKbOfImport(
+  names: string[],
+  from = './dist/index.js',
+): Promise<number> {
+  const body =
+    names.length === 0
+      ? `export * from '${from}'`
+      : `export { ${names.join(', ')} } from '${from}'`
   const result = await build({
     stdin: {
-      contents: `export { ${names.join(', ')} } from './dist/index.js'`,
+      contents: body,
       resolveDir: root,
       loader: 'js',
     },
@@ -62,6 +70,17 @@ async function gzippedKbOfImport(names: string[]): Promise<number> {
 
 async function main(): Promise<void> {
   const failures: string[] = []
+
+  const fullLibrary = await gzippedKbOfImport([], './dist/index.js')
+  const fullOk = fullLibrary <= FULL_LIBRARY_LIMIT_KB
+  console.log(
+    `${fullOk ? 'ok  ' : 'OVER'} ${'full library'.padEnd(20)} ${fullLibrary.toFixed(2)} KB / ${FULL_LIBRARY_LIMIT_KB} KB  (bundled root import)`,
+  )
+  if (!fullOk) {
+    failures.push(
+      `the full halcyon-ui import is ${fullLibrary.toFixed(2)} KB gzipped, over its ${FULL_LIBRARY_LIMIT_KB} KB budget.`,
+    )
+  }
 
   for (const budget of BUDGETS) {
     const path = join(root, budget.file)
@@ -93,6 +112,43 @@ async function main(): Promise<void> {
   if (!buttonOk) {
     failures.push(
       `a lone Button import is ${buttonOnly.toFixed(2)} KB gzipped, over its 2 KB budget.`,
+    )
+  }
+
+  const navigationSlice = await gzippedKbOfImport([], './dist/navigation.js')
+  const navigationLimit = 8
+  const navigationOk = navigationSlice <= navigationLimit
+  console.log(
+    `${navigationOk ? 'ok  ' : 'OVER'} ${'navigation slice'.padEnd(20)} ${navigationSlice.toFixed(2)} KB / ${navigationLimit} KB  (category entry)`,
+  )
+  if (!navigationOk) {
+    failures.push(
+      `halcyon-ui/navigation is ${navigationSlice.toFixed(2)} KB gzipped, over its ${navigationLimit} KB budget.`,
+    )
+  }
+
+  const structuresSlice = await gzippedKbOfImport([], './dist/structures.js')
+  const structuresLimit = 10
+  const structuresOk = structuresSlice <= structuresLimit
+  console.log(
+    `${structuresOk ? 'ok  ' : 'OVER'} ${'structures slice'.padEnd(20)} ${structuresSlice.toFixed(2)} KB / ${structuresLimit} KB  (category entry)`,
+  )
+  if (!structuresOk) {
+    failures.push(
+      `halcyon-ui/structures is ${structuresSlice.toFixed(2)} KB gzipped, over its ${structuresLimit} KB budget.`,
+    )
+  }
+
+  const websitesSlice = await gzippedKbOfImport([], './dist/websites.js')
+  // Barrel re-exports four full kits (marketing, saas, commerce, docs) with page forms.
+  const websitesLimit = 12
+  const websitesOk = websitesSlice <= websitesLimit
+  console.log(
+    `${websitesOk ? 'ok  ' : 'OVER'} ${'websites slice'.padEnd(20)} ${websitesSlice.toFixed(2)} KB / ${websitesLimit} KB  (category entry)`,
+  )
+  if (!websitesOk) {
+    failures.push(
+      `halcyon-ui/websites is ${websitesSlice.toFixed(2)} KB gzipped, over its ${websitesLimit} KB budget.`,
     )
   }
 

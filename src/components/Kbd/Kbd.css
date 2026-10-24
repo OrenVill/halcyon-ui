@@ -1,0 +1,19 @@
+/*
+ * Kbd. Inline keyboard hint styling. Sized to sit on a text line without
+ * shifting the baseline.
+ */
+
+.hal-kbd {
+  display: inline-block;
+  padding: var(--hal-kbd-py, 0.125rem) var(--hal-kbd-px, var(--hal-space-1));
+  border: 1px solid var(--hal-kbd-border, var(--hal-border-strong));
+  border-radius: var(--hal-kbd-radius, var(--hal-radius-sm, var(--hal-radius)));
+  background: var(--hal-kbd-bg, var(--hal-bg-subtle));
+  color: var(--hal-kbd-fg, var(--hal-fg));
+  font-family: var(--hal-kbd-font, var(--hal-font-mono, inherit));
+  font-size: var(--hal-kbd-text, 0.85em);
+  font-weight: var(--hal-kbd-weight, var(--hal-weight-medium));
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: var(--hal-kbd-shadow, inset 0 -1px 0 var(--hal-kbd-shadow-color, var(--hal-border)));
+}

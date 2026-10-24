@@ -270,6 +270,106 @@ body {
   border-left: 1px solid var(--g-rule);
 }
 
+.sheet-group {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 2px solid var(--g-rule);
+  scroll-margin-top: calc(var(--g-bar-h) + 1rem);
+}
+
+.sheet-group__head {
+  margin-bottom: 0.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--hal-border);
+}
+
+.sheet-group__title {
+  margin: 0;
+  font-family: var(--g-mono);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.sheet-group__note {
+  margin: 0.5rem 0 0;
+  max-width: 62ch;
+  font-size: 13px;
+  color: var(--hal-fg-muted);
+  line-height: 1.5;
+}
+
+.sheet-group__note code {
+  font-family: var(--g-mono);
+  font-size: 12px;
+}
+
+.site-layout-preview {
+  --hal-dashboard-layout-min-height: auto;
+  --hal-docs-layout-min-height: auto;
+  --hal-marketing-layout-min-height: auto;
+  max-height: 28rem;
+  overflow: auto;
+  border: 1px solid var(--hal-border);
+  border-radius: var(--hal-radius);
+  overscroll-behavior: contain;
+}
+
+.site-layout-preview--marketing {
+  max-height: 36rem;
+}
+
+.site-layout-preview--auth {
+  max-height: 26rem;
+}
+
+.site-layout-preview--tall {
+  max-height: 32rem;
+}
+
+.website-playground-shell {
+  min-height: 100vh;
+  background: var(--hal-bg);
+  color: var(--hal-fg);
+}
+
+.website-playground__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  min-height: var(--g-bar-h);
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--g-rule);
+  background: var(--g-panel);
+  color: var(--g-ink);
+  font-family: var(--g-sans);
+  font-size: 12px;
+}
+
+.website-playground__label {
+  font-family: var(--g-mono);
+  font-weight: 600;
+  margin-inline-end: auto;
+}
+
+.website-playground__themes,
+.website-playground__modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.website-playground__gallery-link {
+  color: var(--g-accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.website-playground__gallery-link:hover {
+  text-decoration: underline;
+}
+
 .spec {
   padding: 1.5rem 0;
   border-bottom: 1px solid var(--hal-border);

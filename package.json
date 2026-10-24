@@ -19,6 +19,114 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./display": {
+      "types": "./dist/display.d.ts",
+      "import": "./dist/display.js"
+    },
+    "./form": {
+      "types": "./dist/form.d.ts",
+      "import": "./dist/form.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks.d.ts",
+      "import": "./dist/hooks.js"
+    },
+    "./navigation": {
+      "types": "./dist/navigation.d.ts",
+      "import": "./dist/navigation.js"
+    },
+    "./overlay": {
+      "types": "./dist/overlay.d.ts",
+      "import": "./dist/overlay.js"
+    },
+    "./primitives": {
+      "types": "./dist/primitives.d.ts",
+      "import": "./dist/primitives.js"
+    },
+    "./structures": {
+      "types": "./dist/structures.d.ts",
+      "import": "./dist/structures.js"
+    },
+    "./structures/navbar": {
+      "types": "./dist/structures/navbar.d.ts",
+      "import": "./dist/structures/navbar.js"
+    },
+    "./structures/sidebar": {
+      "types": "./dist/structures/sidebar.d.ts",
+      "import": "./dist/structures/sidebar.js"
+    },
+    "./structures/form-layout": {
+      "types": "./dist/structures/form-layout.d.ts",
+      "import": "./dist/structures/form-layout.js"
+    },
+    "./structures/app-shell": {
+      "types": "./dist/structures/app-shell.d.ts",
+      "import": "./dist/structures/app-shell.js"
+    },
+    "./structures/dashboard-layout": {
+      "types": "./dist/structures/dashboard-layout.d.ts",
+      "import": "./dist/structures/dashboard-layout.js"
+    },
+    "./structures/docs-site": {
+      "types": "./dist/structures/docs-site.d.ts",
+      "import": "./dist/structures/docs-site.js"
+    },
+    "./structures/marketing-site": {
+      "types": "./dist/structures/marketing-site.d.ts",
+      "import": "./dist/structures/marketing-site.js"
+    },
+    "./structures/login-layout": {
+      "types": "./dist/structures/login-layout.d.ts",
+      "import": "./dist/structures/login-layout.js"
+    },
+    "./structures/signup-layout": {
+      "types": "./dist/structures/signup-layout.d.ts",
+      "import": "./dist/structures/signup-layout.js"
+    },
+    "./structures/forgot-password-layout": {
+      "types": "./dist/structures/forgot-password-layout.d.ts",
+      "import": "./dist/structures/forgot-password-layout.js"
+    },
+    "./structures/error-page": {
+      "types": "./dist/structures/error-page.d.ts",
+      "import": "./dist/structures/error-page.js"
+    },
+    "./structures/blog": {
+      "types": "./dist/structures/blog.d.ts",
+      "import": "./dist/structures/blog.js"
+    },
+    "./structures/settings-layout": {
+      "types": "./dist/structures/settings-layout.d.ts",
+      "import": "./dist/structures/settings-layout.js"
+    },
+    "./structures/onboarding-layout": {
+      "types": "./dist/structures/onboarding-layout.d.ts",
+      "import": "./dist/structures/onboarding-layout.js"
+    },
+    "./structures/checkout-layout": {
+      "types": "./dist/structures/checkout-layout.d.ts",
+      "import": "./dist/structures/checkout-layout.js"
+    },
+    "./websites": {
+      "types": "./dist/websites.d.ts",
+      "import": "./dist/websites.js"
+    },
+    "./websites/marketing": {
+      "types": "./dist/websites/marketing.d.ts",
+      "import": "./dist/websites/marketing.js"
+    },
+    "./websites/saas": {
+      "types": "./dist/websites/saas.d.ts",
+      "import": "./dist/websites/saas.js"
+    },
+    "./websites/docs": {
+      "types": "./dist/websites/docs.d.ts",
+      "import": "./dist/websites/docs.js"
+    },
+    "./websites/commerce": {
+      "types": "./dist/websites/commerce.d.ts",
+      "import": "./dist/websites/commerce.js"
+    },
     "./base": "./dist/base.css",
     "./midnight": "./dist/midnight.css",
     "./aurora": "./dist/aurora.css",
@@ -33,6 +141,8 @@
     "build:js": "tsup",
     "build:css": "tsx scripts/build-css.ts",
     "gallery": "tsx scripts/build-gallery.ts",
+    "gallery:serve": "npx --yes serve gallery -p 4173",
+    "api": "tsx scripts/print-public-api.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",

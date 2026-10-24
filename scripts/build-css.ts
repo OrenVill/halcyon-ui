@@ -11,20 +11,25 @@ const root = fileURLToPath(new URL('..', import.meta.url))
 const structurePath = join(root, 'src/styles/base.css')
 const themesDir = join(root, 'src/styles/themes')
 const componentsDir = join(root, 'src/components')
+const structuresDir = join(root, 'src/structures')
 const outDir = join(root, 'dist')
 
 /**
  * Every component's stylesheet, sorted by path so output is deterministic.
  * Components own their rules; one theme import still delivers all of them.
  */
-function readComponentCss(): string {
-  if (!existsSync(componentsDir)) return ''
+function readCssFromDir(dir: string): string {
+  if (!existsSync(dir)) return ''
 
-  const files = readdirSync(componentsDir, { recursive: true, encoding: 'utf8' })
+  const files = readdirSync(dir, { recursive: true, encoding: 'utf8' })
     .filter((file) => file.endsWith('.css'))
     .sort()
 
-  return files.map((file) => readFileSync(join(componentsDir, file), 'utf8')).join('\n')
+  return files.map((file) => readFileSync(join(dir, file), 'utf8')).join('\n')
+}
+
+function readComponentCss(): string {
+  return [readCssFromDir(componentsDir), readCssFromDir(structuresDir)].filter(Boolean).join('\n')
 }
 
 function buildTheme(

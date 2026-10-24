@@ -1,0 +1,84 @@
+.hal-docs-layout {
+  min-height: var(--hal-docs-layout-min-height, 100vh);
+}
+
+.hal-docs-layout__main {
+  background: var(--hal-docs-layout-main-bg, var(--hal-bg));
+}
+
+.hal-docs-layout__version {
+  margin-inline-start: var(--hal-space-2);
+  padding: var(--hal-space-1) var(--hal-space-2);
+  border-radius: var(--hal-radius-sm);
+  background: var(--hal-docs-layout-version-bg, var(--hal-bg-subtle));
+  color: var(--hal-docs-layout-version-fg, var(--hal-fg-muted));
+  font-size: var(--hal-text-xs);
+  font-weight: var(--hal-weight-medium);
+}
+
+.hal-docs-layout__toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--hal-space-2);
+  margin-inline-end: auto;
+  margin-inline-start: var(--hal-space-4);
+}
+
+.hal-docs-layout__article {
+  max-width: var(--hal-docs-layout-content-max, 48rem);
+  margin-inline: auto;
+  width: 100%;
+  padding: var(--hal-docs-layout-article-padding, var(--hal-space-6));
+  line-height: var(--hal-leading);
+}
+
+.hal-docs-layout__title {
+  margin: 0 0 var(--hal-space-2);
+  font-size: var(--hal-text-xl);
+  font-weight: var(--hal-weight-bold);
+}
+
+.hal-docs-layout__lead {
+  margin: 0 0 var(--hal-space-6);
+  color: var(--hal-fg-muted);
+  font-size: var(--hal-text-lg);
+}
+
+.hal-docs-layout__body :where(h2, h3) {
+  margin-block: var(--hal-space-6) var(--hal-space-2);
+}
+
+.hal-docs-layout__body :where(p, ul, ol, pre) {
+  margin-block: var(--hal-space-3);
+}
+
+.hal-docs-layout__pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--hal-space-4);
+  margin-top: var(--hal-space-8);
+  padding-top: var(--hal-space-6);
+  border-top: 1px solid var(--hal-border);
+}
+
+.hal-docs-layout__pager-link {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hal-space-1);
+  padding: var(--hal-space-3);
+  border: 1px solid var(--hal-border);
+  border-radius: var(--hal-radius);
+  text-decoration: none;
+}
+
+.hal-docs-layout__pager-link--next {
+  text-align: end;
+  grid-column: 2;
+}
+
+.hal-docs-layout__pager-label {
+  color: var(--hal-fg-muted);
+  font-size: var(--hal-text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}

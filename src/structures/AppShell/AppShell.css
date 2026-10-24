@@ -1,0 +1,28 @@
+.hal-app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: var(--hal-app-shell-min-height, 100vh);
+  background: var(--hal-app-shell-bg, var(--hal-bg));
+  color: var(--hal-app-shell-fg, var(--hal-fg));
+}
+
+.hal-app-shell__header {
+  flex-shrink: 0;
+}
+
+.hal-app-shell__body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.hal-app-shell__sidebar {
+  flex-shrink: 0;
+}
+
+.hal-app-shell__main {
+  flex: 1;
+  min-width: 0;
+  padding: var(--hal-app-shell-main-padding, var(--hal-space-6));
+  overflow: auto;
+}

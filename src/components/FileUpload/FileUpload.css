@@ -1,0 +1,125 @@
+/*
+ * FileUpload. Local file picking only: dropzone, list, previews. No upload.
+ */
+
+.hal-file-upload {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hal-space-3);
+}
+
+.hal-file-upload__dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--hal-space-2);
+  padding: var(--hal-space-6) var(--hal-space-4);
+  border: 2px dashed var(--hal-file-upload-border, var(--hal-border-strong));
+  border-radius: var(--hal-file-upload-radius, var(--hal-radius));
+  background: var(--hal-file-upload-bg, var(--hal-bg-subtle));
+  color: var(--hal-file-upload-fg, var(--hal-fg-muted));
+  font-size: var(--hal-file-upload-text, var(--hal-text-sm));
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color var(--hal-duration) var(--hal-ease),
+    background-color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-file-upload__dropzone:hover:not(.hal-file-upload__dropzone--disabled) {
+  border-color: var(--hal-file-upload-border-hover, var(--hal-accent));
+  background: var(--hal-file-upload-bg-hover, var(--hal-bg));
+}
+
+.hal-file-upload__dropzone--active {
+  border-color: var(--hal-file-upload-border-active, var(--hal-accent));
+  background: var(--hal-file-upload-bg-active, var(--hal-bg));
+}
+
+.hal-file-upload__dropzone--disabled {
+  opacity: var(--hal-file-upload-disabled-opacity, 0.55);
+  cursor: not-allowed;
+}
+
+.hal-file-upload__browse {
+  color: var(--hal-file-upload-browse-fg, var(--hal-accent));
+  font-weight: var(--hal-weight-medium);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.hal-file-upload__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hal-file-upload__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hal-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hal-file-upload__item {
+  display: flex;
+  align-items: center;
+  gap: var(--hal-space-3);
+  padding: var(--hal-space-2) var(--hal-space-3);
+  border: 1px solid var(--hal-file-upload-item-border, var(--hal-border));
+  border-radius: var(--hal-file-upload-radius, var(--hal-radius));
+  background: var(--hal-file-upload-item-bg, var(--hal-bg-raised));
+}
+
+.hal-file-upload__preview {
+  flex: none;
+  width: var(--hal-file-upload-preview-size, 3rem);
+  height: var(--hal-file-upload-preview-size, 3rem);
+  object-fit: cover;
+  border-radius: var(--hal-radius-sm);
+  background: var(--hal-file-upload-preview-bg, var(--hal-bg-subtle));
+}
+
+.hal-file-upload__meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.hal-file-upload__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--hal-file-upload-name-fg, var(--hal-fg));
+  font-size: var(--hal-file-upload-name-text, var(--hal-text-sm));
+  font-weight: var(--hal-weight-medium);
+}
+
+.hal-file-upload__size {
+  color: var(--hal-file-upload-size-fg, var(--hal-fg-muted));
+  font-size: var(--hal-file-upload-size-text, var(--hal-text-xs));
+}
+
+.hal-file-upload__remove {
+  flex: none;
+  padding: var(--hal-space-1) var(--hal-space-2);
+  border: 0;
+  border-radius: var(--hal-radius-sm);
+  background: transparent;
+  color: var(--hal-file-upload-remove-fg, var(--hal-danger));
+  font: inherit;
+  font-size: var(--hal-file-upload-remove-text, var(--hal-text-sm));
+  cursor: pointer;
+}
+
+.hal-file-upload__remove:hover {
+  background: var(--hal-file-upload-remove-bg-hover, var(--hal-bg-subtle));
+}

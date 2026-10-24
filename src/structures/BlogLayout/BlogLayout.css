@@ -1,0 +1,92 @@
+.hal-blog-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: var(--hal-blog-layout-min-height, 100vh);
+  background: var(--hal-blog-layout-bg, var(--hal-bg));
+}
+
+.hal-blog-layout__header {
+  border-bottom: 1px solid var(--hal-border);
+  background: var(--hal-bg-raised);
+}
+
+.hal-blog-layout__header .hal-navbar {
+  border-bottom: 0;
+  background: transparent;
+}
+
+.hal-blog-layout__header .hal-navbar__inner {
+  max-width: var(--hal-blog-layout-max, 48rem);
+}
+
+.hal-blog-layout__main {
+  flex: 1;
+  width: 100%;
+}
+
+.hal-blog-layout__feed,
+.hal-blog-layout__article {
+  max-width: var(--hal-blog-layout-max, 48rem);
+  margin-inline: auto;
+  padding: var(--hal-blog-layout-padding, var(--hal-space-8) var(--hal-space-4));
+}
+
+.hal-blog-layout__feed-title {
+  margin: 0 0 var(--hal-space-6);
+  font-size: var(--hal-text-xl);
+  font-weight: var(--hal-weight-bold);
+}
+
+.hal-blog-layout__posts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--hal-space-6);
+}
+
+.hal-blog-layout__post {
+  padding-bottom: var(--hal-space-6);
+  border-bottom: 1px solid var(--hal-border);
+}
+
+.hal-blog-layout__post:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.hal-blog-layout__post-meta,
+.hal-blog-layout__meta {
+  margin: 0 0 var(--hal-space-2);
+  color: var(--hal-fg-muted);
+  font-size: var(--hal-text-sm);
+}
+
+.hal-blog-layout__post-title {
+  margin: 0 0 var(--hal-space-2);
+  font-size: var(--hal-text-lg);
+  font-weight: var(--hal-weight-bold);
+}
+
+.hal-blog-layout__post-link {
+  text-decoration: none;
+}
+
+.hal-blog-layout__post-excerpt {
+  margin: 0;
+  color: var(--hal-fg-muted);
+  line-height: var(--hal-leading);
+}
+
+.hal-blog-layout__title {
+  margin: 0 0 var(--hal-space-4);
+  font-size: var(--hal-text-xl);
+  font-weight: var(--hal-weight-bold);
+  line-height: var(--hal-leading);
+}
+
+.hal-blog-layout__body :where(p, ul, ol) {
+  margin-block: var(--hal-space-3);
+  line-height: var(--hal-leading);
+}

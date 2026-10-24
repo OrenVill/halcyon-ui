@@ -1,0 +1,27 @@
+/*
+ * InlineMessage. Small copy under inputs. Variants tint the text only so long
+ * hints stay readable on any background.
+ */
+
+.hal-inline-message {
+  margin: 0;
+  font-size: var(--hal-inline-message-text, var(--hal-text-sm));
+  line-height: var(--hal-inline-message-leading, var(--hal-leading));
+  color: var(--hal-inline-message-fg, var(--hal-fg-muted));
+}
+
+.hal-inline-message--info {
+  color: var(--hal-inline-message-info-fg, var(--hal-info));
+}
+
+.hal-inline-message--success {
+  color: var(--hal-inline-message-success-fg, var(--hal-success));
+}
+
+.hal-inline-message--warning {
+  color: var(--hal-inline-message-warning-fg, var(--hal-warning));
+}
+
+.hal-inline-message--danger {
+  color: var(--hal-inline-message-danger-fg, var(--hal-danger));
+}

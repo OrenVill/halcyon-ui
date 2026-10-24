@@ -1,0 +1,59 @@
+/*
+ * Breadcrumb. Ordered trail of links with the current page marked.
+ */
+
+.hal-breadcrumb {
+  font-family: inherit;
+  color: var(--hal-breadcrumb-fg, var(--hal-fg-muted));
+}
+
+.hal-breadcrumb__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--hal-breadcrumb-gap, var(--hal-space-2));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hal-breadcrumb__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hal-breadcrumb-item-gap, var(--hal-space-2));
+  min-width: 0;
+}
+
+.hal-breadcrumb__link {
+  color: var(--hal-breadcrumb-link-fg, var(--hal-accent));
+  text-decoration: none;
+}
+
+.hal-breadcrumb__link:hover {
+  text-decoration: underline;
+}
+
+.hal-breadcrumb__current {
+  color: var(--hal-breadcrumb-current-fg, var(--hal-fg));
+  font-weight: var(--hal-breadcrumb-current-weight, var(--hal-weight-medium));
+}
+
+.hal-breadcrumb--subtle .hal-breadcrumb__current {
+  color: var(--hal-breadcrumb-current-fg-subtle, var(--hal-fg-muted));
+}
+
+.hal-breadcrumb__separator {
+  color: var(--hal-breadcrumb-separator-fg, var(--hal-fg-muted));
+}
+
+.hal-breadcrumb--sm {
+  font-size: var(--hal-breadcrumb-text-sm, var(--hal-text-sm));
+}
+
+.hal-breadcrumb--md {
+  font-size: var(--hal-breadcrumb-text-md, var(--hal-text-base));
+}
+
+.hal-breadcrumb--lg {
+  font-size: var(--hal-breadcrumb-text-lg, var(--hal-text-lg));
+}

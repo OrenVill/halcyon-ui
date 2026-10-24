@@ -1,0 +1,44 @@
+/*
+ * ToggleGroup. Outlined toggles for filters and toolbars. Single selection
+ * uses the radio pattern; multiple uses aria-pressed on each button.
+ */
+
+.hal-toggle-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--hal-toggle-group-gap, var(--hal-space-2));
+}
+
+.hal-toggle-group__option {
+  margin: 0;
+  padding: var(--hal-toggle-group-option-py, var(--hal-space-1))
+    var(--hal-toggle-group-option-px, var(--hal-space-3));
+  border: 1px solid var(--hal-toggle-group-option-border, var(--hal-border-strong));
+  border-radius: var(--hal-toggle-group-option-radius, var(--hal-radius));
+  background: var(--hal-toggle-group-option-bg, transparent);
+  color: var(--hal-toggle-group-option-fg, var(--hal-fg));
+  font-family: inherit;
+  font-size: var(--hal-toggle-group-option-text, var(--hal-text-sm));
+  font-weight: var(--hal-toggle-group-option-weight, var(--hal-weight-medium));
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color var(--hal-duration) var(--hal-ease),
+    border-color var(--hal-duration) var(--hal-ease),
+    color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-toggle-group__option:disabled {
+  opacity: var(--hal-toggle-group-disabled-opacity, 0.5);
+  cursor: not-allowed;
+}
+
+.hal-toggle-group__option--selected {
+  background: var(--hal-toggle-group-selected-bg, var(--hal-bg-subtle));
+  border-color: var(--hal-toggle-group-selected-border, var(--hal-accent));
+  color: var(--hal-toggle-group-selected-fg, var(--hal-accent));
+}
+
+.hal-toggle-group__option:hover:not(:disabled):not(.hal-toggle-group__option--selected) {
+  background: var(--hal-toggle-group-option-bg-hover, var(--hal-bg-subtle));
+}

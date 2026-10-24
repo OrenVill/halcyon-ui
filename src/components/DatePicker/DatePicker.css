@@ -1,0 +1,184 @@
+/*
+ * DatePicker. Trigger button opens a calendar popover; names come from Intl.
+ */
+
+.hal-date-picker {
+  position: relative;
+  display: inline-block;
+  min-width: var(--hal-date-picker-min-width, 12rem);
+}
+
+.hal-date-picker__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--hal-space-2);
+  width: 100%;
+  background: var(--hal-date-picker-bg, var(--hal-bg-raised));
+  border: 1px solid var(--hal-date-picker-border, var(--hal-border-strong));
+  border-radius: var(--hal-date-picker-radius, var(--hal-radius));
+  color: var(--hal-date-picker-fg, var(--hal-fg));
+  font-family: inherit;
+  line-height: 1;
+  text-align: start;
+  cursor: pointer;
+  transition:
+    border-color var(--hal-duration) var(--hal-ease),
+    background-color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-date-picker__trigger:hover:not(:disabled) {
+  border-color: var(--hal-date-picker-border-hover, var(--hal-accent));
+}
+
+.hal-date-picker__trigger:disabled {
+  opacity: var(--hal-date-picker-disabled-opacity, 0.55);
+  cursor: not-allowed;
+}
+
+.hal-date-picker__value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hal-date-picker__value--placeholder {
+  color: var(--hal-date-picker-placeholder-fg, var(--hal-fg-muted));
+}
+
+.hal-date-picker__icon {
+  flex: none;
+  width: 0.45em;
+  height: 0.45em;
+  margin-block-start: -0.2em;
+  border-right: 1.5px solid var(--hal-date-picker-icon, var(--hal-fg-muted));
+  border-bottom: 1.5px solid var(--hal-date-picker-icon, var(--hal-fg-muted));
+  transform: rotate(45deg);
+}
+
+.hal-date-picker--invalid .hal-date-picker__trigger {
+  border-color: var(--hal-date-picker-border-invalid, var(--hal-danger));
+}
+
+.hal-date-picker--sm .hal-date-picker__trigger {
+  min-height: var(--hal-date-picker-height-sm, 2rem);
+  padding: 0 var(--hal-space-2) 0 var(--hal-space-3);
+  font-size: var(--hal-date-picker-text-sm, var(--hal-text-sm));
+}
+
+.hal-date-picker--md .hal-date-picker__trigger {
+  min-height: var(--hal-date-picker-height-md, 2.5rem);
+  padding: 0 var(--hal-space-3) 0 var(--hal-space-4);
+  font-size: var(--hal-date-picker-text-md, var(--hal-text-base));
+}
+
+.hal-date-picker--lg .hal-date-picker__trigger {
+  min-height: var(--hal-date-picker-height-lg, 3rem);
+  padding: 0 var(--hal-space-4) 0 var(--hal-space-5);
+  font-size: var(--hal-date-picker-text-lg, var(--hal-text-lg));
+}
+
+.hal-date-picker__panel {
+  z-index: var(--hal-date-picker-panel-z, 50);
+  padding: var(--hal-space-3);
+  background: var(--hal-date-picker-panel-bg, var(--hal-bg-raised));
+  border: 1px solid var(--hal-date-picker-panel-border, var(--hal-border));
+  border-radius: var(--hal-date-picker-radius, var(--hal-radius));
+  box-shadow: var(--hal-date-picker-panel-shadow, var(--hal-shadow-lg));
+}
+
+.hal-date-picker__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--hal-space-2);
+  margin-bottom: var(--hal-space-2);
+}
+
+.hal-date-picker__title {
+  flex: 1;
+  font-weight: var(--hal-weight-medium);
+  font-size: var(--hal-date-picker-title-text, var(--hal-text-sm));
+  text-align: center;
+}
+
+.hal-date-picker__nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--hal-radius-sm);
+  background: transparent;
+  color: var(--hal-date-picker-nav-fg, var(--hal-fg));
+  cursor: pointer;
+}
+
+.hal-date-picker__nav:hover {
+  background: var(--hal-date-picker-nav-bg-hover, var(--hal-bg-subtle));
+}
+
+.hal-date-picker__weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--hal-space-1);
+  margin-bottom: var(--hal-space-1);
+}
+
+.hal-date-picker__weekday {
+  text-align: center;
+  color: var(--hal-date-picker-weekday-fg, var(--hal-fg-muted));
+  font-size: var(--hal-date-picker-weekday-text, var(--hal-text-xs));
+  font-weight: var(--hal-weight-medium);
+}
+
+.hal-date-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--hal-space-1);
+}
+
+.hal-date-picker__day {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--hal-radius-sm);
+  background: transparent;
+  color: var(--hal-date-picker-day-fg, var(--hal-fg));
+  font: inherit;
+  font-size: var(--hal-date-picker-day-text, var(--hal-text-sm));
+  cursor: pointer;
+}
+
+.hal-date-picker__day:hover:not(:disabled) {
+  background: var(--hal-date-picker-day-bg-hover, var(--hal-bg-subtle));
+}
+
+.hal-date-picker__day--outside {
+  color: var(--hal-date-picker-day-fg-muted, var(--hal-fg-muted));
+}
+
+.hal-date-picker__day--selected {
+  background: var(--hal-date-picker-day-bg-selected, var(--hal-accent));
+  color: var(--hal-date-picker-day-fg-selected, var(--hal-accent-fg));
+}
+
+.hal-date-picker__day--in-range {
+  background: var(--hal-date-picker-day-bg-range, var(--hal-bg-subtle));
+}
+
+.hal-date-picker__day--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.hal-date-picker__day--focused {
+  outline: 2px solid var(--hal-focus-ring);
+  outline-offset: 1px;
+}

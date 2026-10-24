@@ -1,0 +1,40 @@
+/*
+ * Link. Text links with three weights. Underline is token-driven so themes
+ * can soften or remove it without forking the component.
+ */
+
+.hal-link {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  text-decoration: var(--hal-link-decoration, underline);
+  text-underline-offset: var(--hal-link-underline-offset, 0.15em);
+  cursor: pointer;
+  transition:
+    color var(--hal-duration) var(--hal-ease),
+    text-decoration-color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-link--default {
+  color: var(--hal-link-fg, var(--hal-fg));
+}
+
+.hal-link--default:hover {
+  color: var(--hal-link-fg-hover, var(--hal-accent));
+}
+
+.hal-link--muted {
+  color: var(--hal-link-muted-fg, var(--hal-fg-muted));
+}
+
+.hal-link--muted:hover {
+  color: var(--hal-link-muted-fg-hover, var(--hal-fg));
+}
+
+.hal-link--accent {
+  color: var(--hal-link-accent-fg, var(--hal-accent));
+}
+
+.hal-link--accent:hover {
+  color: var(--hal-link-accent-fg-hover, var(--hal-accent-hover));
+}

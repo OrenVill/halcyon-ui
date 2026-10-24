@@ -1,0 +1,81 @@
+/*
+ * Pagination. Previous/next controls and optional numbered pages.
+ */
+
+.hal-pagination {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--hal-pagination-gap, var(--hal-space-1));
+  font-family: inherit;
+}
+
+.hal-pagination__control,
+.hal-pagination__page {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: var(--hal-pagination-radius, var(--hal-radius));
+  background: transparent;
+  font-family: inherit;
+  font-weight: var(--hal-pagination-weight, var(--hal-weight-medium));
+  line-height: 1;
+  color: var(--hal-pagination-fg, var(--hal-fg));
+  cursor: pointer;
+  transition:
+    background-color var(--hal-duration) var(--hal-ease),
+    border-color var(--hal-duration) var(--hal-ease),
+    color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-pagination--outline .hal-pagination__control,
+.hal-pagination--outline .hal-pagination__page {
+  border-color: var(--hal-pagination-border, var(--hal-border-strong));
+}
+
+.hal-pagination__control:hover:not(:disabled),
+.hal-pagination__page:hover:not(:disabled) {
+  background: var(--hal-pagination-bg-hover, var(--hal-bg-subtle));
+}
+
+.hal-pagination__control:disabled,
+.hal-pagination__page:disabled {
+  opacity: var(--hal-pagination-disabled-opacity, 0.55);
+  cursor: not-allowed;
+}
+
+.hal-pagination__page--current {
+  background: var(--hal-pagination-current-bg, var(--hal-accent));
+  border-color: var(--hal-pagination-current-border, var(--hal-accent));
+  color: var(--hal-pagination-current-fg, var(--hal-accent-fg));
+}
+
+.hal-pagination__ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--hal-pagination-ellipsis-fg, var(--hal-fg-muted));
+}
+
+.hal-pagination--sm .hal-pagination__control,
+.hal-pagination--sm .hal-pagination__page {
+  min-width: var(--hal-pagination-size-sm, 2rem);
+  min-height: var(--hal-pagination-size-sm, 2rem);
+  font-size: var(--hal-pagination-text-sm, var(--hal-text-sm));
+}
+
+.hal-pagination--md .hal-pagination__control,
+.hal-pagination--md .hal-pagination__page {
+  min-width: var(--hal-pagination-size-md, 2.5rem);
+  min-height: var(--hal-pagination-size-md, 2.5rem);
+  font-size: var(--hal-pagination-text-md, var(--hal-text-base));
+}
+
+.hal-pagination--lg .hal-pagination__control,
+.hal-pagination--lg .hal-pagination__page {
+  min-width: var(--hal-pagination-size-lg, 3rem);
+  min-height: var(--hal-pagination-size-lg, 3rem);
+  font-size: var(--hal-pagination-text-lg, var(--hal-text-lg));
+}

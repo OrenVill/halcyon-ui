@@ -1,0 +1,48 @@
+/*
+ * Meter. A scalar gauge (disk quota, score) distinct from Progress, which
+ * signals ongoing work. The root is the track; the child is the fill.
+ */
+
+.hal-meter {
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  background: var(--hal-meter-track-bg, var(--hal-bg-subtle));
+  border-radius: var(--hal-meter-radius, var(--hal-radius-full));
+}
+
+.hal-meter__fill {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--hal-meter-fill-bg, var(--hal-accent));
+  transition: width var(--hal-meter-duration, var(--hal-duration)) var(--hal-ease);
+}
+
+.hal-meter--sm {
+  height: var(--hal-meter-height-sm, 0.25rem);
+}
+
+.hal-meter--md {
+  height: var(--hal-meter-height-md, 0.5rem);
+}
+
+.hal-meter--lg {
+  height: var(--hal-meter-height-lg, 0.75rem);
+}
+
+.hal-meter--accent .hal-meter__fill {
+  background: var(--hal-meter-fill-accent, var(--hal-accent));
+}
+
+.hal-meter--success .hal-meter__fill {
+  background: var(--hal-meter-fill-success, var(--hal-success));
+}
+
+.hal-meter--warning .hal-meter__fill {
+  background: var(--hal-meter-fill-warning, var(--hal-warning));
+}
+
+.hal-meter--danger .hal-meter__fill {
+  background: var(--hal-meter-fill-danger, var(--hal-danger));
+}

@@ -1,0 +1,28 @@
+/*
+ * Field. Stacks a label, control, helper text, and error. Spacing is token-
+ * driven so dense forms can tighten without a new component.
+ */
+
+.hal-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hal-field-gap, var(--hal-space-1));
+}
+
+.hal-field__label {
+  font-size: var(--hal-field-label-text, var(--hal-text-sm));
+  font-weight: var(--hal-field-label-weight, var(--hal-weight-medium));
+  color: var(--hal-field-label-fg, var(--hal-fg));
+}
+
+.hal-field__description {
+  margin: 0;
+  font-size: var(--hal-field-description-text, var(--hal-text-sm));
+  color: var(--hal-field-description-fg, var(--hal-fg-muted));
+}
+
+.hal-field__error {
+  margin: 0;
+  font-size: var(--hal-field-error-text, var(--hal-text-sm));
+  color: var(--hal-field-error-fg, var(--hal-danger));
+}

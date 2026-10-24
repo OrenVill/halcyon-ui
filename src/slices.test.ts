@@ -1,0 +1,71 @@
+import { describe, expect, it } from 'vitest'
+import * as display from './display'
+import * as form from './form'
+import * as hooks from './hooks'
+import * as navigation from './navigation'
+import * as overlay from './overlay'
+import * as primitives from './primitives'
+import * as structures from './structures'
+
+describe('category slices', () => {
+  it('navigation exports the nav building blocks', () => {
+    expect('Tabs' in navigation).toBe(true)
+    expect('Breadcrumb' in navigation).toBe(true)
+    expect('Wizard' in navigation).toBe(true)
+    expect('Button' in navigation).toBe(false)
+  })
+
+  it('form exports inputs and actions', () => {
+    expect('Button' in form).toBe(true)
+    expect('Combobox' in form).toBe(true)
+    expect('Modal' in form).toBe(false)
+  })
+
+  it('overlay exports dialogs and positioning', () => {
+    expect('Modal' in overlay).toBe(true)
+    expect(typeof overlay.computePosition).toBe('function')
+  })
+
+  it('display exports read-only surfaces', () => {
+    expect('Card' in display).toBe(true)
+    expect('Table' in display).toBe(true)
+  })
+
+  it('primitives exports layout and field helpers', () => {
+    expect('Link' in primitives).toBe(true)
+    expect('Field' in primitives).toBe(true)
+    expect(typeof primitives.useFieldControlProps).toBe('function')
+  })
+
+  it('hooks exports color mode and overlay helpers', () => {
+    expect(typeof hooks.useColorMode).toBe('function')
+    expect(typeof hooks.useFocusTrap).toBe('function')
+  })
+
+  it('websites exports complete site kits', async () => {
+    const websites = await import('./websites')
+    expect('MarketingWebsite' in websites).toBe(true)
+    expect('SaasWebsite' in websites).toBe(true)
+    expect('DocsWebsite' in websites).toBe(true)
+    expect('CommerceWebsite' in websites).toBe(true)
+    expect(websites.MarketingWebsite.paths.login).toBe('/login')
+  })
+
+  it('structures exports layout compositions', () => {
+    expect('Navbar' in structures).toBe(true)
+    expect('Sidebar' in structures).toBe(true)
+    expect('FormLayout' in structures).toBe(true)
+    expect('AppShell' in structures).toBe(true)
+    expect('DashboardLayout' in structures).toBe(true)
+    expect('DocsSiteLayout' in structures).toBe(true)
+    expect('MarketingSiteLayout' in structures).toBe(true)
+    expect('LoginLayout' in structures).toBe(true)
+    expect('SignupLayout' in structures).toBe(true)
+    expect('ForgotPasswordLayout' in structures).toBe(true)
+    expect('ErrorPageLayout' in structures).toBe(true)
+    expect('BlogLayout' in structures).toBe(true)
+    expect('SettingsLayout' in structures).toBe(true)
+    expect('OnboardingLayout' in structures).toBe(true)
+    expect('CheckoutLayout' in structures).toBe(true)
+  })
+})

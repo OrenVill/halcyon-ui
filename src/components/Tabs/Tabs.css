@@ -1,0 +1,97 @@
+/*
+ * Tabs. Tab list and panels read component tokens that fall back to globals.
+ */
+
+.hal-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hal-tabs-gap, var(--hal-space-3));
+  font-family: inherit;
+  color: var(--hal-tabs-fg, var(--hal-fg));
+}
+
+.hal-tabs__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--hal-tabs-list-gap, var(--hal-space-1));
+  border-bottom: 1px solid var(--hal-tabs-list-border, var(--hal-border));
+}
+
+.hal-tabs--enclosed .hal-tabs__list {
+  padding: var(--hal-tabs-enclosed-pad, var(--hal-space-1));
+  border: 1px solid var(--hal-tabs-enclosed-border, var(--hal-border));
+  border-radius: var(--hal-tabs-enclosed-radius, var(--hal-radius));
+  border-bottom: 1px solid var(--hal-tabs-enclosed-border, var(--hal-border));
+  background: var(--hal-tabs-enclosed-bg, var(--hal-bg-subtle));
+}
+
+.hal-tabs--line .hal-tabs__list {
+  border-bottom-width: 1px;
+}
+
+.hal-tabs__tab {
+  position: relative;
+  margin: 0;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-weight: var(--hal-tabs-tab-weight, var(--hal-weight-medium));
+  color: var(--hal-tabs-tab-fg, var(--hal-fg-muted));
+  cursor: pointer;
+  transition:
+    color var(--hal-duration) var(--hal-ease),
+    background-color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-tabs__tab:hover:not(:disabled) {
+  color: var(--hal-tabs-tab-fg-hover, var(--hal-fg));
+}
+
+.hal-tabs__tab:disabled {
+  opacity: var(--hal-tabs-tab-disabled-opacity, 0.55);
+  cursor: not-allowed;
+}
+
+.hal-tabs__tab--selected {
+  color: var(--hal-tabs-tab-fg-selected, var(--hal-accent));
+}
+
+.hal-tabs--line .hal-tabs__tab--selected::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: var(--hal-tabs-tab-indicator, var(--hal-accent));
+  border-radius: var(--hal-radius-full);
+}
+
+.hal-tabs--enclosed .hal-tabs__tab--selected {
+  background: var(--hal-tabs-tab-bg-selected, var(--hal-bg));
+  border-radius: var(--hal-tabs-tab-radius, var(--hal-radius));
+  box-shadow: var(--hal-tabs-tab-shadow, var(--hal-shadow-sm));
+}
+
+.hal-tabs--sm .hal-tabs__tab {
+  padding: var(--hal-tabs-tab-py-sm, var(--hal-space-2)) var(--hal-tabs-tab-px-sm, var(--hal-space-3));
+  font-size: var(--hal-tabs-tab-text-sm, var(--hal-text-sm));
+}
+
+.hal-tabs--md .hal-tabs__tab {
+  padding: var(--hal-tabs-tab-py-md, var(--hal-space-2)) var(--hal-tabs-tab-px-md, var(--hal-space-4));
+  font-size: var(--hal-tabs-tab-text-md, var(--hal-text-base));
+}
+
+.hal-tabs--lg .hal-tabs__tab {
+  padding: var(--hal-tabs-tab-py-lg, var(--hal-space-3)) var(--hal-tabs-tab-px-lg, var(--hal-space-5));
+  font-size: var(--hal-tabs-tab-text-lg, var(--hal-text-lg));
+}
+
+.hal-tabs__panel {
+  outline: none;
+}
+
+.hal-tabs__panel[hidden] {
+  display: none;
+}
