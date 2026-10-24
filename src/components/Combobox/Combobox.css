@@ -1,0 +1,163 @@
+/*
+ * Combobox. A filterable text field over a listbox. Multi-select renders chips
+ * inline rather than importing Tag, so the component stays dependency-free.
+ */
+
+.hal-combobox {
+  position: relative;
+  display: inline-block;
+  min-width: var(--hal-combobox-min-width, 12rem);
+}
+
+.hal-combobox__field {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--hal-space-1);
+  width: 100%;
+  background: var(--hal-combobox-bg, var(--hal-bg-raised));
+  border: 1px solid var(--hal-combobox-border, var(--hal-border-strong));
+  border-radius: var(--hal-combobox-radius, var(--hal-radius));
+  transition:
+    border-color var(--hal-duration) var(--hal-ease),
+    background-color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-combobox__field:hover:not(.hal-combobox__field--disabled) {
+  border-color: var(--hal-combobox-border-hover, var(--hal-accent));
+}
+
+.hal-combobox__field--disabled {
+  opacity: var(--hal-combobox-disabled-opacity, 0.55);
+  cursor: not-allowed;
+}
+
+.hal-combobox--invalid .hal-combobox__field {
+  border-color: var(--hal-combobox-border-invalid, var(--hal-danger));
+}
+
+.hal-combobox__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hal-combobox-chip-gap, var(--hal-space-1));
+  max-width: 100%;
+  padding: 0 var(--hal-combobox-chip-px, var(--hal-space-2));
+  border-radius: var(--hal-combobox-chip-radius, var(--hal-radius-full));
+  background: var(--hal-combobox-chip-bg, var(--hal-bg-subtle));
+  color: var(--hal-combobox-chip-fg, var(--hal-fg));
+  font-size: var(--hal-combobox-chip-text, var(--hal-text-xs));
+  font-weight: var(--hal-weight-medium);
+  line-height: 1.2;
+}
+
+.hal-combobox__chip-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hal-combobox__chip-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 1.125em;
+  height: 1.125em;
+  padding: 0;
+  border: 0;
+  border-radius: var(--hal-radius-full);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.hal-combobox__chip-remove:hover {
+  opacity: 1;
+}
+
+.hal-combobox__input {
+  flex: 1 1 4rem;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--hal-combobox-fg, var(--hal-fg));
+  font-family: inherit;
+  line-height: 1;
+  outline: none;
+}
+
+.hal-combobox__input::placeholder {
+  color: var(--hal-combobox-placeholder-fg, var(--hal-fg-muted));
+  opacity: 1;
+}
+
+.hal-combobox__input:disabled {
+  cursor: not-allowed;
+}
+
+/* Sizes */
+
+.hal-combobox--sm .hal-combobox__field {
+  min-height: var(--hal-combobox-height-sm, 2rem);
+  padding: var(--hal-space-1) var(--hal-space-2);
+  font-size: var(--hal-combobox-text-sm, var(--hal-text-sm));
+}
+
+.hal-combobox--md .hal-combobox__field {
+  min-height: var(--hal-combobox-height-md, 2.5rem);
+  padding: var(--hal-space-1) var(--hal-space-3);
+  font-size: var(--hal-combobox-text-md, var(--hal-text-base));
+}
+
+.hal-combobox--lg .hal-combobox__field {
+  min-height: var(--hal-combobox-height-lg, 3rem);
+  padding: var(--hal-space-2) var(--hal-space-4);
+  font-size: var(--hal-combobox-text-lg, var(--hal-text-lg));
+}
+
+.hal-combobox__list {
+  z-index: var(--hal-combobox-list-z, 50);
+  max-height: var(--hal-combobox-list-max-height, 15rem);
+  margin: 0;
+  padding: var(--hal-space-1);
+  overflow-y: auto;
+  list-style: none;
+  background: var(--hal-combobox-list-bg, var(--hal-bg-raised));
+  border: 1px solid var(--hal-combobox-list-border, var(--hal-border));
+  border-radius: var(--hal-combobox-radius, var(--hal-radius));
+  box-shadow: var(--hal-combobox-list-shadow, var(--hal-shadow-lg));
+}
+
+.hal-combobox__option {
+  display: flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0 var(--hal-space-3);
+  border-radius: var(--hal-combobox-option-radius, var(--hal-radius-sm));
+  color: var(--hal-combobox-option-fg, var(--hal-fg));
+  font-size: var(--hal-combobox-option-text, var(--hal-text-sm));
+  cursor: pointer;
+}
+
+.hal-combobox__option--active {
+  background: var(--hal-combobox-option-bg-active, var(--hal-bg-subtle));
+}
+
+.hal-combobox__option--selected {
+  color: var(--hal-combobox-option-fg-selected, var(--hal-accent));
+  font-weight: var(--hal-weight-medium);
+}
+
+.hal-combobox__option--disabled {
+  opacity: var(--hal-combobox-option-disabled-opacity, 0.45);
+  cursor: not-allowed;
+}
+
+.hal-combobox__empty {
+  padding: var(--hal-space-2) var(--hal-space-3);
+  color: var(--hal-combobox-empty-fg, var(--hal-fg-muted));
+  font-size: var(--hal-combobox-option-text, var(--hal-text-sm));
+}

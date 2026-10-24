@@ -56,9 +56,10 @@ describe('Wizard', () => {
   it('exposes imperative next and back on the ref', async () => {
     const ref = createRef<{ next: () => Promise<void>; back: () => void }>()
     render(<Wizard ref={ref} steps={STEPS} />)
-    await ref.current?.next()
+    await waitFor(() => expect(ref.current).not.toBeNull())
+    await ref.current!.next()
     await waitFor(() => expect(screen.getByText('Second panel')).toBeInTheDocument())
-    ref.current?.back()
+    ref.current!.back()
     await waitFor(() => expect(screen.getByText('First panel')).toBeInTheDocument())
   })
 
