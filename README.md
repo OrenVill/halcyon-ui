@@ -42,15 +42,17 @@ npm install
 npm run gallery
 ```
 
-Then serve the built file (a static server avoids `file://` restrictions):
+Then serve the `gallery` folder (uses `gallery/serve.json` so kit routes work):
 
 ```bash
-npx --yes serve gallery -p 4173
+npm run gallery:serve
+# or: npx --yes serve gallery -p 4173
 ```
 
-Open **http://localhost:4173/gallery.html** and use the left rail: **Components**
-for atoms and primitives, **Site layouts** for individual page shells, and
-**Complete websites** for multi-page kits.
+- **Proof sheet:** [http://localhost:4173/gallery](http://localhost:4173/gallery) — components, site layouts, kit previews.
+- **Live multi-page kits:** open kit URLs directly, e.g. `/login`, `/signup`, `/app`, `/app/settings`, `/docs`, `/checkout`. In-app links stay client-side (no server 404).
+
+The Avatar specimen still requests a missing image on purpose to demo fallback initials (`/does-not-exist.png` → 404 in server logs is expected).
 
 ## What you can import
 

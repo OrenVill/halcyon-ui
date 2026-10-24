@@ -6,6 +6,7 @@ import { LoginLayout } from '../../structures/LoginLayout'
 import { MarketingSiteLayout } from '../../structures/MarketingSiteLayout'
 import { SignupLayout } from '../../structures/SignupLayout'
 import type { MarketingSiteLayoutProps } from '../../structures/MarketingSiteLayout'
+import type { SiteNavLink } from '../../structures/types'
 import type { LoginLayoutProps } from '../../structures/LoginLayout'
 import type { SignupLayoutProps } from '../../structures/SignupLayout'
 import type { ForgotPasswordLayoutProps } from '../../structures/ForgotPasswordLayout'
@@ -30,8 +31,9 @@ export const marketingWebsiteRoutes: WebsiteRoute[] = [
   { id: 'notFound', label: 'Not found', path: marketingWebsitePaths.notFound },
 ]
 
-export type MarketingWebsiteHomeProps = Omit<MarketingSiteLayoutProps, 'brand'> & {
+export type MarketingWebsiteHomeProps = Omit<MarketingSiteLayoutProps, 'brand' | 'navLinks'> & {
   brand: ReactNode
+  navLinks?: SiteNavLink[]
   /** Main section below the hero (features, pricing cards, etc.). */
   featureSection?: ReactNode
 }

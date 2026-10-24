@@ -6,7 +6,8 @@
  * It is dev-only: package.json ships "files": ["dist"], so none of this is
  * published to npm.
  */
-import { StrictMode, useMemo, useRef, useState, type MouseEvent } from 'react'
+import { StrictMode, useCallback, useMemo, useRef, useState, useSyncExternalStore, type MouseEvent } from 'react'
+import { isWebsitePlaygroundPath, normalizePath, WebsitePlayground } from './website-playground'
 import type { SiteNavLink, SitePagerLink } from '../src/structures/types'
 import { CommerceWebsite, DocsWebsite, MarketingWebsite, SaasWebsite } from '../src/websites'
 import { createRoot } from 'react-dom/client'
@@ -1683,10 +1684,38 @@ function Gallery() {
   )
 }
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+function subscribeToPath(onStoreChange: () => void) {
+  window.addEventListener('popstate', onStoreChange)
+  return () => window.removeEventListener('popstate', onStoreChange)
+}
+
+function readPath() {
+  return window.location.pathname
+}
+
+function GalleryApp() {
+  const path = useSyncExternalStore(subscribeToPath, readPath, readPath)
+  const navigate = useCallback((next: string) => {
+    window.history.pushState(null, '', next)
+    window.dispatchEvent(new PopStateEvent('popstate'))
+  }, [])
+
+  const normalized = normalizePath(path)
+  const showPlayground = isWebsitePlaygroundPath(normalized) && normalized !== '/gallery'
+
+  if (showPlayground) {
+    return <WebsitePlayground path={normalized} onNavigate={navigate} />
+  }
+
+  return (
     <ToastProvider>
       <Gallery />
     </ToastProvider>
+  )
+}
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <GalleryApp />
   </StrictMode>,
 )

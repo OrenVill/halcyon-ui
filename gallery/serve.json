@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    { "source": "/gallery", "destination": "/gallery.html" },
+    { "source": "/", "destination": "/gallery.html" },
+    { "source": "/login", "destination": "/gallery.html" },
+    { "source": "/signup", "destination": "/gallery.html" },
+    { "source": "/forgot-password", "destination": "/gallery.html" },
+    { "source": "/app", "destination": "/gallery.html" },
+    { "source": "/app/settings", "destination": "/gallery.html" },
+    { "source": "/onboarding", "destination": "/gallery.html" },
+    { "source": "/docs", "destination": "/gallery.html" },
+    { "source": "/blog", "destination": "/gallery.html" },
+    { "source": "/checkout", "destination": "/gallery.html" },
+    { "source": "/404", "destination": "/gallery.html" }
+  ]
+}

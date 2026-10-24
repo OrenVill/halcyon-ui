@@ -141,6 +141,7 @@
     "build:js": "tsup",
     "build:css": "tsx scripts/build-css.ts",
     "gallery": "tsx scripts/build-gallery.ts",
+    "gallery:serve": "npx --yes serve gallery -p 4173",
     "api": "tsx scripts/print-public-api.ts",
     "test": "vitest run",
     "test:watch": "vitest",
