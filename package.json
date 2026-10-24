@@ -43,6 +43,26 @@
       "types": "./dist/primitives.d.ts",
       "import": "./dist/primitives.js"
     },
+    "./structures": {
+      "types": "./dist/structures.d.ts",
+      "import": "./dist/structures.js"
+    },
+    "./structures/navbar": {
+      "types": "./dist/structures/navbar.d.ts",
+      "import": "./dist/structures/navbar.js"
+    },
+    "./structures/sidebar": {
+      "types": "./dist/structures/sidebar.d.ts",
+      "import": "./dist/structures/sidebar.js"
+    },
+    "./structures/form-layout": {
+      "types": "./dist/structures/form-layout.d.ts",
+      "import": "./dist/structures/form-layout.js"
+    },
+    "./structures/app-shell": {
+      "types": "./dist/structures/app-shell.d.ts",
+      "import": "./dist/structures/app-shell.js"
+    },
     "./base": "./dist/base.css",
     "./midnight": "./dist/midnight.css",
     "./aurora": "./dist/aurora.css",

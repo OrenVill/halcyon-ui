@@ -25,7 +25,8 @@ aspiration: React is the only dependency and it is a peer dependency.
 
 One theme import at app start. Components import from the package root or from a
 category slice (`form`, `navigation`, `overlay`, `display`, `primitives`,
-`hooks`).
+`hooks`, `structures`) or a single structure (`structures/navbar`,
+`structures/sidebar`, `structures/form-layout`, `structures/app-shell`).
 
 ```jsx
 import 'halcyon-ui/midnight'          // theme: ships light AND dark
@@ -258,7 +259,7 @@ exceeded.
 | --- | --- |
 | Full library, all 34 components, gzipped | 45 KB |
 | A single `Button` import, gzipped | 2 KB |
-| One theme stylesheet, gzipped | 13 KB |
+| One theme stylesheet, gzipped | 14 KB |
 
 ## 9. README
 

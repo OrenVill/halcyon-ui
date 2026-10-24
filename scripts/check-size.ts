@@ -23,7 +23,7 @@ const BUDGETS: Budget[] = [
   // Generated, so a new theme cannot be added without also being budgeted.
   ...THEMES.map((theme) => ({
     file: `dist/${theme}.css`,
-    limitKb: 13,
+    limitKb: 14,
     label: `theme stylesheet: ${theme}`,
   })),
 ]
@@ -124,6 +124,18 @@ async function main(): Promise<void> {
   if (!navigationOk) {
     failures.push(
       `halcyon-ui/navigation is ${navigationSlice.toFixed(2)} KB gzipped, over its ${navigationLimit} KB budget.`,
+    )
+  }
+
+  const structuresSlice = await gzippedKbOfImport([], './dist/structures.js')
+  const structuresLimit = 6
+  const structuresOk = structuresSlice <= structuresLimit
+  console.log(
+    `${structuresOk ? 'ok  ' : 'OVER'} ${'structures slice'.padEnd(20)} ${structuresSlice.toFixed(2)} KB / ${structuresLimit} KB  (category entry)`,
+  )
+  if (!structuresOk) {
+    failures.push(
+      `halcyon-ui/structures is ${structuresSlice.toFixed(2)} KB gzipped, over its ${structuresLimit} KB budget.`,
     )
   }
 

@@ -5,6 +5,7 @@ import * as hooks from './hooks'
 import * as navigation from './navigation'
 import * as overlay from './overlay'
 import * as primitives from './primitives'
+import * as structures from './structures'
 
 describe('category slices', () => {
   it('navigation exports the nav building blocks', () => {
@@ -39,5 +40,12 @@ describe('category slices', () => {
   it('hooks exports color mode and overlay helpers', () => {
     expect(typeof hooks.useColorMode).toBe('function')
     expect(typeof hooks.useFocusTrap).toBe('function')
+  })
+
+  it('structures exports layout compositions', () => {
+    expect('Navbar' in structures).toBe(true)
+    expect('Sidebar' in structures).toBe(true)
+    expect('FormLayout' in structures).toBe(true)
+    expect('AppShell' in structures).toBe(true)
   })
 })

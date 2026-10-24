@@ -11,6 +11,7 @@ import { createRoot } from 'react-dom/client'
 import {
   Accordion,
   Alert,
+  AppShell,
   Avatar,
   Badge,
   Breadcrumb,
@@ -28,6 +29,7 @@ import {
   EmptyState,
   Field,
   FileUpload,
+  FormLayout,
   IconButton,
   InlineMessage,
   Input,
@@ -35,6 +37,7 @@ import {
   Link,
   Meter,
   Modal,
+  Navbar,
   NumberInput,
   Pagination,
   Popover,
@@ -43,6 +46,7 @@ import {
   SegmentedControl,
   Select,
   Separator,
+  Sidebar,
   Skeleton,
   Slider,
   Spinner,
@@ -135,6 +139,10 @@ const SECTIONS = [
   'Breadcrumb',
   'Stepper',
   'Wizard',
+  'Navbar',
+  'Sidebar',
+  'AppShell',
+  'FormLayout',
   'Card',
   'Badge',
   'Tag',
@@ -776,6 +784,80 @@ function Gallery() {
                 </div>
               )}
             </Wizard>
+          </Specimen>
+
+          <Specimen name="Navbar" note="Top chrome: brand, inline links, trailing actions.">
+            <Navbar variant="raised">
+              <Navbar.Brand>
+                <Link href="#" variant="accent">halcyon-ui</Link>
+              </Navbar.Brand>
+              <Navbar.Nav>
+                <Navbar.Links>
+                  <Navbar.Link href="#" label="Docs" />
+                  <Navbar.Link href="#" label="Gallery" current />
+                </Navbar.Links>
+              </Navbar.Nav>
+              <Navbar.Actions>
+                <Button variant="ghost" size="sm">Sign in</Button>
+              </Navbar.Actions>
+            </Navbar>
+          </Specimen>
+
+          <Specimen name="Sidebar" note="Vertical section rail for settings or app areas.">
+            <div style={{ display: 'flex', maxWidth: '16rem', border: '1px solid var(--hal-border)' }}>
+              <Sidebar>
+                <Sidebar.Header>Project</Sidebar.Header>
+                <Sidebar.Nav>
+                  <Sidebar.Links>
+                    <Sidebar.Link href="#" label="Overview" active />
+                    <Sidebar.Link href="#" label="Themes" />
+                    <Sidebar.Link href="#" label="Tokens" />
+                  </Sidebar.Links>
+                </Sidebar.Nav>
+              </Sidebar>
+            </div>
+          </Specimen>
+
+          <Specimen name="AppShell" note="Navbar plus sidebar and main — a full app frame.">
+            <div style={{ border: '1px solid var(--hal-border)', borderRadius: 'var(--hal-radius)' }}>
+              <AppShell style={{ minHeight: '14rem' }}>
+                <AppShell.Header>
+                  <Navbar>
+                    <Navbar.Brand>Dashboard</Navbar.Brand>
+                  </Navbar>
+                </AppShell.Header>
+                <AppShell.Body>
+                  <AppShell.Sidebar>
+                    <Sidebar>
+                      <Sidebar.Nav>
+                        <Sidebar.Links>
+                          <Sidebar.Link href="#" label="Home" active />
+                        </Sidebar.Links>
+                      </Sidebar.Nav>
+                    </Sidebar>
+                  </AppShell.Sidebar>
+                  <AppShell.Main>Main content area</AppShell.Main>
+                </AppShell.Body>
+              </AppShell>
+            </div>
+          </Specimen>
+
+          <Specimen name="FormLayout" note="Opinionated form page: header, sections, action row.">
+            <FormLayout width="md">
+              <FormLayout.Header title="Invite teammate" description="They receive an email invite." />
+              <FormLayout.Body>
+                <FormLayout.Section title="Contact">
+                  <Field>
+                    <Field.Label>Email</Field.Label>
+                    <Input aria-label="Email" type="email" />
+                  </Field>
+                </FormLayout.Section>
+              </FormLayout.Body>
+              <FormLayout.Actions>
+                <Button variant="ghost">Cancel</Button>
+                <Button>Send invite</Button>
+              </FormLayout.Actions>
+            </FormLayout>
           </Specimen>
 
           <Specimen name="Card" note="Variants differ in weight, not decoration: a border, an elevation, or a fill.">
