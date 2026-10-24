@@ -8,6 +8,7 @@ import type { CheckoutLayoutProps } from '../../structures/CheckoutLayout'
 import type { LoginLayoutProps } from '../../structures/LoginLayout'
 import type { MarketingSiteLayoutProps } from '../../structures/MarketingSiteLayout'
 import type { ErrorPageLayoutProps } from '../../structures/ErrorPageLayout'
+import type { SiteNavLink } from '../../structures/types'
 import type { WebsiteRoute } from '../types'
 
 export const commerceWebsitePaths = {
@@ -26,8 +27,9 @@ export const commerceWebsiteRoutes: WebsiteRoute[] = [
   { id: 'notFound', label: 'Not found', path: commerceWebsitePaths.notFound },
 ]
 
-export type CommerceWebsiteStoreProps = Omit<MarketingSiteLayoutProps, 'brand'> & {
+export type CommerceWebsiteStoreProps = Omit<MarketingSiteLayoutProps, 'brand' | 'navLinks'> & {
   brand: ReactNode
+  navLinks?: SiteNavLink[]
   catalog?: ReactNode
 }
 
