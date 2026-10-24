@@ -130,7 +130,7 @@ const MarketingSiteLayoutRoot = /* @__PURE__ */ forwardRef<
   return (
     <div {...rest} ref={ref} className={cx('hal-marketing-layout', className)}>
       <div className="hal-marketing-layout__header">
-        <Navbar variant="raised">
+        <Navbar>
           <Navbar.Brand>{brand}</Navbar.Brand>
           <Navbar.Nav>
             <Navbar.Links>

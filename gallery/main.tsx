@@ -419,6 +419,7 @@ function MarketingSiteLayoutGalleryDemo() {
 
   return (
     <MarketingSiteLayout
+      className="hal-marketing-layout--compact"
       brand="Halcyon"
       navLinks={navLinks}
       actions={<Button size="sm">Start free</Button>}
@@ -1405,7 +1406,7 @@ function Gallery() {
               name="MarketingSiteLayout"
               note="Interactive preview: top nav and footer links switch the spotlight section."
             >
-              <div className="site-layout-preview">
+              <div className="site-layout-preview site-layout-preview--marketing">
                 <MarketingSiteLayoutGalleryDemo />
               </div>
             </Specimen>

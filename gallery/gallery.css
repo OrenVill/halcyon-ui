@@ -315,6 +315,10 @@ body {
   overscroll-behavior: contain;
 }
 
+.site-layout-preview--marketing {
+  max-height: 36rem;
+}
+
 .spec {
   padding: 1.5rem 0;
   border-bottom: 1px solid var(--hal-border);

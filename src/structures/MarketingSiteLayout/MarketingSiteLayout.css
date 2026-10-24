@@ -21,7 +21,26 @@
 }
 
 .hal-marketing-layout__header .hal-navbar__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
   max-width: var(--hal-marketing-layout-content-max, 72rem);
+}
+
+.hal-marketing-layout__header .hal-navbar__brand {
+  margin-inline-end: 0;
+  justify-self: start;
+  font-size: var(--hal-text-lg);
+  font-weight: var(--hal-weight-bold);
+}
+
+.hal-marketing-layout__header .hal-navbar__nav {
+  justify-self: center;
+}
+
+.hal-marketing-layout__header .hal-navbar__actions {
+  margin-inline-start: 0;
+  justify-self: end;
 }
 
 .hal-marketing-layout__main {
@@ -101,7 +120,9 @@
 }
 
 .hal-marketing-layout__cta {
-  padding: var(--hal-space-10) var(--hal-space-4);
+  margin: var(--hal-space-8) var(--hal-space-4) var(--hal-space-4);
+  padding: var(--hal-space-8) var(--hal-space-6);
+  border-radius: var(--hal-radius-lg, var(--hal-radius));
   background: var(--hal-marketing-layout-cta-bg, var(--hal-accent));
   color: var(--hal-marketing-layout-cta-fg, var(--hal-accent-fg));
 }
@@ -195,4 +216,10 @@
   color: var(--hal-fg-muted);
   font-size: var(--hal-text-sm);
   text-align: center;
+}
+
+.hal-marketing-layout--compact {
+  --hal-marketing-layout-min-height: auto;
+  --hal-marketing-layout-hero-padding: var(--hal-space-8) var(--hal-space-4);
+  --hal-marketing-layout-section-padding: var(--hal-space-8) var(--hal-space-4);
 }
