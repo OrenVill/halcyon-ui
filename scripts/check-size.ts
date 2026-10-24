@@ -140,7 +140,8 @@ async function main(): Promise<void> {
   }
 
   const websitesSlice = await gzippedKbOfImport([], './dist/websites.js')
-  const websitesLimit = 8
+  // Barrel re-exports four full kits (marketing, saas, commerce, docs) with page forms.
+  const websitesLimit = 12
   const websitesOk = websitesSlice <= websitesLimit
   console.log(
     `${websitesOk ? 'ok  ' : 'OVER'} ${'websites slice'.padEnd(20)} ${websitesSlice.toFixed(2)} KB / ${websitesLimit} KB  (category entry)`,
