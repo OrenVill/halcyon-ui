@@ -1,0 +1,99 @@
+/*
+ * Accordion. Expandable sections with button headers and panel regions.
+ */
+
+.hal-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hal-accordion-gap, var(--hal-space-2));
+  font-family: inherit;
+  color: var(--hal-accordion-fg, var(--hal-fg));
+}
+
+.hal-accordion__item {
+  border-radius: var(--hal-accordion-item-radius, var(--hal-radius));
+  overflow: hidden;
+}
+
+.hal-accordion--outline .hal-accordion__item {
+  border: 1px solid var(--hal-accordion-border, var(--hal-border));
+}
+
+.hal-accordion--ghost .hal-accordion__item {
+  border-bottom: 1px solid var(--hal-accordion-ghost-border, var(--hal-border));
+  border-radius: 0;
+}
+
+.hal-accordion__heading {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.hal-accordion__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--hal-accordion-trigger-gap, var(--hal-space-3));
+  width: 100%;
+  margin: 0;
+  border: none;
+  background: var(--hal-accordion-trigger-bg, transparent);
+  font-family: inherit;
+  font-weight: var(--hal-accordion-trigger-weight, var(--hal-weight-medium));
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+  transition: background-color var(--hal-duration) var(--hal-ease);
+}
+
+.hal-accordion__trigger:hover:not(:disabled) {
+  background: var(--hal-accordion-trigger-bg-hover, var(--hal-bg-subtle));
+}
+
+.hal-accordion__trigger:disabled {
+  opacity: var(--hal-accordion-trigger-disabled-opacity, 0.55);
+  cursor: not-allowed;
+}
+
+.hal-accordion__icon {
+  flex: none;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-right: 2px solid var(--hal-accordion-icon, var(--hal-fg-muted));
+  border-bottom: 2px solid var(--hal-accordion-icon, var(--hal-fg-muted));
+  transform: rotate(45deg);
+  transition: transform var(--hal-duration) var(--hal-ease);
+}
+
+.hal-accordion__trigger[aria-expanded='true'] .hal-accordion__icon {
+  transform: rotate(-135deg);
+}
+
+.hal-accordion--sm .hal-accordion__trigger {
+  padding: var(--hal-accordion-trigger-py-sm, var(--hal-space-2))
+    var(--hal-accordion-trigger-px-sm, var(--hal-space-3));
+  font-size: var(--hal-accordion-text-sm, var(--hal-text-sm));
+}
+
+.hal-accordion--md .hal-accordion__trigger {
+  padding: var(--hal-accordion-trigger-py-md, var(--hal-space-3))
+    var(--hal-accordion-trigger-px-md, var(--hal-space-4));
+  font-size: var(--hal-accordion-text-md, var(--hal-text-base));
+}
+
+.hal-accordion--lg .hal-accordion__trigger {
+  padding: var(--hal-accordion-trigger-py-lg, var(--hal-space-4))
+    var(--hal-accordion-trigger-px-lg, var(--hal-space-5));
+  font-size: var(--hal-accordion-text-lg, var(--hal-text-lg));
+}
+
+.hal-accordion__panel {
+  padding: var(--hal-accordion-panel-py, var(--hal-space-3))
+    var(--hal-accordion-panel-px, var(--hal-space-4));
+  color: var(--hal-accordion-panel-fg, var(--hal-fg-muted));
+}
+
+.hal-accordion__panel[hidden] {
+  display: none;
+}

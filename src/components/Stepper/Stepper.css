@@ -1,0 +1,94 @@
+/*
+ * Stepper. Visual progress through steps; decorative only (aria-hidden).
+ */
+
+.hal-stepper {
+  font-family: inherit;
+  color: var(--hal-stepper-fg, var(--hal-fg));
+}
+
+.hal-stepper__list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hal-stepper--horizontal .hal-stepper__list {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--hal-stepper-gap, var(--hal-space-4));
+}
+
+.hal-stepper--vertical .hal-stepper__list {
+  flex-direction: column;
+  gap: var(--hal-stepper-vertical-gap, var(--hal-space-4));
+}
+
+.hal-stepper__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--hal-stepper-item-gap, var(--hal-space-3));
+  min-width: 0;
+  flex: 1;
+}
+
+.hal-stepper--vertical .hal-stepper__item {
+  flex: none;
+}
+
+.hal-stepper__marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--hal-stepper-marker-size, 1.75rem);
+  height: var(--hal-stepper-marker-size, 1.75rem);
+  border-radius: var(--hal-stepper-marker-radius, var(--hal-radius-full));
+  border: 2px solid var(--hal-stepper-marker-border, var(--hal-border-strong));
+  background: var(--hal-stepper-marker-bg, var(--hal-bg));
+  font-size: var(--hal-stepper-marker-text, var(--hal-text-sm));
+  font-weight: var(--hal-stepper-marker-weight, var(--hal-weight-medium));
+  line-height: 1;
+}
+
+.hal-stepper__item--current .hal-stepper__marker {
+  border-color: var(--hal-stepper-current-border, var(--hal-accent));
+  color: var(--hal-stepper-current-fg, var(--hal-accent));
+}
+
+.hal-stepper__item--complete .hal-stepper__marker {
+  border-color: var(--hal-stepper-complete-border, var(--hal-accent));
+  background: var(--hal-stepper-complete-bg, var(--hal-accent));
+  color: var(--hal-stepper-complete-fg, var(--hal-accent-fg));
+}
+
+.hal-stepper--accent .hal-stepper__item--upcoming .hal-stepper__marker {
+  border-color: var(--hal-stepper-upcoming-border, var(--hal-border));
+}
+
+.hal-stepper__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hal-stepper-text-gap, var(--hal-space-1));
+  min-width: 0;
+}
+
+.hal-stepper__label {
+  font-weight: var(--hal-stepper-label-weight, var(--hal-weight-medium));
+}
+
+.hal-stepper__description {
+  color: var(--hal-stepper-description-fg, var(--hal-fg-muted));
+}
+
+.hal-stepper--sm {
+  font-size: var(--hal-stepper-text-sm, var(--hal-text-sm));
+}
+
+.hal-stepper--md {
+  font-size: var(--hal-stepper-text-md, var(--hal-text-base));
+}
+
+.hal-stepper--lg {
+  font-size: var(--hal-stepper-text-lg, var(--hal-text-lg));
+}
