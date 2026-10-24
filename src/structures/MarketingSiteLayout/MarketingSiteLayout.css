@@ -17,6 +17,99 @@
   width: 100%;
 }
 
+.hal-marketing-layout__hero {
+  padding: var(--hal-marketing-layout-hero-padding, var(--hal-space-12) var(--hal-space-4));
+  background: var(--hal-marketing-layout-hero-bg, var(--hal-bg-subtle));
+  border-bottom: 1px solid var(--hal-border);
+}
+
+.hal-marketing-layout__hero-inner {
+  max-width: var(--hal-marketing-layout-content-max, 72rem);
+  margin-inline: auto;
+  text-align: center;
+}
+
+.hal-marketing-layout__hero-title {
+  margin: 0;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: var(--hal-weight-bold);
+  line-height: var(--hal-leading);
+}
+
+.hal-marketing-layout__hero-description {
+  margin: var(--hal-space-4) auto 0;
+  max-width: 36rem;
+  color: var(--hal-fg-muted);
+  font-size: var(--hal-text-lg);
+}
+
+.hal-marketing-layout__hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--hal-space-2);
+  margin-top: var(--hal-space-6);
+}
+
+.hal-marketing-layout__section {
+  padding: var(--hal-marketing-layout-section-padding, var(--hal-space-10) var(--hal-space-4));
+}
+
+.hal-marketing-layout__section--muted {
+  background: var(--hal-bg-subtle);
+}
+
+.hal-marketing-layout__section-inner {
+  max-width: var(--hal-marketing-layout-content-max, 72rem);
+  margin-inline: auto;
+}
+
+.hal-marketing-layout__section-title {
+  margin: 0 0 var(--hal-space-2);
+  font-size: var(--hal-text-xl);
+  font-weight: var(--hal-weight-bold);
+  text-align: center;
+}
+
+.hal-marketing-layout__section-description {
+  margin: 0 auto var(--hal-space-6);
+  max-width: 40rem;
+  color: var(--hal-fg-muted);
+  text-align: center;
+}
+
+.hal-marketing-layout__cta {
+  padding: var(--hal-space-10) var(--hal-space-4);
+  background: var(--hal-marketing-layout-cta-bg, var(--hal-accent));
+  color: var(--hal-marketing-layout-cta-fg, var(--hal-accent-fg));
+}
+
+.hal-marketing-layout__cta-inner {
+  max-width: var(--hal-marketing-layout-content-max, 72rem);
+  margin-inline: auto;
+  text-align: center;
+}
+
+.hal-marketing-layout__cta-title {
+  margin: 0;
+  font-size: var(--hal-text-xl);
+  font-weight: var(--hal-weight-bold);
+}
+
+.hal-marketing-layout__cta-description {
+  margin: var(--hal-space-3) auto 0;
+  max-width: 32rem;
+  opacity: 0.92;
+}
+
+.hal-marketing-layout__cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--hal-space-2);
+  margin-top: var(--hal-space-5);
+}
+
 .hal-marketing-layout__footer {
   border-top: 1px solid var(--hal-marketing-layout-footer-border, var(--hal-border));
   background: var(--hal-marketing-layout-footer-bg, var(--hal-bg-subtle));

@@ -101,10 +101,29 @@ import { Button } from 'halcyon-ui/form'
   brand="Acme"
   sidebarTitle="Analytics"
   sidebarLinks={[{ href: '/overview', label: 'Overview', active: true }]}
-  actions={<Button size="sm">New report</Button>}
+  pageTitle="Overview"
+  pageDescription="Last 30 days"
+  pageActions={<Button size="sm">Export</Button>}
 >
-  {dashboardContent}
+  {/* your charts and tables only */}
 </DashboardLayout>
+
+<DocsSiteLayout
+  brand="halcyon-ui"
+  sidebarLinks={[{ href: '/install', label: 'Install', active: true }]}
+  pageTitle="Install"
+  nextPage={{ href: '/themes', label: 'Themes' }}
+>
+  <p>Your prose or MDX content.</p>
+</DocsSiteLayout>
+
+<MarketingSiteLayout
+  brand="Halcyon"
+  navLinks={[{ href: '/pricing', label: 'Pricing', active: true }]}
+  hero={{ title: 'Hello', description: '…', actions: <Button>Start</Button> }}
+>
+  <MarketingSiteLayout.Section title="Features">…</MarketingSiteLayout.Section>
+</MarketingSiteLayout>
 ```
 
 ### Themes (CSS only)

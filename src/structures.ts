@@ -1,4 +1,4 @@
-export type { SiteFooterColumn, SiteNavLink } from './structures/types'
+export type { SiteFooterColumn, SiteNavLink, SitePagerLink } from './structures/types'
 
 export { AppShell } from './structures/AppShell'
 export type {

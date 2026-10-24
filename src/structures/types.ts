@@ -11,3 +11,8 @@ export interface SiteFooterColumn {
   title: ReactNode
   links: SiteNavLink[]
 }
+
+export interface SitePagerLink {
+  href: string
+  label: ReactNode
+}

@@ -874,10 +874,13 @@ function Gallery() {
             </FormLayout>
           </Specimen>
 
-          <Specimen name="DashboardLayout" note="Complete dashboard frame: top bar, app sidebar, main canvas.">
+          <Specimen
+            name="DashboardLayout"
+            note="Drop content in the main area; page title, breadcrumbs, and chrome are built in."
+          >
             <div style={{ border: '1px solid var(--hal-border)', borderRadius: 'var(--hal-radius)', overflow: 'hidden' }}>
               <DashboardLayout
-                style={{ minHeight: '16rem' }}
+                style={{ minHeight: '18rem' }}
                 brand="Acme Cloud"
                 sidebarTitle="Analytics"
                 sidebarLinks={[
@@ -885,7 +888,14 @@ function Gallery() {
                   { href: '#', label: 'Reports' },
                   { href: '#', label: 'Alerts' },
                 ]}
-                actions={<Button size="sm">New report</Button>}
+                breadcrumbs={[
+                  { href: '#', label: 'Home' },
+                  { href: '#', label: 'Analytics', active: true },
+                ]}
+                pageTitle="Overview"
+                pageDescription="Metrics for the last 30 days."
+                pageActions={<Button size="sm">Export</Button>}
+                actions={<Button size="sm" variant="ghost">Help</Button>}
               >
                 <Card variant="subtle" padding="md">
                   <strong>Active users</strong>
@@ -895,10 +905,13 @@ function Gallery() {
             </div>
           </Specimen>
 
-          <Specimen name="DocsSiteLayout" note="Documentation site: version badge, doc nav, prose column.">
+          <Specimen
+            name="DocsSiteLayout"
+            note="Docs shell: sidebar TOC, title, prose body, and prev/next pager."
+          >
             <div style={{ border: '1px solid var(--hal-border)', borderRadius: 'var(--hal-radius)', overflow: 'hidden' }}>
               <DocsSiteLayout
-                style={{ minHeight: '14rem' }}
+                style={{ minHeight: '16rem' }}
                 brand="halcyon-ui"
                 version="docs"
                 sidebarLinks={[
@@ -906,14 +919,21 @@ function Gallery() {
                   { href: '#', label: 'Themes' },
                   { href: '#', label: 'Components' },
                 ]}
+                pageTitle="Install"
+                pageDescription="Add the package and import one theme."
+                prevPage={{ href: '#', label: 'Introduction' }}
+                nextPage={{ href: '#', label: 'Themes' }}
               >
-                <h1 style={{ marginTop: 0 }}>Install</h1>
-                <p>Import one theme CSS file, then import components or slices.</p>
+                <p>Run <Kbd>npm install halcyon-ui</Kbd>, then import a theme CSS file at startup.</p>
+                <p>Import components from the root or from a category slice.</p>
               </DocsSiteLayout>
             </div>
           </Specimen>
 
-          <Specimen name="MarketingSiteLayout" note="Marketing site: sticky nav, hero main, link footer.">
+          <Specimen
+            name="MarketingSiteLayout"
+            note="Marketing shell: hero prop, Section blocks, CTA band, and footer."
+          >
             <div style={{ border: '1px solid var(--hal-border)', borderRadius: 'var(--hal-radius)', overflow: 'hidden' }}>
               <MarketingSiteLayout
                 brand="Halcyon"
@@ -923,23 +943,29 @@ function Gallery() {
                   { href: '#', label: 'Blog' },
                 ]}
                 actions={<Button size="sm">Start free</Button>}
-                footerColumns={[
-                  {
-                    title: 'Product',
-                    links: [{ href: '#', label: 'Components' }, { href: '#', label: 'Themes' }],
-                  },
-                  {
-                    title: 'Company',
-                    links: [{ href: '#', label: 'About' }, { href: '#', label: 'Careers' }],
-                  },
-                ]}
+                hero={{
+                  title: 'Ship accessible UI faster',
+                  description: 'Themeable React components with no runtime CSS engine.',
+                  actions: <Button>Get started</Button>,
+                }}
                 copyright="© Halcyon UI"
               >
-                <section style={{ padding: 'var(--hal-space-8) var(--hal-space-4)', textAlign: 'center' }}>
-                  <h1 style={{ marginTop: 0 }}>Ship accessible UI faster</h1>
-                  <p style={{ color: 'var(--hal-fg-muted)' }}>Themeable React components with no runtime CSS engine.</p>
-                  <Button style={{ marginTop: 'var(--hal-space-4)' }}>Get started</Button>
-                </section>
+                <MarketingSiteLayout.Section
+                  title="Built for product teams"
+                  description="Atoms, slices, and full site layouts in one package."
+                  variant="muted"
+                >
+                  <div style={{ display: 'grid', gap: '0.75rem', gridTemplateColumns: 'repeat(auto-fit, minmax(10rem, 1fr))' }}>
+                    <Card padding="md">8 themes</Card>
+                    <Card padding="md">Tree-shakeable</Card>
+                    <Card padding="md">WCAG AA</Card>
+                  </div>
+                </MarketingSiteLayout.Section>
+                <MarketingSiteLayout.Cta
+                  title="Ready to try it?"
+                  description="Install from npm and open the gallery proof sheet."
+                  actions={<Button variant="outline">View docs</Button>}
+                />
               </MarketingSiteLayout>
             </div>
           </Specimen>

@@ -1,2 +1,13 @@
-export { MarketingSiteLayout } from './MarketingSiteLayout'
-export type { MarketingSiteLayoutProps } from './MarketingSiteLayout'
+export {
+  MarketingCta,
+  MarketingHero,
+  MarketingSection,
+  MarketingSiteLayout,
+} from './MarketingSiteLayout'
+export type {
+  MarketingCtaProps,
+  MarketingHeroProps,
+  MarketingSectionProps,
+  MarketingSiteLayoutComponent,
+  MarketingSiteLayoutProps,
+} from './MarketingSiteLayout'

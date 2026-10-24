@@ -1,9 +1,10 @@
 import { forwardRef } from 'react'
-import type { HTMLAttributes, ReactNode } from 'react'
+import type { HTMLAttributes, ReactNode, Ref } from 'react'
+import { Link } from '../../components/Link'
 import { AppShell } from '../AppShell'
 import { Navbar } from '../Navbar'
 import { Sidebar } from '../Sidebar'
-import type { SiteNavLink } from '../types'
+import type { SiteNavLink, SitePagerLink } from '../types'
 import { cx } from '../../internal/cx'
 
 export interface DocsSiteLayoutProps extends HTMLAttributes<HTMLDivElement> {
@@ -12,78 +13,137 @@ export interface DocsSiteLayoutProps extends HTMLAttributes<HTMLDivElement> {
   sidebarLinks: SiteNavLink[]
   navbarLinks?: SiteNavLink[]
   actions?: ReactNode
-  /** Slot for search or version picker in the header. */
   toolbar?: ReactNode
+  pageTitle?: ReactNode
+  pageDescription?: ReactNode
+  prevPage?: SitePagerLink
+  nextPage?: SitePagerLink
   children: ReactNode
 }
 
-export const DocsSiteLayout = /* @__PURE__ */ forwardRef<HTMLDivElement, DocsSiteLayoutProps>(
-  function DocsSiteLayout(
-    {
-      brand,
-      version,
-      sidebarLinks,
-      navbarLinks,
-      actions,
-      toolbar,
-      children,
-      className,
-      ...rest
-    },
-    ref,
-  ) {
-    return (
-      <AppShell
-        {...rest}
-        ref={ref}
-        className={cx('hal-docs-layout', className)}
-      >
-        <AppShell.Header>
-          <Navbar>
-            <Navbar.Brand>
-              {brand}
-              {version ? <span className="hal-docs-layout__version">{version}</span> : null}
-            </Navbar.Brand>
-            {navbarLinks && navbarLinks.length > 0 ? (
-              <Navbar.Nav>
-                <Navbar.Links>
-                  {navbarLinks.map((link) => (
-                    <Navbar.Link
-                      key={String(link.href)}
-                      href={link.href}
-                      label={link.label}
-                      current={link.active}
-                    />
-                  ))}
-                </Navbar.Links>
-              </Navbar.Nav>
-            ) : null}
-            {toolbar ? <div className="hal-docs-layout__toolbar">{toolbar}</div> : null}
-            {actions ? <Navbar.Actions>{actions}</Navbar.Actions> : null}
-          </Navbar>
-        </AppShell.Header>
-        <AppShell.Body>
-          <AppShell.Sidebar>
-            <Sidebar variant="subtle" aria-label="Documentation">
-              <Sidebar.Nav aria-label="Documentation sections">
-                <Sidebar.Links>
-                  {sidebarLinks.map((link) => (
-                    <Sidebar.Link
-                      key={String(link.href)}
-                      href={link.href}
-                      label={link.label}
-                      active={link.active}
-                    />
-                  ))}
-                </Sidebar.Links>
-              </Sidebar.Nav>
-            </Sidebar>
-          </AppShell.Sidebar>
-          <AppShell.Main>
-            <article className="hal-docs-layout__article">{children}</article>
-          </AppShell.Main>
-        </AppShell.Body>
-      </AppShell>
-    )
+export type DocsArticleProps = HTMLAttributes<HTMLElement>
+
+export const DocsArticle = /* @__PURE__ */ forwardRef<HTMLElement, DocsArticleProps>(
+  function DocsArticle({ className, ...rest }, ref) {
+    return <article {...rest} ref={ref} className={cx('hal-docs-layout__article', className)} />
   },
 )
+
+export type DocsPagerProps = HTMLAttributes<HTMLElement>
+
+export const DocsPager = /* @__PURE__ */ forwardRef<HTMLElement, DocsPagerProps>(
+  function DocsPager({ className, ...rest }, ref) {
+    return <nav {...rest} ref={ref} className={cx('hal-docs-layout__pager', className)} aria-label="Documentation pages" />
+  },
+)
+
+function DocsSiteLayoutRoot(
+  {
+    brand,
+    version,
+    sidebarLinks,
+    navbarLinks,
+    actions,
+    toolbar,
+    pageTitle,
+    pageDescription,
+    prevPage,
+    nextPage,
+    children,
+    className,
+    ...rest
+  }: DocsSiteLayoutProps,
+  ref: Ref<HTMLDivElement>,
+) {
+  return (
+    <AppShell {...rest} ref={ref} className={cx('hal-docs-layout', className)}>
+      <AppShell.Header>
+        <Navbar>
+          <Navbar.Brand>
+            {brand}
+            {version ? <span className="hal-docs-layout__version">{version}</span> : null}
+          </Navbar.Brand>
+          {navbarLinks && navbarLinks.length > 0 ? (
+            <Navbar.Nav>
+              <Navbar.Links>
+                {navbarLinks.map((link) => (
+                  <Navbar.Link
+                    key={String(link.href)}
+                    href={link.href}
+                    label={link.label}
+                    current={link.active}
+                  />
+                ))}
+              </Navbar.Links>
+            </Navbar.Nav>
+          ) : null}
+          {toolbar ? <div className="hal-docs-layout__toolbar">{toolbar}</div> : null}
+          {actions ? <Navbar.Actions>{actions}</Navbar.Actions> : null}
+        </Navbar>
+      </AppShell.Header>
+      <AppShell.Body>
+        <AppShell.Sidebar>
+          <Sidebar variant="subtle" label="Documentation">
+            <Sidebar.Header>On this site</Sidebar.Header>
+            <Sidebar.Nav aria-label="Documentation sections">
+              <Sidebar.Links>
+                {sidebarLinks.map((link) => (
+                  <Sidebar.Link
+                    key={String(link.href)}
+                    href={link.href}
+                    label={link.label}
+                    active={link.active}
+                  />
+                ))}
+              </Sidebar.Links>
+            </Sidebar.Nav>
+          </Sidebar>
+        </AppShell.Sidebar>
+        <AppShell.Main className="hal-docs-layout__main">
+          <DocsArticle>
+            {pageTitle ? <h1 className="hal-docs-layout__title">{pageTitle}</h1> : null}
+            {pageDescription ? (
+              <p className="hal-docs-layout__lead">{pageDescription}</p>
+            ) : null}
+            <div className="hal-docs-layout__body">{children}</div>
+            {prevPage || nextPage ? (
+              <DocsPager>
+                {prevPage ? (
+                  <Link href={prevPage.href} className="hal-docs-layout__pager-link">
+                    <span className="hal-docs-layout__pager-label">Previous</span>
+                    <span>{prevPage.label}</span>
+                  </Link>
+                ) : (
+                  <span />
+                )}
+                {nextPage ? (
+                  <Link
+                    href={nextPage.href}
+                    className="hal-docs-layout__pager-link hal-docs-layout__pager-link--next"
+                  >
+                    <span className="hal-docs-layout__pager-label">Next</span>
+                    <span>{nextPage.label}</span>
+                  </Link>
+                ) : null}
+              </DocsPager>
+            ) : null}
+          </DocsArticle>
+        </AppShell.Main>
+      </AppShell.Body>
+    </AppShell>
+  )
+}
+
+export interface DocsSiteLayoutComponent
+  extends ReturnType<typeof forwardRef<HTMLDivElement, DocsSiteLayoutProps>> {
+  Article: typeof DocsArticle
+  Pager: typeof DocsPager
+}
+
+export const DocsSiteLayout = Object.assign(
+  /* @__PURE__ */ forwardRef<HTMLDivElement, DocsSiteLayoutProps>(DocsSiteLayoutRoot),
+  {
+    Article: DocsArticle,
+    Pager: DocsPager,
+  },
+) as DocsSiteLayoutComponent
