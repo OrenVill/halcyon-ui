@@ -1,0 +1,50 @@
+/*
+ * SegmentedControl. A compact radiogroup styled as one pill. Only the selected
+ * segment reads as raised; the rest stay flush with the track.
+ */
+
+.hal-segmented-control {
+  display: inline-flex;
+  align-items: stretch;
+  padding: var(--hal-segmented-control-pad, var(--hal-space-1));
+  gap: var(--hal-segmented-control-gap, var(--hal-space-1));
+  background: var(--hal-segmented-control-track-bg, var(--hal-bg-subtle));
+  border: 1px solid var(--hal-segmented-control-track-border, var(--hal-border));
+  border-radius: var(--hal-segmented-control-radius, var(--hal-radius));
+}
+
+.hal-segmented-control__option {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: var(--hal-segmented-control-option-py, var(--hal-space-1))
+    var(--hal-segmented-control-option-px, var(--hal-space-3));
+  border: none;
+  border-radius: var(--hal-segmented-control-option-radius, calc(var(--hal-radius) - 2px));
+  background: transparent;
+  color: var(--hal-segmented-control-option-fg, var(--hal-fg-muted));
+  font-family: inherit;
+  font-size: var(--hal-segmented-control-option-text, var(--hal-text-sm));
+  font-weight: var(--hal-segmented-control-option-weight, var(--hal-weight-medium));
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color var(--hal-duration) var(--hal-ease),
+    color var(--hal-duration) var(--hal-ease),
+    box-shadow var(--hal-duration) var(--hal-ease);
+}
+
+.hal-segmented-control__option:disabled {
+  opacity: var(--hal-segmented-control-disabled-opacity, 0.5);
+  cursor: not-allowed;
+}
+
+.hal-segmented-control__option--selected {
+  background: var(--hal-segmented-control-selected-bg, var(--hal-bg-raised));
+  color: var(--hal-segmented-control-selected-fg, var(--hal-fg));
+  box-shadow: var(--hal-segmented-control-selected-shadow, var(--hal-shadow-sm));
+}
+
+.hal-segmented-control__option:hover:not(:disabled):not(.hal-segmented-control__option--selected) {
+  color: var(--hal-segmented-control-option-fg-hover, var(--hal-fg));
+}

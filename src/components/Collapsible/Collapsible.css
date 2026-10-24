@@ -1,0 +1,30 @@
+/*
+ * Collapsible. A trigger button and a panel that mounts only while open so
+ * hidden content does not stay in the tab order or keep effects running.
+ */
+
+.hal-collapsible {
+  display: block;
+}
+
+.hal-collapsible__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hal-collapsible-trigger-gap, var(--hal-space-2));
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--hal-collapsible-trigger-fg, var(--hal-fg));
+  font-family: inherit;
+  font-size: var(--hal-collapsible-trigger-text, var(--hal-text-base));
+  font-weight: var(--hal-collapsible-trigger-weight, var(--hal-weight-medium));
+  cursor: pointer;
+  text-align: start;
+}
+
+.hal-collapsible__content {
+  padding-block-start: var(--hal-collapsible-content-gap, var(--hal-space-2));
+  color: var(--hal-collapsible-content-fg, var(--hal-fg));
+  font-size: var(--hal-collapsible-content-text, var(--hal-text-sm));
+}

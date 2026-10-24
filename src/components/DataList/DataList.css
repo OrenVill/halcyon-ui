@@ -1,0 +1,38 @@
+/*
+ * DataList. Semantic definition list for key–value metadata. Each row is a
+ * term stacked above its description on narrow widths and split on wide ones.
+ */
+
+.hal-data-list {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--hal-data-list-gap, var(--hal-space-4));
+}
+
+.hal-data-list__item {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--hal-data-list-item-gap, var(--hal-space-1));
+}
+
+@media (min-width: 32rem) {
+  .hal-data-list__item {
+    grid-template-columns: var(--hal-data-list-term-width, minmax(8rem, 30%)) 1fr;
+    column-gap: var(--hal-data-list-column-gap, var(--hal-space-4));
+    align-items: baseline;
+  }
+}
+
+.hal-data-list__term {
+  margin: 0;
+  font-size: var(--hal-data-list-term-text, var(--hal-text-sm));
+  font-weight: var(--hal-data-list-term-weight, var(--hal-weight-medium));
+  color: var(--hal-data-list-term-fg, var(--hal-fg-muted));
+}
+
+.hal-data-list__description {
+  margin: 0;
+  font-size: var(--hal-data-list-description-text, var(--hal-text-sm));
+  color: var(--hal-data-list-description-fg, var(--hal-fg));
+}
