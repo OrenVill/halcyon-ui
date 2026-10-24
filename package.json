@@ -63,6 +63,18 @@
       "types": "./dist/structures/app-shell.d.ts",
       "import": "./dist/structures/app-shell.js"
     },
+    "./structures/dashboard-layout": {
+      "types": "./dist/structures/dashboard-layout.d.ts",
+      "import": "./dist/structures/dashboard-layout.js"
+    },
+    "./structures/docs-site": {
+      "types": "./dist/structures/docs-site.d.ts",
+      "import": "./dist/structures/docs-site.js"
+    },
+    "./structures/marketing-site": {
+      "types": "./dist/structures/marketing-site.d.ts",
+      "import": "./dist/structures/marketing-site.js"
+    },
     "./base": "./dist/base.css",
     "./midnight": "./dist/midnight.css",
     "./aurora": "./dist/aurora.css",

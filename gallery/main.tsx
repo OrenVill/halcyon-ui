@@ -22,8 +22,10 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
   Combobox,
+  DashboardLayout,
   DataList,
   DatePicker,
+  DocsSiteLayout,
   Drawer,
   DropdownMenu,
   EmptyState,
@@ -36,6 +38,7 @@ import {
   Kbd,
   Link,
   Meter,
+  MarketingSiteLayout,
   Modal,
   Navbar,
   NumberInput,
@@ -143,6 +146,9 @@ const SECTIONS = [
   'Sidebar',
   'AppShell',
   'FormLayout',
+  'DashboardLayout',
+  'DocsSiteLayout',
+  'MarketingSiteLayout',
   'Card',
   'Badge',
   'Tag',
@@ -866,6 +872,76 @@ function Gallery() {
                 <Button>Send invite</Button>
               </FormLayout.Actions>
             </FormLayout>
+          </Specimen>
+
+          <Specimen name="DashboardLayout" note="Complete dashboard frame: top bar, app sidebar, main canvas.">
+            <div style={{ border: '1px solid var(--hal-border)', borderRadius: 'var(--hal-radius)', overflow: 'hidden' }}>
+              <DashboardLayout
+                style={{ minHeight: '16rem' }}
+                brand="Acme Cloud"
+                sidebarTitle="Analytics"
+                sidebarLinks={[
+                  { href: '#', label: 'Overview', active: true },
+                  { href: '#', label: 'Reports' },
+                  { href: '#', label: 'Alerts' },
+                ]}
+                actions={<Button size="sm">New report</Button>}
+              >
+                <Card variant="subtle" padding="md">
+                  <strong>Active users</strong>
+                  <p style={{ margin: '0.25rem 0 0', color: 'var(--hal-fg-muted)' }}>12,480 today</p>
+                </Card>
+              </DashboardLayout>
+            </div>
+          </Specimen>
+
+          <Specimen name="DocsSiteLayout" note="Documentation site: version badge, doc nav, prose column.">
+            <div style={{ border: '1px solid var(--hal-border)', borderRadius: 'var(--hal-radius)', overflow: 'hidden' }}>
+              <DocsSiteLayout
+                style={{ minHeight: '14rem' }}
+                brand="halcyon-ui"
+                version="docs"
+                sidebarLinks={[
+                  { href: '#', label: 'Install', active: true },
+                  { href: '#', label: 'Themes' },
+                  { href: '#', label: 'Components' },
+                ]}
+              >
+                <h1 style={{ marginTop: 0 }}>Install</h1>
+                <p>Import one theme CSS file, then import components or slices.</p>
+              </DocsSiteLayout>
+            </div>
+          </Specimen>
+
+          <Specimen name="MarketingSiteLayout" note="Marketing site: sticky nav, hero main, link footer.">
+            <div style={{ border: '1px solid var(--hal-border)', borderRadius: 'var(--hal-radius)', overflow: 'hidden' }}>
+              <MarketingSiteLayout
+                brand="Halcyon"
+                navLinks={[
+                  { href: '#', label: 'Product' },
+                  { href: '#', label: 'Pricing', active: true },
+                  { href: '#', label: 'Blog' },
+                ]}
+                actions={<Button size="sm">Start free</Button>}
+                footerColumns={[
+                  {
+                    title: 'Product',
+                    links: [{ href: '#', label: 'Components' }, { href: '#', label: 'Themes' }],
+                  },
+                  {
+                    title: 'Company',
+                    links: [{ href: '#', label: 'About' }, { href: '#', label: 'Careers' }],
+                  },
+                ]}
+                copyright="© Halcyon UI"
+              >
+                <section style={{ padding: 'var(--hal-space-8) var(--hal-space-4)', textAlign: 'center' }}>
+                  <h1 style={{ marginTop: 0 }}>Ship accessible UI faster</h1>
+                  <p style={{ color: 'var(--hal-fg-muted)' }}>Themeable React components with no runtime CSS engine.</p>
+                  <Button style={{ marginTop: 'var(--hal-space-4)' }}>Get started</Button>
+                </section>
+              </MarketingSiteLayout>
+            </div>
           </Specimen>
 
           <Specimen name="Card" note="Variants differ in weight, not decoration: a border, an elevation, or a fill.">

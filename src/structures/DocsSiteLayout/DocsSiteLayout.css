@@ -1,0 +1,33 @@
+.hal-docs-layout__version {
+  margin-inline-start: var(--hal-space-2);
+  padding: var(--hal-space-1) var(--hal-space-2);
+  border-radius: var(--hal-radius-sm);
+  background: var(--hal-docs-layout-version-bg, var(--hal-bg-subtle));
+  color: var(--hal-docs-layout-version-fg, var(--hal-fg-muted));
+  font-size: var(--hal-text-xs);
+  font-weight: var(--hal-weight-medium);
+}
+
+.hal-docs-layout__toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--hal-space-2);
+  margin-inline-end: auto;
+  margin-inline-start: var(--hal-space-4);
+}
+
+.hal-docs-layout__article {
+  max-width: var(--hal-docs-layout-content-max, 48rem);
+  margin-inline: auto;
+  width: 100%;
+  line-height: var(--hal-leading);
+}
+
+.hal-docs-layout__article :where(h1, h2, h3) {
+  margin-block: var(--hal-space-4) var(--hal-space-2);
+}
+
+.hal-docs-layout__article :where(p, ul, ol) {
+  margin-block: var(--hal-space-3);
+  color: var(--hal-fg);
+}

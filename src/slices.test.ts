@@ -47,5 +47,8 @@ describe('category slices', () => {
     expect('Sidebar' in structures).toBe(true)
     expect('FormLayout' in structures).toBe(true)
     expect('AppShell' in structures).toBe(true)
+    expect('DashboardLayout' in structures).toBe(true)
+    expect('DocsSiteLayout' in structures).toBe(true)
+    expect('MarketingSiteLayout' in structures).toBe(true)
   })
 })

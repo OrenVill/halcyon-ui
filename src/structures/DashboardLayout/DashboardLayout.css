@@ -1,0 +1,3 @@
+.hal-dashboard-layout__main {
+  background: var(--hal-dashboard-layout-main-bg, var(--hal-bg));
+}

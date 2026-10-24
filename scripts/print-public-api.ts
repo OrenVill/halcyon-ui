@@ -21,6 +21,11 @@ for (const key of keys) {
 }
 
 console.log('\nCategory slices: form, navigation, overlay, display, primitives, hooks, structures')
-console.log('Structure subpaths: structures/navbar, structures/sidebar, structures/form-layout, structures/app-shell')
+console.log(
+  'Structure subpaths: structures/navbar, structures/sidebar, structures/form-layout, structures/app-shell,',
+)
+console.log(
+  '  structures/dashboard-layout, structures/docs-site, structures/marketing-site',
+)
 console.log('Themes: base, midnight, aurora, ember, forest, sandstone, mono, neon (CSS files)')
 console.log('\nRun `npm run gallery` in the repo to preview components visually.')

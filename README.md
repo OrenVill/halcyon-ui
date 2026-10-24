@@ -69,7 +69,7 @@ import { Button, Tabs, Navbar } from 'halcyon-ui'
 | `halcyon-ui/display` | Card, Badge, Avatar, Alert, Table, Progress, Spinner, Skeleton, Tag |
 | `halcyon-ui/primitives` | Separator, Link, Field, InlineMessage, SegmentedControl, ToggleGroup, Collapsible, Kbd, EmptyState, Meter, DataList |
 | `halcyon-ui/hooks` | `useColorMode`, `ColorModeScript`, `useDismissable`, `useFocusTrap` |
-| `halcyon-ui/structures` | Navbar, Sidebar, FormLayout, AppShell |
+| `halcyon-ui/structures` | Navbar, Sidebar, FormLayout, AppShell, DashboardLayout, DocsSiteLayout, MarketingSiteLayout |
 
 ```tsx
 import { Tabs, Breadcrumb } from 'halcyon-ui/navigation'
@@ -87,11 +87,24 @@ app frame):
 | `halcyon-ui/structures/sidebar` | `Sidebar` (+ header, nav links, footer) |
 | `halcyon-ui/structures/form-layout` | `FormLayout` (+ header, body, sections, actions) |
 | `halcyon-ui/structures/app-shell` | `AppShell` (+ header, sidebar slot, main) |
+| `halcyon-ui/structures/dashboard-layout` | Full dashboard chrome (navbar + sidebar + main) |
+| `halcyon-ui/structures/docs-site` | Documentation site (nav + doc sidebar + article column) |
+| `halcyon-ui/structures/marketing-site` | Marketing site (sticky nav + main + footer) |
 
 ```tsx
-import { Navbar } from 'halcyon-ui/structures/navbar'
-import { AppShell } from 'halcyon-ui/structures/app-shell'
+import { DashboardLayout } from 'halcyon-ui/structures/dashboard-layout'
+import { DocsSiteLayout } from 'halcyon-ui/structures/docs-site'
+import { MarketingSiteLayout } from 'halcyon-ui/structures/marketing-site'
 import { Button } from 'halcyon-ui/form'
+
+<DashboardLayout
+  brand="Acme"
+  sidebarTitle="Analytics"
+  sidebarLinks={[{ href: '/overview', label: 'Overview', active: true }]}
+  actions={<Button size="sm">New report</Button>}
+>
+  {dashboardContent}
+</DashboardLayout>
 ```
 
 ### Themes (CSS only)

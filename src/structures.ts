@@ -1,3 +1,5 @@
+export type { SiteFooterColumn, SiteNavLink } from './structures/types'
+
 export { AppShell } from './structures/AppShell'
 export type {
   AppShellBodyProps,
@@ -31,6 +33,15 @@ export type {
   NavbarSize,
   NavbarVariant,
 } from './structures/Navbar'
+
+export { DashboardLayout } from './structures/DashboardLayout'
+export type { DashboardLayoutProps } from './structures/DashboardLayout'
+
+export { DocsSiteLayout } from './structures/DocsSiteLayout'
+export type { DocsSiteLayoutProps } from './structures/DocsSiteLayout'
+
+export { MarketingSiteLayout } from './structures/MarketingSiteLayout'
+export type { MarketingSiteLayoutProps } from './structures/MarketingSiteLayout'
 
 export { Sidebar } from './structures/Sidebar'
 export type {
