@@ -57,9 +57,9 @@ describe('Wizard', () => {
     const ref = createRef<{ next: () => Promise<void>; back: () => void }>()
     render(<Wizard ref={ref} steps={STEPS} />)
     await ref.current?.next()
-    expect(screen.getByText('Second panel')).toBeInTheDocument()
+    await waitFor(() => expect(screen.getByText('Second panel')).toBeInTheDocument())
     ref.current?.back()
-    expect(screen.getByText('First panel')).toBeInTheDocument()
+    await waitFor(() => expect(screen.getByText('First panel')).toBeInTheDocument())
   })
 
   it('uses hal-wizard classes for the step indicator', () => {
