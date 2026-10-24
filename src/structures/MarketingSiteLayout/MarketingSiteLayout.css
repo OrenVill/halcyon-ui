@@ -36,6 +36,11 @@
 
 .hal-marketing-layout__header .hal-navbar__nav {
   justify-self: center;
+  max-width: 100%;
+}
+
+.hal-marketing-layout__header .hal-navbar__links {
+  flex-wrap: nowrap;
 }
 
 .hal-marketing-layout__header .hal-navbar__actions {

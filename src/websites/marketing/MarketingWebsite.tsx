@@ -44,6 +44,7 @@ function MarketingWebsiteHome({
   navLinks,
   hero,
   children,
+  actions,
   ...rest
 }: MarketingWebsiteHomeProps) {
   const links =
@@ -59,10 +60,30 @@ function MarketingWebsiteHome({
       {...rest}
       brand={brand}
       navLinks={links}
+      actions={
+        actions ?? (
+          <Link href={marketingWebsitePaths.login} className="hal-button hal-button--solid hal-button--sm">
+            Start free
+          </Link>
+        )
+      }
       hero={
         hero ?? {
           title: 'Ship accessible UI faster',
           description: 'Themeable React components with no runtime CSS engine.',
+          actions: (
+            <>
+              <Link href={marketingWebsitePaths.signup} className="hal-button hal-button--solid hal-button--md">
+                Get started
+              </Link>
+              <Link
+                href={marketingWebsitePaths.login}
+                className="hal-button hal-button--outline hal-button--md"
+              >
+                Sign in
+              </Link>
+            </>
+          ),
         }
       }
     >
@@ -79,6 +100,19 @@ function MarketingWebsiteHome({
       <MarketingSiteLayout.Cta
         title="Ready to try it?"
         description="Create an account or sign in to your workspace."
+        actions={
+          <>
+            <Link href={marketingWebsitePaths.signup} className="hal-button hal-button--solid hal-button--md">
+              Create account
+            </Link>
+            <Link
+              href={marketingWebsitePaths.login}
+              className="hal-button hal-button--outline hal-button--md"
+            >
+              Sign in
+            </Link>
+          </>
+        }
       />
     </MarketingSiteLayout>
   )

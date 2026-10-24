@@ -1700,11 +1700,57 @@ function GalleryApp() {
     window.dispatchEvent(new PopStateEvent('popstate'))
   }, [])
 
+  const [playgroundTheme, setPlaygroundTheme] = useState('midnight')
+  const [playgroundMode, setPlaygroundMode] = useState<Mode>('dark')
+  const playgroundTokens = useMemo(
+    () => THEMES[playgroundTheme]![playgroundMode] as React.CSSProperties,
+    [playgroundTheme, playgroundMode],
+  )
+
   const normalized = normalizePath(path)
   const showPlayground = isWebsitePlaygroundPath(normalized) && normalized !== '/gallery'
 
   if (showPlayground) {
-    return <WebsitePlayground path={normalized} onNavigate={navigate} />
+    return (
+      <div
+        className="website-playground-shell"
+        style={playgroundTokens}
+        data-theme-name={playgroundTheme}
+        data-mode={playgroundMode}
+      >
+        <header className="website-playground__bar">
+          <span className="website-playground__label">halcyon-ui · website kit preview</span>
+          <div className="website-playground__themes" role="group" aria-label="Theme">
+            {THEME_NAMES.map((name) => (
+              <button
+                key={name}
+                type="button"
+                className={`chip${name === playgroundTheme ? ' chip--on' : ''}`}
+                onClick={() => setPlaygroundTheme(name)}
+                aria-pressed={name === playgroundTheme}
+              >
+                {name}
+              </button>
+            ))}
+          </div>
+          <div className="website-playground__modes" role="group" aria-label="Color mode">
+            {(['light', 'dark'] as const).map((m) => (
+              <button
+                key={m}
+                type="button"
+                className={`seg${m === playgroundMode ? ' seg--on' : ''}`}
+                onClick={() => setPlaygroundMode(m)}
+                aria-pressed={m === playgroundMode}
+              >
+                {m}
+              </button>
+            ))}
+          </div>
+          <a className="website-playground__gallery-link" href="/gallery">Component gallery</a>
+        </header>
+        <WebsitePlayground path={normalized} onNavigate={navigate} />
+      </div>
+    )
   }
 
   return (

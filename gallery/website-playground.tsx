@@ -47,13 +47,22 @@ function renderPage(path: string): ReactNode {
   switch (path) {
     case '/':
       return (
-        <MarketingWebsite.Home brand="Halcyon">
-          <div style={{ display: 'grid', gap: '0.75rem', gridTemplateColumns: 'repeat(3, 1fr)' }}>
-            <Card padding="md">8 themes</Card>
-            <Card padding="md">Tree-shakeable</Card>
-            <Card padding="md">WCAG AA</Card>
-          </div>
-        </MarketingWebsite.Home>
+        <MarketingWebsite.Home
+          brand="Halcyon"
+          featureSection={
+            <div
+              style={{
+                display: 'grid',
+                gap: '0.75rem',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(10rem, 1fr))',
+              }}
+            >
+              <Card padding="md">8 themes</Card>
+              <Card padding="md">Tree-shakeable</Card>
+              <Card padding="md">WCAG AA</Card>
+            </div>
+          }
+        />
       )
     case '/login':
       return (
