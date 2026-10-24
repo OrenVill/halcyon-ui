@@ -270,6 +270,40 @@ body {
   border-left: 1px solid var(--g-rule);
 }
 
+.sheet-group {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 2px solid var(--g-rule);
+  scroll-margin-top: calc(var(--g-bar-h) + 1rem);
+}
+
+.sheet-group__head {
+  margin-bottom: 0.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--hal-border);
+}
+
+.sheet-group__title {
+  margin: 0;
+  font-family: var(--g-mono);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.sheet-group__note {
+  margin: 0.5rem 0 0;
+  max-width: 62ch;
+  font-size: 13px;
+  color: var(--hal-fg-muted);
+  line-height: 1.5;
+}
+
+.sheet-group__note code {
+  font-family: var(--g-mono);
+  font-size: 12px;
+}
+
 .spec {
   padding: 1.5rem 0;
   border-bottom: 1px solid var(--hal-border);

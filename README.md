@@ -48,8 +48,9 @@ Then serve the built file (a static server avoids `file://` restrictions):
 npx --yes serve gallery -p 4173
 ```
 
-Open **http://localhost:4173/gallery.html** and use the left rail to jump
-between specimens.
+Open **http://localhost:4173/gallery.html** and use the left rail: **Components**
+for atoms and primitives, **Site layouts** for full dashboard, docs, and marketing
+scaffolds.
 
 ## What you can import
 
