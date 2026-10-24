@@ -85,7 +85,6 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
       onKeyDown,
       onFocus,
       onBlur,
-      onChange,
       ...rest
     },
     ref,
@@ -391,7 +390,6 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
             placeholder={placeholder}
             value={inputValue}
             onChange={(event) => {
-              onChange?.(event)
               if (event.defaultPrevented) return
               const nextInput = event.target.value
               setInputValue(nextInput)

@@ -61,7 +61,7 @@ const CollapsibleRoot = /* @__PURE__ */ forwardRef<HTMLDivElement, CollapsiblePr
   },
 )
 
-export interface CollapsibleTriggerProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
+export type CollapsibleTriggerProps = ButtonHTMLAttributes<HTMLButtonElement>
 
 export const CollapsibleTrigger = /* @__PURE__ */ forwardRef<
   HTMLButtonElement,
@@ -84,7 +84,7 @@ export const CollapsibleTrigger = /* @__PURE__ */ forwardRef<
   )
 })
 
-export interface CollapsibleContentProps extends HTMLAttributes<HTMLDivElement> {}
+export type CollapsibleContentProps = HTMLAttributes<HTMLDivElement>
 
 export const CollapsibleContent = /* @__PURE__ */ forwardRef<
   HTMLDivElement,

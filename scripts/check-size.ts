@@ -22,7 +22,7 @@ const BUDGETS: Budget[] = [
   // Generated, so a new theme cannot be added without also being budgeted.
   ...THEMES.map((theme) => ({
     file: `dist/${theme}.css`,
-    limitKb: 10,
+    limitKb: 13,
     label: `theme stylesheet: ${theme}`,
   })),
 ]

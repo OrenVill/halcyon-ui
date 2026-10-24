@@ -84,7 +84,7 @@ export const Tabs = /* @__PURE__ */ forwardRef<HTMLDivElement, TabsProps>(functi
     if (event.defaultPrevented) return
     if (safeSelectedIndex < 0) return
 
-    let nextIndex = safeSelectedIndex
+    let nextIndex: number
     switch (event.key) {
       case 'ArrowRight':
       case 'ArrowDown':

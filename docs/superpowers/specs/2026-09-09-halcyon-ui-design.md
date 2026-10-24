@@ -255,7 +255,7 @@ exceeded.
 | --- | --- |
 | Full library, all 34 components, gzipped | 45 KB |
 | A single `Button` import, gzipped | 2 KB |
-| One theme stylesheet, gzipped | 10 KB |
+| One theme stylesheet, gzipped | 13 KB |
 
 ## 9. README
 

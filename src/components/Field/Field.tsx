@@ -91,7 +91,7 @@ const FieldRoot = /* @__PURE__ */ forwardRef<HTMLDivElement, FieldProps>(functio
   )
 })
 
-export interface FieldLabelProps extends LabelHTMLAttributes<HTMLLabelElement> {}
+export type FieldLabelProps = LabelHTMLAttributes<HTMLLabelElement>
 
 export const FieldLabel = /* @__PURE__ */ forwardRef<HTMLLabelElement, FieldLabelProps>(
   function FieldLabel({ className, htmlFor, ...rest }, ref) {
@@ -107,7 +107,7 @@ export const FieldLabel = /* @__PURE__ */ forwardRef<HTMLLabelElement, FieldLabe
   },
 )
 
-export interface FieldDescriptionProps extends HTMLAttributes<HTMLParagraphElement> {}
+export type FieldDescriptionProps = HTMLAttributes<HTMLParagraphElement>
 
 export const FieldDescription = /* @__PURE__ */ forwardRef<
   HTMLParagraphElement,
@@ -130,7 +130,7 @@ export const FieldDescription = /* @__PURE__ */ forwardRef<
   )
 })
 
-export interface FieldErrorProps extends HTMLAttributes<HTMLParagraphElement> {}
+export type FieldErrorProps = HTMLAttributes<HTMLParagraphElement>
 
 export const FieldError = /* @__PURE__ */ forwardRef<HTMLParagraphElement, FieldErrorProps>(
   function FieldError({ className, id, role = 'alert', ...rest }, ref) {

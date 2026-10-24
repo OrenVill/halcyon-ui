@@ -73,7 +73,7 @@ describe('getCalendarMonthGrid', () => {
     const june = new Date(2024, 5, 1)
     const grid = getCalendarMonthGrid(june, 0)
     expect(grid).toHaveLength(42)
-    expect(grid[0].getDay()).toBe(0)
+    expect(grid[0]?.getDay()).toBe(0)
     expect(grid.some((d) => sameDay(d, new Date(2024, 5, 1)))).toBe(true)
   })
 })

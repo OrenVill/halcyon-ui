@@ -4,6 +4,7 @@ import {
   useEffect,
   useId,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react'
@@ -119,7 +120,10 @@ export const DatePicker = /* @__PURE__ */ forwardRef<HTMLButtonElement, DatePick
     const baseId = useId()
     const gridId = `${baseId}-grid`
 
-    const bounds = { min, max, disabledDates }
+    const bounds = useMemo(
+      () => ({ min, max, disabledDates }),
+      [min, max, disabledDates],
+    )
 
     const setRefs = useCallback(
       (node: HTMLButtonElement | null) => {
@@ -270,14 +274,18 @@ export const DatePicker = /* @__PURE__ */ forwardRef<HTMLButtonElement, DatePick
           event.preventDefault()
           setViewMonth(addMonths(viewMonth, 1))
           break
-        case 'Home':
+        case 'Home': {
           event.preventDefault()
-          moveFocus(gridDays[0])
+          const first = gridDays[0]
+          if (first) moveFocus(first)
           break
-        case 'End':
+        }
+        case 'End': {
           event.preventDefault()
-          moveFocus(gridDays[gridDays.length - 1])
+          const last = gridDays[gridDays.length - 1]
+          if (last) moveFocus(last)
           break
+        }
         case 'Enter':
         case ' ':
           event.preventDefault()

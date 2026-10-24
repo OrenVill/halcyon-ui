@@ -4,7 +4,7 @@ import { createRef } from 'react'
 import { describe, expect, it, vi } from 'vitest'
 import { axe } from 'vitest-axe'
 import { Wizard } from './Wizard'
-import type { WizardStep } from './Wizard'
+import type { WizardHandle, WizardStep } from './Wizard'
 
 const STEPS: WizardStep[] = [
   { id: 'one', label: 'Step one', content: 'First panel' },
@@ -54,7 +54,7 @@ describe('Wizard', () => {
   })
 
   it('exposes imperative next and back on the ref', async () => {
-    const ref = createRef<{ next: () => Promise<void>; back: () => void }>()
+    const ref = createRef<WizardHandle>()
     render(<Wizard ref={ref} steps={STEPS} />)
     await waitFor(() => expect(ref.current).not.toBeNull())
     await ref.current!.next()

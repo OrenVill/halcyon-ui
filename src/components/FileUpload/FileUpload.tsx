@@ -91,7 +91,9 @@ export const FileUpload = /* @__PURE__ */ forwardRef<HTMLDivElement, FileUploadP
           return true
         })
         if (accepted.length === 0) return
-        const next = multiple ? [...current, ...accepted] : [accepted[0]]
+        const first = accepted[0]
+        if (!first) return
+        const next = multiple ? [...current, ...accepted] : [first]
         setFiles(next)
       },
       [accept, current, maxSize, multiple, setFiles],
@@ -114,7 +116,7 @@ export const FileUpload = /* @__PURE__ */ forwardRef<HTMLDivElement, FileUploadP
       }
     }, [current])
 
-    const onDrop = (event: DragEvent<HTMLDivElement>) => {
+    const onDrop = (event: DragEvent<HTMLLabelElement>) => {
       event.preventDefault()
       setDragActive(false)
       if (disabled) return

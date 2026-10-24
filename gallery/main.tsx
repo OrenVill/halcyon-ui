@@ -9,32 +9,55 @@
 import { StrictMode, useMemo, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
+  Accordion,
   Alert,
   Avatar,
   Badge,
+  Breadcrumb,
   Button,
   Card,
   Checkbox,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+  Combobox,
+  DataList,
+  DatePicker,
   Drawer,
   DropdownMenu,
-  Modal,
-  Popover,
+  EmptyState,
+  Field,
+  FileUpload,
   IconButton,
+  InlineMessage,
   Input,
+  Kbd,
+  Link,
+  Meter,
+  Modal,
   NumberInput,
-  Radio,
+  Pagination,
+  Popover,
   Progress,
+  Radio,
+  SegmentedControl,
   Select,
+  Separator,
   Skeleton,
   Slider,
   Spinner,
+  Stepper,
   Switch,
   Table,
+  Tabs,
   Tag,
   Textarea,
   ToastProvider,
+  ToggleGroup,
   Tooltip,
+  useFieldControlProps,
   useToast,
+  Wizard,
 } from '../src/index'
 
 declare const __THEMES__: Record<string, Record<'light' | 'dark', Record<string, string>>>
@@ -92,6 +115,26 @@ const SECTIONS = [
   'Switch',
   'Slider',
   'NumberInput',
+  'Combobox',
+  'DatePicker',
+  'FileUpload',
+  'Separator',
+  'Link',
+  'Field',
+  'InlineMessage',
+  'SegmentedControl',
+  'ToggleGroup',
+  'Collapsible',
+  'Kbd',
+  'EmptyState',
+  'Meter',
+  'DataList',
+  'Tabs',
+  'Accordion',
+  'Pagination',
+  'Breadcrumb',
+  'Stepper',
+  'Wizard',
   'Card',
   'Badge',
   'Tag',
@@ -108,6 +151,29 @@ const SECTIONS = [
   'DropdownMenu',
   'Toast',
 ] as const
+
+const FRUIT_OPTIONS = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+
+const TAB_ITEMS = [
+  { id: 'overview', label: 'Overview', content: <p style={{ margin: 0 }}>Summary metrics and health.</p> },
+  { id: 'deploys', label: 'Deploys', content: <p style={{ margin: 0 }}>Recent releases across environments.</p> },
+  { id: 'settings', label: 'Settings', content: <p style={{ margin: 0 }}>Theme tokens and team access.</p>, disabled: true },
+]
+
+const ACCORDION_ITEMS = [
+  { id: 'tokens', title: 'Design tokens', content: 'Every component reads layered CSS variables.' },
+  { id: 'a11y', title: 'Accessibility', content: 'Keyboard behavior follows the ARIA authoring practices.' },
+]
+
+
+function GalleryFieldInput() {
+  const props = useFieldControlProps()
+  return <Input {...props} placeholder="you@example.com" />
+}
 
 function Specimen({
   name,
@@ -149,6 +215,16 @@ const SORT_OPTIONS = [
   { value: 'modified', label: 'By modified date' },
   { value: 'archived', label: 'Archived', disabled: true },
   { value: 'custom', label: 'Custom order' },
+]
+
+const WIZARD_STEPS = [
+  { id: 'name', label: 'Name', content: <Input aria-label="Project name" placeholder="halcyon-ui" /> },
+  {
+    id: 'theme',
+    label: 'Theme',
+    content: <Select aria-label="Theme" options={SORT_OPTIONS} defaultValue="modified" />,
+  },
+  { id: 'done', label: 'Done', content: <p style={{ margin: 0 }}>Review and create the project.</p> },
 ]
 
 const BUTTON_VARIANTS = ['solid', 'soft', 'outline', 'ghost', 'danger'] as const
@@ -204,6 +280,11 @@ function Gallery() {
   const [drawerSide, setDrawerSide] = useState<'left' | 'right' | 'top' | 'bottom' | null>(null)
   const [popoverOpen, setPopoverOpen] = useState(false)
   const popoverAnchor = useRef<HTMLButtonElement>(null)
+  const [segment, setSegment] = useState('week')
+  const [toggleView, setToggleView] = useState('grid')
+  const [page, setPage] = useState(2)
+  const [pickedDate, setPickedDate] = useState<Date | null>(new Date())
+  const [uploadFiles, setUploadFiles] = useState<File[]>([])
 
   const tokens = THEMES[theme]![mode]
   const style = useMemo(() => tokens as React.CSSProperties, [tokens])
@@ -513,6 +594,188 @@ function Gallery() {
               <NumberInput aria-label="Invalid quantity" invalid defaultValue={2} />
               <NumberInput aria-label="Disabled quantity" disabled defaultValue={2} />
             </Row>
+          </Specimen>
+
+          <Specimen name="Combobox" note="Filterable listbox with optional multi-select chips.">
+            <Row label="single">
+              <Combobox options={FRUIT_OPTIONS} aria-label="Fruit" defaultValue="apple" />
+            </Row>
+            <Row label="multi">
+              <Combobox options={FRUIT_OPTIONS} multi aria-label="Fruit basket" defaultValue={['apple']} />
+            </Row>
+          </Specimen>
+
+          <Specimen name="DatePicker" note="Calendar popover with Intl weekday and month labels.">
+            <Row label="single">
+              <DatePicker
+                aria-label="Ship date"
+                value={pickedDate}
+                onValueChange={(value) => setPickedDate(value instanceof Date ? value : null)}
+              />
+            </Row>
+          </Specimen>
+
+          <Specimen name="FileUpload" note="Reports files to the app; it never uploads by itself.">
+            <Row label="dropzone">
+              <FileUpload files={uploadFiles} onFilesChange={setUploadFiles} accept="image/*" multiple />
+            </Row>
+          </Specimen>
+
+          <Specimen name="Separator" note="Decorative or semantic divider between blocks.">
+            <Row label="horizontal">
+              <div style={{ width: '100%' }}>
+                <p style={{ margin: '0 0 0.5rem' }}>Above</p>
+                <Separator />
+                <p style={{ margin: '0.5rem 0 0' }}>Below</p>
+              </div>
+            </Row>
+          </Specimen>
+
+          <Specimen name="Link" note="Themed anchor with an external variant.">
+            <Row label="variants">
+              <Link href="#">default</Link>
+              <Link href="#" variant="muted">muted</Link>
+              <Link href="https://example.com" external>external</Link>
+            </Row>
+          </Specimen>
+
+          <Specimen name="Field" note="Wires label, description, and error to the control.">
+            <Field invalid style={{ maxWidth: '20rem' }}>
+              <Field.Label>Email</Field.Label>
+              <GalleryFieldInput />
+              <Field.Description>We send receipts here.</Field.Description>
+              <Field.Error>Enter a valid address.</Field.Error>
+            </Field>
+          </Specimen>
+
+          <Specimen name="InlineMessage" note="Compact validation text under a control.">
+            <Row label="variants">
+              {(['info', 'success', 'warning', 'danger'] as const).map((v) => (
+                <InlineMessage key={v} variant={v}>
+                  {v} message
+                </InlineMessage>
+              ))}
+            </Row>
+          </Specimen>
+
+          <Specimen name="SegmentedControl" note="Radio group styled as a single control.">
+            <Row label="period">
+              <SegmentedControl
+                value={segment}
+                onValueChange={setSegment}
+                options={[
+                  { value: 'day', label: 'Day' },
+                  { value: 'week', label: 'Week' },
+                  { value: 'month', label: 'Month' },
+                ]}
+                aria-label="Period"
+              />
+            </Row>
+          </Specimen>
+
+          <Specimen name="ToggleGroup" note="Toolbar-style single selection.">
+            <Row label="view">
+              <ToggleGroup
+                type="single"
+                value={toggleView}
+                onValueChange={(v) => setToggleView(v as string)}
+                options={[
+                  { value: 'grid', label: 'Grid' },
+                  { value: 'list', label: 'List' },
+                ]}
+                aria-label="View mode"
+              />
+            </Row>
+          </Specimen>
+
+          <Specimen name="Collapsible" note="One disclosure region with an explicit trigger.">
+            <Collapsible>
+              <CollapsibleTrigger>Token layers</CollapsibleTrigger>
+              <CollapsibleContent>
+                Global tokens, component tokens, then className escape hatches.
+              </CollapsibleContent>
+            </Collapsible>
+          </Specimen>
+
+          <Specimen name="Kbd" note="Keyboard hints for shortcuts.">
+            <Row label="combo">
+              <span>
+                Save <Kbd>Ctrl</Kbd> + <Kbd>S</Kbd>
+              </span>
+            </Row>
+          </Specimen>
+
+          <Specimen name="EmptyState" note="Centered placeholder when a list has no items.">
+            <EmptyState title="No themes yet" description="Import a stylesheet to preview tokens here.">
+              <Button variant="outline">Create theme</Button>
+            </EmptyState>
+          </Specimen>
+
+          <Specimen name="Meter" note="Quota usage with role=meter.">
+            <Row label="storage">
+              <Meter value={72} min={0} max={100} aria-label="Storage used" />
+            </Row>
+          </Specimen>
+
+          <Specimen name="DataList" note="Key–value rows without a full table.">
+            <DataList
+              items={[
+                { term: 'Package', description: 'halcyon-ui' },
+                { term: 'Themes', description: '8' },
+                { term: 'React', description: 'peer dependency' },
+              ]}
+            />
+          </Specimen>
+
+          <Specimen name="Tabs" note="Tablist with arrow-key navigation.">
+            <Tabs tabs={TAB_ITEMS} defaultValue="overview" />
+          </Specimen>
+
+          <Specimen name="Accordion" note="Expandable sections; danger uses role=alert elsewhere, not here.">
+            <Accordion items={ACCORDION_ITEMS} defaultValue={['tokens']} type="multiple" />
+          </Specimen>
+
+          <Specimen name="Pagination" note="Previous and next with numbered pages.">
+            <Pagination page={page} pageCount={8} onPageChange={setPage} />
+          </Specimen>
+
+          <Specimen name="Breadcrumb" note="Navigation trail with aria-current on the last item.">
+            <Breadcrumb
+              items={[
+                { label: 'Home', href: '#' },
+                { label: 'Themes', href: '#' },
+                { label: 'Midnight' },
+              ]}
+            />
+          </Specimen>
+
+          <Specimen name="Stepper" note="Visual progress through discrete steps.">
+            <Stepper
+              steps={[
+                { id: '1', label: 'Account' },
+                { id: '2', label: 'Billing' },
+                { id: '3', label: 'Confirm' },
+              ]}
+              activeStep={1}
+            />
+          </Specimen>
+
+          <Specimen name="Wizard" note="Step state container with optional per-step validation.">
+            <Wizard steps={WIZARD_STEPS} defaultActiveStep={0}>
+              {(api) => (
+                <div style={{ display: 'grid', gap: '0.75rem' }}>
+                  {WIZARD_STEPS[api.activeStep]?.content}
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <Button variant="ghost" disabled={!api.canGoBack} onClick={() => api.back()}>
+                      Back
+                    </Button>
+                    <Button disabled={!api.canGoNext} onClick={() => api.next()}>
+                      {api.activeStep === WIZARD_STEPS.length - 1 ? 'Finish' : 'Next'}
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </Wizard>
           </Specimen>
 
           <Specimen name="Card" note="Variants differ in weight, not decoration: a border, an elevation, or a fill.">

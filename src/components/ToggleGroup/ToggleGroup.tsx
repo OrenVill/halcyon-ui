@@ -41,15 +41,9 @@ function nextEnabled(options: ToggleGroupOption[], from: number, step: number): 
 export const ToggleGroup = /* @__PURE__ */ forwardRef<HTMLDivElement, ToggleGroupProps>(
   function ToggleGroup(props, ref) {
     if (props.type === 'multiple') {
-      const {
-        type: _type,
-        options,
-        className,
-        value,
-        defaultValue,
-        onValueChange,
-        ...rest
-      } = props
+      const { options, className, value, defaultValue, onValueChange, type: _multipleType, ...rest } =
+        props
+      void _multipleType
       return (
         <ToggleGroupMultiple
           {...rest}
@@ -63,16 +57,9 @@ export const ToggleGroup = /* @__PURE__ */ forwardRef<HTMLDivElement, ToggleGrou
       )
     }
 
-    const {
-      type: _type,
-      options,
-      className,
-      onKeyDown,
-      value,
-      defaultValue,
-      onValueChange,
-      ...rest
-    } = props
+    const { options, className, onKeyDown, value, defaultValue, onValueChange, type: _singleType, ...rest } =
+      props
+    void _singleType
 
     return (
       <ToggleGroupSingle
