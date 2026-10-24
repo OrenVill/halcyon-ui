@@ -42,8 +42,14 @@ npm install
 npm run gallery
 ```
 
-Open the URL printed in the terminal. Use the left rail to jump between
-specimens.
+Then serve the built file (a static server avoids `file://` restrictions):
+
+```bash
+npx --yes serve gallery -p 4173
+```
+
+Open **http://localhost:4173/gallery.html** and use the left rail to jump
+between specimens.
 
 ## What you can import
 

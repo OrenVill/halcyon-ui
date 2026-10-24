@@ -804,8 +804,16 @@ function Gallery() {
           </Specimen>
 
           <Specimen name="Sidebar" note="Vertical section rail for settings or app areas.">
-            <div style={{ display: 'flex', maxWidth: '16rem', border: '1px solid var(--hal-border)' }}>
-              <Sidebar>
+            <div
+              style={{
+                display: 'flex',
+                width: '16rem',
+                minHeight: '12rem',
+                border: '1px solid var(--hal-border)',
+                borderRadius: 'var(--hal-radius)',
+              }}
+            >
+              <Sidebar style={{ width: '100%' }}>
                 <Sidebar.Header>Project</Sidebar.Header>
                 <Sidebar.Nav>
                   <Sidebar.Links>

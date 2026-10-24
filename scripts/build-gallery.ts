@@ -5,7 +5,7 @@
  * Nothing here is mocked. The gallery imports src/index.ts, so a component
  * that is broken in the package is broken on the sheet.
  */
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { basename, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { build } from 'esbuild'
@@ -57,14 +57,19 @@ function readThemes(): Record<string, { light: Tokens; dark: Tokens }> {
  * removed. The sheet applies tokens itself on a scoped element, so a global
  * :root block would fight the gallery chrome.
  */
+function readCssDir(dir: string): string[] {
+  if (!existsSync(dir)) return []
+  return readdirSync(dir, { recursive: true, encoding: 'utf8' })
+    .filter((file) => file.endsWith('.css'))
+    .sort()
+    .map((file) => readFileSync(join(dir, file), 'utf8'))
+}
+
 function readComponentCss(): string {
   const structure = readFileSync(join(root, 'src/styles/base.css'), 'utf8')
   const componentsDir = join(root, 'src/components')
-  const files = readdirSync(componentsDir, { recursive: true, encoding: 'utf8' })
-    .filter((file) => file.endsWith('.css'))
-    .sort()
-
-  return [structure, ...files.map((f) => readFileSync(join(componentsDir, f), 'utf8'))].join('\n')
+  const structuresDir = join(root, 'src/structures')
+  return [structure, ...readCssDir(componentsDir), ...readCssDir(structuresDir)].join('\n')
 }
 
 /**
