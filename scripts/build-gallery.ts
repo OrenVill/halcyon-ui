@@ -69,7 +69,13 @@ function readComponentCss(): string {
   const structure = readFileSync(join(root, 'src/styles/base.css'), 'utf8')
   const componentsDir = join(root, 'src/components')
   const structuresDir = join(root, 'src/structures')
-  return [structure, ...readCssDir(componentsDir), ...readCssDir(structuresDir)].join('\n')
+  const websitesDir = join(root, 'src/websites')
+  return [
+    structure,
+    ...readCssDir(componentsDir),
+    ...readCssDir(structuresDir),
+    ...readCssDir(websitesDir),
+  ].join('\n')
 }
 
 /**

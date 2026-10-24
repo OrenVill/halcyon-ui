@@ -109,7 +109,10 @@ export function CommerceCheckoutForm() {
             />
           </Field>
         </div>
-        <Checkbox defaultChecked>Billing address same as shipping</Checkbox>
+        <label style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontSize: 'var(--hal-text-sm)' }}>
+          <Checkbox id="billing-same" defaultChecked />
+          Billing address same as shipping
+        </label>
       </section>
 
       <Button fullWidth>Pay $48.00</Button>

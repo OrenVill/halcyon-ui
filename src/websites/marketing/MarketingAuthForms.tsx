@@ -3,6 +3,7 @@ import { Checkbox } from '../../components/Checkbox'
 import { Field } from '../../components/Field'
 import { Input } from '../../components/Input'
 import { Link } from '../../components/Link'
+
 const FORGOT_PASSWORD_PATH = '/forgot-password'
 
 export function MarketingLoginForm() {
@@ -17,7 +18,10 @@ export function MarketingLoginForm() {
         <Input type="password" aria-label="Password" autoComplete="current-password" />
       </Field>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
-        <Checkbox defaultChecked>Remember me</Checkbox>
+        <label style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontSize: 'var(--hal-text-sm)' }}>
+          <Checkbox id="marketing-remember" defaultChecked />
+          Remember me
+        </label>
         <Link href={FORGOT_PASSWORD_PATH} variant="muted">Forgot password?</Link>
       </div>
       <Button fullWidth type="submit">Sign in</Button>
@@ -45,7 +49,10 @@ export function MarketingSignupForm() {
         <Field.Label>Confirm password</Field.Label>
         <Input type="password" aria-label="Confirm password" autoComplete="new-password" />
       </Field>
-      <Checkbox>I agree to the terms and privacy policy</Checkbox>
+      <label style={{ display: 'inline-flex', alignItems: 'flex-start', gap: '0.5rem', fontSize: 'var(--hal-text-sm)' }}>
+        <Checkbox id="marketing-terms" />
+        <span>I agree to the terms and privacy policy</span>
+      </label>
       <Button fullWidth type="submit">Create account</Button>
     </>
   )

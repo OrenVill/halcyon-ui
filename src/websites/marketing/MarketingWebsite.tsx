@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Badge } from '../../components/Badge'
 import { Card } from '../../components/Card'
 import { Link } from '../../components/Link'
 import { ErrorPageLayout } from '../../structures/ErrorPageLayout'
@@ -39,6 +40,63 @@ export const marketingWebsiteRoutes: WebsiteRoute[] = [
   { id: 'notFound', label: 'Not found', path: marketingWebsitePaths.notFound },
 ]
 
+const DEFAULT_FEATURES = (
+  <div className="hal-marketing-features">
+    <article className="hal-marketing-feature">
+      <h3 className="hal-marketing-feature__title">Theme tokens</h3>
+      <p className="hal-marketing-feature__text">
+        Eight curated palettes with light and dark modes, applied with CSS variables only.
+      </p>
+    </article>
+    <article className="hal-marketing-feature">
+      <h3 className="hal-marketing-feature__title">Category slices</h3>
+      <p className="hal-marketing-feature__text">
+        Import atoms, structures like navbars, or full website kits from one package.
+      </p>
+    </article>
+    <article className="hal-marketing-feature">
+      <h3 className="hal-marketing-feature__title">Accessible by default</h3>
+      <p className="hal-marketing-feature__text">
+        Focus rings, landmarks, and contrast targets built into every primitive.
+      </p>
+    </article>
+    <article className="hal-marketing-feature">
+      <h3 className="hal-marketing-feature__title">Tiny runtime</h3>
+      <p className="hal-marketing-feature__text">
+        No CSS-in-JS engine. Styles ship as static classes you can tree-shake.
+      </p>
+    </article>
+  </div>
+)
+
+const DEFAULT_HERO_ASIDE = (
+  <div className="hal-marketing-hero-panel" aria-hidden="true">
+    <p className="hal-marketing-hero-panel__label">Live preview</p>
+    <p className="hal-marketing-hero-panel__metric">98.4% contrast pass</p>
+    <Card padding="md" variant="subtle">
+      <div style={{ display: 'flex', justifyContent: 'space-between', gap: '0.75rem' }}>
+        <span style={{ fontWeight: 'var(--hal-weight-medium)' }}>Deploy</span>
+        <Badge variant="success">Ready</Badge>
+      </div>
+      <p style={{ margin: '0.5rem 0 0', color: 'var(--hal-fg-muted)', fontSize: 'var(--hal-text-sm)' }}>
+        Marketing, auth, and checkout layouts wired to your routes.
+      </p>
+    </Card>
+    <Card padding="md">
+      <div style={{ display: 'grid', gap: '0.35rem', fontSize: 'var(--hal-text-sm)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <span style={{ color: 'var(--hal-fg-muted)' }}>Components</span>
+          <strong>24</strong>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <span style={{ color: 'var(--hal-fg-muted)' }}>Themes</span>
+          <strong>8</strong>
+        </div>
+      </div>
+    </Card>
+  </div>
+)
+
 export type MarketingWebsiteHomeProps = Omit<MarketingSiteLayoutProps, 'brand' | 'navLinks'> & {
   brand: ReactNode
   navLinks?: SiteNavLink[]
@@ -53,6 +111,7 @@ function MarketingWebsiteHome({
   hero,
   children,
   actions,
+  footerColumns,
   ...rest
 }: MarketingWebsiteHomeProps) {
   const links =
@@ -60,77 +119,121 @@ function MarketingWebsiteHome({
     [
       { href: marketingWebsitePaths.home, label: 'Product', active: true },
       { href: marketingWebsitePaths.home, label: 'Pricing' },
-      { href: marketingWebsitePaths.home, label: 'Blog' },
+      { href: '/docs', label: 'Docs' },
     ]
 
-  const features =
-    featureSection ??
-    (
-      <div
-        style={{
-          display: 'grid',
-          gap: '0.75rem',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(10rem, 1fr))',
-        }}
-      >
-        <Card padding="md">8 themes</Card>
-        <Card padding="md">Tree-shakeable</Card>
-        <Card padding="md">WCAG AA</Card>
-      </div>
-    )
+  const defaultFooter = [
+    {
+      title: 'Product',
+      links: [
+        { href: marketingWebsitePaths.home, label: 'Overview' },
+        { href: marketingWebsitePaths.signup, label: 'Sign up' },
+      ],
+    },
+    {
+      title: 'Company',
+      links: [
+        { href: '/blog', label: 'Blog' },
+        { href: marketingWebsitePaths.login, label: 'Sign in' },
+      ],
+    },
+    {
+      title: 'Resources',
+      links: [
+        { href: '/docs', label: 'Documentation' },
+        { href: '/gallery', label: 'Gallery' },
+      ],
+    },
+  ]
 
   return (
     <MarketingSiteLayout
       {...rest}
       brand={brand}
       navLinks={links}
+      footerColumns={footerColumns ?? defaultFooter}
+      copyright="© Halcyon UI"
       actions={
         actions ?? (
-          <Link href={marketingWebsitePaths.login} className="hal-button hal-button--solid hal-button--sm">
+          <Link href={marketingWebsitePaths.signup} className="hal-button hal-button--solid hal-button--sm">
             Start free
           </Link>
         )
       }
       hero={
         hero ?? {
-          title: 'Ship accessible UI faster',
-          description: 'Themeable React components with no runtime CSS engine.',
+          badge: 'Halcyon v1 — design system release',
+          variant: 'split',
+          title: 'Ship polished product UI in days, not months',
+          description:
+            'Composable React primitives, ready-made layouts, and full website kits. Drop in your content and keep your bundle small.',
           actions: (
             <>
               <Link href={marketingWebsitePaths.signup} className="hal-button hal-button--solid hal-button--md">
-                Get started
+                Get started free
               </Link>
-              <Link
-                href={marketingWebsitePaths.login}
-                className="hal-button hal-button--outline hal-button--md"
-              >
-                Sign in
+              <Link href="/gallery" className="hal-button hal-button--outline hal-button--md">
+                Browse gallery
               </Link>
             </>
           ),
+          aside: DEFAULT_HERO_ASIDE,
         }
       }
     >
-      <MarketingSiteLayout.Section
-        title="Built for product teams"
-        description="Atoms, slices, and full site layouts in one package."
-        variant="muted"
-      >
-        {features}
+      <MarketingSiteLayout.Section title="Trusted by teams who care about craft" variant="muted">
+        <div className="hal-marketing-trust" role="list">
+          {['Fintech', 'Health', 'DevTools', 'E-commerce', 'Education'].map((name) => (
+            <span key={name} className="hal-marketing-trust__item" role="listitem">
+              {name}
+            </span>
+          ))}
+        </div>
       </MarketingSiteLayout.Section>
+
+      <MarketingSiteLayout.Section
+        title="Everything you need to launch"
+        description="From buttons to full marketing and SaaS shells — one import path, consistent tokens."
+      >
+        {featureSection ?? DEFAULT_FEATURES}
+      </MarketingSiteLayout.Section>
+
+      <MarketingSiteLayout.Section title="Simple pricing" description="Start free. Scale when your team grows." variant="muted">
+        <div className="hal-marketing-features" style={{ maxWidth: '48rem', marginInline: 'auto' }}>
+          <Card padding="lg" className="hal-marketing-feature">
+            <h3 className="hal-marketing-feature__title">Starter</h3>
+            <p className="hal-marketing-feature__text" style={{ fontSize: 'var(--hal-text-2xl)', fontWeight: 'var(--hal-weight-bold)', color: 'var(--hal-fg)' }}>
+              $0
+            </p>
+            <p className="hal-marketing-feature__text">Open source components and gallery.</p>
+            <Link href={marketingWebsitePaths.signup} className="hal-button hal-button--outline hal-button--sm" style={{ marginTop: 'var(--hal-space-3)' }}>
+              Create account
+            </Link>
+          </Card>
+          <Card padding="lg" className="hal-marketing-feature" style={{ borderColor: 'var(--hal-accent)' }}>
+            <h3 className="hal-marketing-feature__title">Pro</h3>
+            <p className="hal-marketing-feature__text" style={{ fontSize: 'var(--hal-text-2xl)', fontWeight: 'var(--hal-weight-bold)', color: 'var(--hal-fg)' }}>
+              $29
+            </p>
+            <p className="hal-marketing-feature__text">Website kits, priority patterns, team themes.</p>
+            <Link href={marketingWebsitePaths.signup} className="hal-button hal-button--solid hal-button--sm" style={{ marginTop: 'var(--hal-space-3)' }}>
+              Start trial
+            </Link>
+          </Card>
+        </div>
+      </MarketingSiteLayout.Section>
+
       {children}
+
       <MarketingSiteLayout.Cta
-        title="Ready to try it?"
-        description="Create an account or sign in to your workspace."
+        title="Ready to build something beautiful?"
+        description="Spin up login, marketing, and checkout flows with layouts that already match your theme."
         actions={
           <>
             <Link href={marketingWebsitePaths.signup} className="hal-button hal-button--solid hal-button--md">
               Create account
             </Link>
-            <Link
-              href={marketingWebsitePaths.login}
-              className="hal-button hal-button--outline hal-button--md"
-            >
+            <Link href={marketingWebsitePaths.login} className="hal-button hal-button--outline hal-button--md">
               Sign in
             </Link>
           </>

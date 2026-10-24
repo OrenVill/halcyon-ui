@@ -16,6 +16,9 @@ export interface MarketingSiteLayoutProps extends HTMLAttributes<HTMLDivElement>
     title: ReactNode
     description?: ReactNode
     actions?: ReactNode
+    variant?: 'centered' | 'split'
+    aside?: ReactNode
+    badge?: ReactNode
   }
   children?: ReactNode
 }
@@ -24,19 +27,37 @@ export interface MarketingHeroProps extends Omit<HTMLAttributes<HTMLElement>, 't
   title?: ReactNode
   description?: ReactNode
   actions?: ReactNode
+  variant?: 'centered' | 'split'
+  aside?: ReactNode
+  badge?: ReactNode
 }
 
 export const MarketingHero = /* @__PURE__ */ forwardRef<HTMLElement, MarketingHeroProps>(
-  function MarketingHero({ title, description, actions, className, children, ...rest }, ref) {
+  function MarketingHero(
+    { title, description, actions, variant = 'centered', aside, badge, className, children, ...rest },
+    ref,
+  ) {
     return (
-      <section {...rest} ref={ref} className={cx('hal-marketing-layout__hero', className)}>
+      <section
+        {...rest}
+        ref={ref}
+        className={cx(
+          'hal-marketing-layout__hero',
+          variant === 'split' && 'hal-marketing-layout__hero--split',
+          className,
+        )}
+      >
         <div className="hal-marketing-layout__hero-inner">
-          {title ? <h1 className="hal-marketing-layout__hero-title">{title}</h1> : null}
-          {description ? (
-            <p className="hal-marketing-layout__hero-description">{description}</p>
-          ) : null}
-          {actions ? <div className="hal-marketing-layout__hero-actions">{actions}</div> : null}
-          {children}
+          <div className="hal-marketing-layout__hero-copy">
+            {badge ? <div className="hal-marketing-layout__hero-badge">{badge}</div> : null}
+            {title ? <h1 className="hal-marketing-layout__hero-title">{title}</h1> : null}
+            {description ? (
+              <p className="hal-marketing-layout__hero-description">{description}</p>
+            ) : null}
+            {actions ? <div className="hal-marketing-layout__hero-actions">{actions}</div> : null}
+            {children}
+          </div>
+          {aside ? <div className="hal-marketing-layout__hero-aside">{aside}</div> : null}
         </div>
       </section>
     )
@@ -151,7 +172,14 @@ const MarketingSiteLayoutRoot = /* @__PURE__ */ forwardRef<
 
       <main className="hal-marketing-layout__main">
         {hero ? (
-          <MarketingHero title={hero.title} description={hero.description} actions={hero.actions} />
+          <MarketingHero
+            title={hero.title}
+            description={hero.description}
+            actions={hero.actions}
+            variant={hero.variant}
+            aside={hero.aside}
+            badge={hero.badge}
+          />
         ) : null}
         {children}
       </main>
