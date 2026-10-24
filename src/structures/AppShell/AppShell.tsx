@@ -2,7 +2,7 @@ import { forwardRef } from 'react'
 import type { HTMLAttributes } from 'react'
 import { cx } from '../../internal/cx'
 
-export interface AppShellProps extends HTMLAttributes<HTMLDivElement> {}
+export type AppShellProps = HTMLAttributes<HTMLDivElement>
 
 const AppShellRoot = /* @__PURE__ */ forwardRef<HTMLDivElement, AppShellProps>(
   function AppShell({ className, children, ...rest }, ref) {
@@ -14,7 +14,7 @@ const AppShellRoot = /* @__PURE__ */ forwardRef<HTMLDivElement, AppShellProps>(
   },
 )
 
-export interface AppShellHeaderProps extends HTMLAttributes<HTMLDivElement> {}
+export type AppShellHeaderProps = HTMLAttributes<HTMLDivElement>
 
 export const AppShellHeader = /* @__PURE__ */ forwardRef<HTMLDivElement, AppShellHeaderProps>(
   function AppShellHeader({ className, ...rest }, ref) {
@@ -22,7 +22,7 @@ export const AppShellHeader = /* @__PURE__ */ forwardRef<HTMLDivElement, AppShel
   },
 )
 
-export interface AppShellBodyProps extends HTMLAttributes<HTMLDivElement> {}
+export type AppShellBodyProps = HTMLAttributes<HTMLDivElement>
 
 export const AppShellBody = /* @__PURE__ */ forwardRef<HTMLDivElement, AppShellBodyProps>(
   function AppShellBody({ className, children, ...rest }, ref) {
@@ -34,7 +34,7 @@ export const AppShellBody = /* @__PURE__ */ forwardRef<HTMLDivElement, AppShellB
   },
 )
 
-export interface AppShellSidebarProps extends HTMLAttributes<HTMLDivElement> {}
+export type AppShellSidebarProps = HTMLAttributes<HTMLDivElement>
 
 export const AppShellSidebar = /* @__PURE__ */ forwardRef<HTMLDivElement, AppShellSidebarProps>(
   function AppShellSidebar({ className, ...rest }, ref) {

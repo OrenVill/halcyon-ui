@@ -42,7 +42,7 @@ export const FormLayoutHeader = /* @__PURE__ */ forwardRef<HTMLDivElement, FormL
   },
 )
 
-export interface FormLayoutBodyProps extends HTMLAttributes<HTMLDivElement> {}
+export type FormLayoutBodyProps = HTMLAttributes<HTMLDivElement>
 
 export const FormLayoutBody = /* @__PURE__ */ forwardRef<HTMLDivElement, FormLayoutBodyProps>(
   function FormLayoutBody({ className, ...rest }, ref) {
@@ -74,7 +74,7 @@ export const FormLayoutSection = /* @__PURE__ */ forwardRef<HTMLElement, FormLay
   )
 })
 
-export interface FormLayoutActionsProps extends HTMLAttributes<HTMLDivElement> {}
+export type FormLayoutActionsProps = HTMLAttributes<HTMLDivElement>
 
 export const FormLayoutActions = /* @__PURE__ */ forwardRef<HTMLDivElement, FormLayoutActionsProps>(
   function FormLayoutActions({ className, ...rest }, ref) {

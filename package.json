@@ -77,6 +77,7 @@
     "build:js": "tsup",
     "build:css": "tsx scripts/build-css.ts",
     "gallery": "tsx scripts/build-gallery.ts",
+    "api": "tsx scripts/print-public-api.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",

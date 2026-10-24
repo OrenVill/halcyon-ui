@@ -41,7 +41,7 @@ const NavbarRoot = /* @__PURE__ */ forwardRef<HTMLElement, NavbarProps>(function
   )
 })
 
-export interface NavbarBrandProps extends HTMLAttributes<HTMLDivElement> {}
+export type NavbarBrandProps = HTMLAttributes<HTMLDivElement>
 
 export const NavbarBrand = /* @__PURE__ */ forwardRef<HTMLDivElement, NavbarBrandProps>(
   function NavbarBrand({ className, ...rest }, ref) {
@@ -66,7 +66,7 @@ export const NavbarNav = /* @__PURE__ */ forwardRef<HTMLElement, NavbarNavProps>
   },
 )
 
-export interface NavbarLinksProps extends HTMLAttributes<HTMLUListElement> {}
+export type NavbarLinksProps = HTMLAttributes<HTMLUListElement>
 
 export const NavbarLinks = /* @__PURE__ */ forwardRef<HTMLUListElement, NavbarLinksProps>(
   function NavbarLinks({ className, ...rest }, ref) {
@@ -98,7 +98,7 @@ export const NavbarLink = /* @__PURE__ */ forwardRef<HTMLLIElement, NavbarLinkPr
   },
 )
 
-export interface NavbarActionsProps extends HTMLAttributes<HTMLDivElement> {}
+export type NavbarActionsProps = HTMLAttributes<HTMLDivElement>
 
 export const NavbarActions = /* @__PURE__ */ forwardRef<HTMLDivElement, NavbarActionsProps>(
   function NavbarActions({ className, ...rest }, ref) {

@@ -44,7 +44,7 @@ const SidebarRoot = /* @__PURE__ */ forwardRef<HTMLElement, SidebarProps>(functi
   )
 })
 
-export interface SidebarHeaderProps extends HTMLAttributes<HTMLDivElement> {}
+export type SidebarHeaderProps = HTMLAttributes<HTMLDivElement>
 
 export const SidebarHeader = /* @__PURE__ */ forwardRef<HTMLDivElement, SidebarHeaderProps>(
   function SidebarHeader({ className, ...rest }, ref) {
@@ -69,7 +69,7 @@ export const SidebarNav = /* @__PURE__ */ forwardRef<HTMLElement, SidebarNavProp
   },
 )
 
-export interface SidebarLinksProps extends HTMLAttributes<HTMLUListElement> {}
+export type SidebarLinksProps = HTMLAttributes<HTMLUListElement>
 
 export const SidebarLinks = /* @__PURE__ */ forwardRef<HTMLUListElement, SidebarLinksProps>(
   function SidebarLinks({ className, ...rest }, ref) {
@@ -100,7 +100,7 @@ export const SidebarLink = /* @__PURE__ */ forwardRef<HTMLLIElement, SidebarLink
   },
 )
 
-export interface SidebarFooterProps extends HTMLAttributes<HTMLDivElement> {}
+export type SidebarFooterProps = HTMLAttributes<HTMLDivElement>
 
 export const SidebarFooter = /* @__PURE__ */ forwardRef<HTMLDivElement, SidebarFooterProps>(
   function SidebarFooter({ className, ...rest }, ref) {
