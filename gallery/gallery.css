@@ -319,6 +319,14 @@ body {
   max-height: 36rem;
 }
 
+.site-layout-preview--auth {
+  max-height: 26rem;
+}
+
+.site-layout-preview--tall {
+  max-height: 32rem;
+}
+
 .spec {
   padding: 1.5rem 0;
   border-bottom: 1px solid var(--hal-border);

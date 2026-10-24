@@ -1,0 +1,48 @@
+.hal-error-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--hal-error-layout-min-height, 100vh);
+  padding: var(--hal-error-layout-padding, var(--hal-space-8) var(--hal-space-4));
+  background: var(--hal-error-layout-bg, var(--hal-bg));
+  color: var(--hal-error-layout-fg, var(--hal-fg));
+  text-align: center;
+}
+
+.hal-error-layout__inner {
+  max-width: var(--hal-error-layout-max, 28rem);
+}
+
+.hal-error-layout__code {
+  margin: 0 0 var(--hal-space-2);
+  color: var(--hal-error-layout-code-fg, var(--hal-accent));
+  font-size: clamp(3rem, 12vw, 4.5rem);
+  font-weight: var(--hal-weight-bold);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.hal-error-layout__title {
+  margin: 0 0 var(--hal-space-3);
+  font-size: var(--hal-text-xl);
+  font-weight: var(--hal-weight-bold);
+}
+
+.hal-error-layout__description {
+  margin: 0;
+  color: var(--hal-fg-muted);
+  font-size: var(--hal-text-base);
+  line-height: var(--hal-leading);
+}
+
+.hal-error-layout__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--hal-space-2);
+  margin-top: var(--hal-space-6);
+}
+
+.hal-error-layout__body {
+  margin-top: var(--hal-space-6);
+}

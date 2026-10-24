@@ -1,0 +1,93 @@
+.hal-onboarding-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: var(--hal-onboarding-layout-min-height, 100vh);
+  background: var(--hal-onboarding-layout-bg, var(--hal-bg));
+}
+
+.hal-onboarding-layout__header {
+  padding: var(--hal-space-4);
+  border-bottom: 1px solid var(--hal-border);
+  background: var(--hal-bg-raised);
+}
+
+.hal-onboarding-layout__brand {
+  max-width: var(--hal-onboarding-layout-max, 32rem);
+  margin: 0 auto var(--hal-space-4);
+  font-weight: var(--hal-weight-bold);
+  text-align: center;
+}
+
+.hal-onboarding-layout__header .hal-progress {
+  max-width: var(--hal-onboarding-layout-max, 32rem);
+  margin-inline: auto;
+}
+
+.hal-onboarding-layout__steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--hal-space-2);
+  max-width: var(--hal-onboarding-layout-max, 32rem);
+  margin: var(--hal-space-4) auto 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--hal-text-xs);
+}
+
+.hal-onboarding-layout__step {
+  padding: var(--hal-space-1) var(--hal-space-2);
+  border-radius: var(--hal-radius-sm);
+  color: var(--hal-fg-muted);
+}
+
+.hal-onboarding-layout__step--current {
+  color: var(--hal-accent);
+  background: var(--hal-bg-subtle);
+  font-weight: var(--hal-weight-medium);
+}
+
+.hal-onboarding-layout__step--complete {
+  color: var(--hal-fg);
+}
+
+.hal-onboarding-layout__main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--hal-space-6) var(--hal-space-4);
+}
+
+.hal-onboarding-layout__panel {
+  width: 100%;
+  max-width: var(--hal-onboarding-layout-max, 32rem);
+}
+
+.hal-onboarding-layout__title {
+  margin: 0 0 var(--hal-space-2);
+  font-size: var(--hal-text-xl);
+  font-weight: var(--hal-weight-bold);
+  text-align: center;
+}
+
+.hal-onboarding-layout__description {
+  margin: 0 0 var(--hal-space-5);
+  color: var(--hal-fg-muted);
+  font-size: var(--hal-text-sm);
+  text-align: center;
+}
+
+.hal-onboarding-layout__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hal-space-4);
+}
+
+.hal-onboarding-layout__footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--hal-space-2);
+  margin-top: var(--hal-space-6);
+}

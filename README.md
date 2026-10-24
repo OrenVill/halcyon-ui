@@ -49,8 +49,8 @@ npx --yes serve gallery -p 4173
 ```
 
 Open **http://localhost:4173/gallery.html** and use the left rail: **Components**
-for atoms and primitives, **Site layouts** for full dashboard, docs, and marketing
-scaffolds.
+for atoms and primitives, **Site layouts** for individual page shells, and
+**Complete websites** for multi-page kits.
 
 ## What you can import
 
@@ -70,7 +70,7 @@ import { Button, Tabs, Navbar } from 'halcyon-ui'
 | `halcyon-ui/display` | Card, Badge, Avatar, Alert, Table, Progress, Spinner, Skeleton, Tag |
 | `halcyon-ui/primitives` | Separator, Link, Field, InlineMessage, SegmentedControl, ToggleGroup, Collapsible, Kbd, EmptyState, Meter, DataList |
 | `halcyon-ui/hooks` | `useColorMode`, `ColorModeScript`, `useDismissable`, `useFocusTrap` |
-| `halcyon-ui/structures` | Navbar, Sidebar, FormLayout, AppShell, DashboardLayout, DocsSiteLayout, MarketingSiteLayout |
+| `halcyon-ui/structures` | Navbar, Sidebar, FormLayout, AppShell, and all ready site layouts below |
 
 ```tsx
 import { Tabs, Breadcrumb } from 'halcyon-ui/navigation'
@@ -90,9 +90,42 @@ app frame):
 | `halcyon-ui/structures/app-shell` | `AppShell` (+ header, sidebar slot, main) |
 | `halcyon-ui/structures/dashboard-layout` | Full dashboard chrome (navbar + sidebar + main) |
 | `halcyon-ui/structures/docs-site` | Documentation site (nav + doc sidebar + article column) |
-| `halcyon-ui/structures/marketing-site` | Marketing site (sticky nav + main + footer) |
+| `halcyon-ui/structures/marketing-site` | Marketing site (sticky nav + hero + sections + footer) |
+| `halcyon-ui/structures/login-layout` | Sign-in page (centered card) |
+| `halcyon-ui/structures/signup-layout` | Registration page |
+| `halcyon-ui/structures/forgot-password-layout` | Password reset request |
+| `halcyon-ui/structures/error-page` | 404 / error status page |
+| `halcyon-ui/structures/blog` | Blog index or article |
+| `halcyon-ui/structures/settings-layout` | Settings sidebar + form column |
+| `halcyon-ui/structures/onboarding-layout` | Multi-step onboarding |
+| `halcyon-ui/structures/checkout-layout` | Checkout form + order summary |
+
+### Complete websites (multi-page kits)
+
+Each kit groups ready pages (marketing + login + 404, SaaS app + onboarding, etc.)
+with shared `paths` and `routes` you map to your router:
+
+| Subpath | Pages |
+| --- | --- |
+| `halcyon-ui/websites/marketing` | `Home`, `Login`, `Signup`, `ForgotPassword`, `NotFound` |
+| `halcyon-ui/websites/saas` | `Dashboard`, `Settings`, `Onboarding`, `Login`, `Signup`, `NotFound` |
+| `halcyon-ui/websites/docs` | `Docs`, `Blog`, `BlogPost`, `NotFound` |
+| `halcyon-ui/websites/commerce` | `Store`, `Checkout`, `Login`, `NotFound` |
 
 ```tsx
+import { MarketingWebsite } from 'halcyon-ui/websites/marketing'
+import { Button } from 'halcyon-ui/form'
+
+// app/login/page.tsx
+<MarketingWebsite.Login brand="Acme">
+  <YourLoginForm />
+</MarketingWebsite.Login>
+
+// MarketingWebsite.paths.login === '/login' (override hrefs in your router)
+```
+
+```tsx
+import { LoginLayout } from 'halcyon-ui/structures/login-layout'
 import { DashboardLayout } from 'halcyon-ui/structures/dashboard-layout'
 import { DocsSiteLayout } from 'halcyon-ui/structures/docs-site'
 import { MarketingSiteLayout } from 'halcyon-ui/structures/marketing-site'

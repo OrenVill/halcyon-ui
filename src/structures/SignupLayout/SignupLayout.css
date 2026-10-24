@@ -1,0 +1,3 @@
+.hal-signup-layout__panel {
+  max-width: var(--hal-signup-layout-panel-max, 28rem);
+}

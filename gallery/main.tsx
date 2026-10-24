@@ -8,6 +8,7 @@
  */
 import { StrictMode, useMemo, useRef, useState, type MouseEvent } from 'react'
 import type { SiteNavLink, SitePagerLink } from '../src/structures/types'
+import { CommerceWebsite, DocsWebsite, MarketingWebsite, SaasWebsite } from '../src/websites'
 import { createRoot } from 'react-dom/client'
 import {
   Accordion,
@@ -23,10 +24,14 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
   Combobox,
+  BlogLayout,
+  CheckoutLayout,
   DashboardLayout,
   DataList,
   DatePicker,
   DocsSiteLayout,
+  ErrorPageLayout,
+  ForgotPasswordLayout,
   Drawer,
   DropdownMenu,
   EmptyState,
@@ -38,8 +43,10 @@ import {
   Input,
   Kbd,
   Link,
+  LoginLayout,
   Meter,
   MarketingSiteLayout,
+  OnboardingLayout,
   Modal,
   Navbar,
   NumberInput,
@@ -50,7 +57,9 @@ import {
   SegmentedControl,
   Select,
   Separator,
+  SettingsLayout,
   Sidebar,
+  SignupLayout,
   Skeleton,
   Slider,
   Spinner,
@@ -168,7 +177,26 @@ const SITE_LAYOUT_SECTIONS = [
   'DashboardLayout',
   'DocsSiteLayout',
   'MarketingSiteLayout',
+  'LoginLayout',
+  'SignupLayout',
+  'ForgotPasswordLayout',
+  'ErrorPageLayout',
+  'BlogLayout',
+  'SettingsLayout',
+  'OnboardingLayout',
+  'CheckoutLayout',
 ] as const
+
+const COMPLETE_WEBSITE_KITS = [
+  'MarketingWebsite',
+  'SaasWebsite',
+  'DocsWebsite',
+  'CommerceWebsite',
+] as const
+
+function preventGalleryNav(event: MouseEvent<HTMLAnchorElement>) {
+  event.preventDefault()
+}
 
 const FRUIT_OPTIONS = [
   { value: 'apple', label: 'Apple' },
@@ -587,6 +615,18 @@ function Gallery() {
               <a href="#site-layouts">Overview</a>
             </li>
             {SITE_LAYOUT_SECTIONS.map((name) => (
+              <li key={name}>
+                <a href={`#${name}`}>{name}</a>
+              </li>
+            ))}
+          </ol>
+
+          <p className="rail__title">Complete websites</p>
+          <ol className="rail__list">
+            <li>
+              <a href="#complete-websites">Overview</a>
+            </li>
+            {COMPLETE_WEBSITE_KITS.map((name) => (
               <li key={name}>
                 <a href={`#${name}`}>{name}</a>
               </li>
@@ -1408,6 +1448,232 @@ function Gallery() {
             >
               <div className="site-layout-preview site-layout-preview--marketing">
                 <MarketingSiteLayoutGalleryDemo />
+              </div>
+            </Specimen>
+
+            <Specimen name="LoginLayout" note="Centered sign-in card — drop your form fields in the body.">
+              <div className="site-layout-preview site-layout-preview--auth">
+                <LoginLayout
+                  brand="Halcyon"
+                  footer={
+                    <Link href="#" variant="muted" onClick={preventGalleryNav}>
+                      Need an account? Sign up
+                    </Link>
+                  }
+                >
+                  <Field>
+                    <Field.Label>Email</Field.Label>
+                    <Input type="email" aria-label="Email" placeholder="you@example.com" />
+                  </Field>
+                  <Field>
+                    <Field.Label>Password</Field.Label>
+                    <Input type="password" aria-label="Password" />
+                  </Field>
+                  <Button style={{ width: '100%' }}>Sign in</Button>
+                </LoginLayout>
+              </div>
+            </Specimen>
+
+            <Specimen name="SignupLayout" note="Wider auth panel for registration flows.">
+              <div className="site-layout-preview site-layout-preview--auth">
+                <SignupLayout
+                  brand="Halcyon"
+                  footer={
+                    <Link href="#" variant="muted" onClick={preventGalleryNav}>
+                      Already have an account? Sign in
+                    </Link>
+                  }
+                >
+                  <Field>
+                    <Field.Label>Work email</Field.Label>
+                    <Input type="email" aria-label="Work email" />
+                  </Field>
+                  <Field>
+                    <Field.Label>Password</Field.Label>
+                    <Input type="password" aria-label="Password" />
+                  </Field>
+                  <Button style={{ width: '100%' }}>Create account</Button>
+                </SignupLayout>
+              </div>
+            </Specimen>
+
+            <Specimen name="ForgotPasswordLayout" note="Password reset request with a back link to sign in.">
+              <div className="site-layout-preview site-layout-preview--auth">
+                <ForgotPasswordLayout
+                  brand="Halcyon"
+                  backHref="#"
+                  onBackClick={preventGalleryNav}
+                >
+                  <Field>
+                    <Field.Label>Email</Field.Label>
+                    <Input type="email" aria-label="Email" />
+                  </Field>
+                  <Button style={{ width: '100%' }}>Send reset link</Button>
+                </ForgotPasswordLayout>
+              </div>
+            </Specimen>
+
+            <Specimen name="ErrorPageLayout" note="404/500 style status page with actions.">
+              <div className="site-layout-preview site-layout-preview--auth">
+                <ErrorPageLayout
+                  actions={
+                    <>
+                      <Button>Go home</Button>
+                      <Button variant="ghost">Contact support</Button>
+                    </>
+                  }
+                />
+              </div>
+            </Specimen>
+
+            <Specimen name="BlogLayout" note="Post feed or article mode via pageTitle.">
+              <div className="site-layout-preview site-layout-preview--tall">
+                <BlogLayout
+                  brand="Halcyon"
+                  navLinks={[{ href: '#', label: 'Blog', active: true }]}
+                  posts={[
+                    {
+                      href: '#',
+                      title: 'Design tokens in production',
+                      meta: 'Mar 12 · 6 min read',
+                      excerpt: 'How we ship eight themes without a runtime CSS engine.',
+                      onClick: preventGalleryNav,
+                    },
+                    {
+                      href: '#',
+                      title: 'Accessible overlays',
+                      meta: 'Feb 3 · 8 min read',
+                      excerpt: 'Focus traps, scroll lock, and polite announcements.',
+                      onClick: preventGalleryNav,
+                    },
+                  ]}
+                />
+              </div>
+            </Specimen>
+
+            <Specimen name="SettingsLayout" note="Account settings shell with a section sidebar.">
+              <div className="site-layout-preview site-layout-preview--tall">
+                <SettingsLayout
+                  brand="Acme"
+                  sectionLinks={[
+                    { href: '#', label: 'Profile', active: true, onClick: preventGalleryNav },
+                    { href: '#', label: 'Security', onClick: preventGalleryNav },
+                    { href: '#', label: 'Billing', onClick: preventGalleryNav },
+                  ]}
+                  pageTitle="Profile"
+                  pageDescription="Update how you appear to teammates."
+                >
+                  <Field>
+                    <Field.Label>Display name</Field.Label>
+                    <Input aria-label="Display name" defaultValue="Ada Lovelace" />
+                  </Field>
+                  <Button size="sm">Save changes</Button>
+                </SettingsLayout>
+              </div>
+            </Specimen>
+
+            <Specimen name="OnboardingLayout" note="Step progress header and centered step content.">
+              <div className="site-layout-preview site-layout-preview--tall">
+                <OnboardingLayout
+                  brand="Halcyon"
+                  steps={[
+                    { id: 'team', label: 'Team' },
+                    { id: 'project', label: 'Project' },
+                    { id: 'done', label: 'Done' },
+                  ]}
+                  currentStepId="project"
+                  title="Name your project"
+                  description="You can rename it later."
+                  footer={
+                    <>
+                      <Button variant="ghost" size="sm">Back</Button>
+                      <Button size="sm">Continue</Button>
+                    </>
+                  }
+                >
+                  <Input aria-label="Project name" placeholder="halcyon-ui" />
+                </OnboardingLayout>
+              </div>
+            </Specimen>
+
+            <Specimen name="CheckoutLayout" note="Payment form plus order summary column.">
+              <div className="site-layout-preview site-layout-preview--tall">
+                <CheckoutLayout
+                  brand="Shop"
+                  stepLabel="Step 2 of 3"
+                  orderSummary={
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <span>Pro plan</span>
+                        <span>$12/mo</span>
+                      </div>
+                      <strong style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <span>Total</span>
+                        <span>$12</span>
+                      </strong>
+                    </div>
+                  }
+                  secureNote="Payments are processed securely."
+                >
+                  <Field>
+                    <Field.Label>Card number</Field.Label>
+                    <Input aria-label="Card number" placeholder="4242 4242 4242 4242" />
+                  </Field>
+                  <Button>Pay now</Button>
+                </CheckoutLayout>
+              </div>
+            </Specimen>
+          </section>
+
+          <section className="sheet-group" id="complete-websites" aria-labelledby="complete-websites-title">
+            <header className="sheet-group__head">
+              <h2 className="sheet-group__title" id="complete-websites-title">Complete websites</h2>
+              <p className="sheet-group__note">
+                Import a full multi-page kit from <code>halcyon-ui/websites</code>. Each kit exposes
+                page components plus <code>paths</code> and <code>routes</code> for your router.
+              </p>
+            </header>
+
+            <Specimen
+              name="MarketingWebsite"
+              note="Home, login, signup, forgot password, and 404 — cross-linked by default."
+            >
+              <div className="site-layout-preview site-layout-preview--auth">
+                <MarketingWebsite.Login brand="Halcyon">
+                  <Field>
+                    <Field.Label>Email</Field.Label>
+                    <Input type="email" aria-label="Email" />
+                  </Field>
+                  <Button style={{ width: '100%' }}>Sign in</Button>
+                </MarketingWebsite.Login>
+              </div>
+            </Specimen>
+
+            <Specimen name="SaasWebsite" note="Dashboard, settings, onboarding, auth, and 404 for SaaS apps.">
+              <div className="site-layout-preview site-layout-preview--tall">
+                <SaasWebsite.Dashboard brand="Acme">
+                  <Card variant="subtle" padding="md">MRR · $24k</Card>
+                </SaasWebsite.Dashboard>
+              </div>
+            </Specimen>
+
+            <Specimen name="DocsWebsite" note="Documentation, blog index, blog post, and 404.">
+              <div className="site-layout-preview site-layout-preview--tall">
+                <DocsWebsite.Docs brand="halcyon-ui">
+                  <p>Your MDX or markdown content.</p>
+                </DocsWebsite.Docs>
+              </div>
+            </Specimen>
+
+            <Specimen name="CommerceWebsite" note="Storefront, checkout, sign-in, and 404 for commerce flows.">
+              <div className="site-layout-preview site-layout-preview--marketing">
+                <CommerceWebsite.Store brand="Shop">
+                  <div style={{ display: 'grid', gap: '0.75rem', gridTemplateColumns: 'repeat(3, 1fr)' }}>
+                    <Card padding="md">Desk lamp</Card>
+                    <Card padding="md">Notebook</Card>
+                    <Card padding="md">Pen set</Card>
+                  </div>
+                </CommerceWebsite.Store>
               </div>
             </Specimen>
           </section>

@@ -1,0 +1,33 @@
+.hal-settings-layout {
+  min-height: var(--hal-settings-layout-min-height, 100vh);
+}
+
+.hal-settings-layout__main {
+  background: var(--hal-settings-layout-main-bg, var(--hal-bg));
+}
+
+.hal-settings-layout__page {
+  max-width: var(--hal-settings-layout-page-max, 40rem);
+  margin-inline: auto;
+  width: 100%;
+  padding: var(--hal-settings-layout-page-padding, var(--hal-space-6));
+}
+
+.hal-settings-layout__title {
+  margin: 0 0 var(--hal-space-2);
+  font-size: var(--hal-text-xl);
+  font-weight: var(--hal-weight-bold);
+}
+
+.hal-settings-layout__description {
+  margin: 0 0 var(--hal-space-5);
+  color: var(--hal-fg-muted);
+  font-size: var(--hal-text-sm);
+  line-height: var(--hal-leading);
+}
+
+.hal-settings-layout__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hal-space-4);
+}

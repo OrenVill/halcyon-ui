@@ -1,0 +1,72 @@
+.hal-auth-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--hal-auth-layout-min-height, 100vh);
+  padding: var(--hal-auth-layout-padding, var(--hal-space-6) var(--hal-space-4));
+  background: var(
+    --hal-auth-layout-bg,
+    radial-gradient(ellipse at top, var(--hal-bg-subtle) 0%, var(--hal-bg) 55%)
+  );
+  color: var(--hal-auth-layout-fg, var(--hal-fg));
+}
+
+.hal-auth-layout__panel {
+  width: 100%;
+  max-width: var(--hal-auth-layout-panel-max, 24rem);
+  padding: var(--hal-auth-layout-panel-padding, var(--hal-space-6));
+  border: 1px solid var(--hal-auth-layout-panel-border, var(--hal-border));
+  border-radius: var(--hal-radius-lg, var(--hal-radius));
+  background: var(--hal-auth-layout-panel-bg, var(--hal-bg-raised));
+  box-shadow: var(--hal-auth-layout-panel-shadow, var(--hal-shadow-sm));
+}
+
+.hal-auth-layout__brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--hal-space-2);
+  margin-bottom: var(--hal-space-5);
+  font-size: var(--hal-text-lg);
+  font-weight: var(--hal-weight-bold);
+  text-align: center;
+}
+
+.hal-auth-layout__title {
+  margin: 0 0 var(--hal-space-2);
+  font-size: var(--hal-text-xl);
+  font-weight: var(--hal-weight-bold);
+  text-align: center;
+}
+
+.hal-auth-layout__description {
+  margin: 0 0 var(--hal-space-5);
+  color: var(--hal-fg-muted);
+  font-size: var(--hal-text-sm);
+  text-align: center;
+  line-height: var(--hal-leading);
+}
+
+.hal-auth-layout__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hal-auth-layout-body-gap, var(--hal-space-4));
+}
+
+.hal-auth-layout__footer {
+  margin-top: var(--hal-space-5);
+  padding-top: var(--hal-space-4);
+  border-top: 1px solid var(--hal-border);
+  color: var(--hal-fg-muted);
+  font-size: var(--hal-text-sm);
+  text-align: center;
+}
+
+.hal-auth-layout__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hal-space-1);
+  margin-bottom: var(--hal-space-4);
+  font-size: var(--hal-text-sm);
+}

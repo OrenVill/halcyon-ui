@@ -42,6 +42,15 @@ describe('category slices', () => {
     expect(typeof hooks.useFocusTrap).toBe('function')
   })
 
+  it('websites exports complete site kits', async () => {
+    const websites = await import('./websites')
+    expect('MarketingWebsite' in websites).toBe(true)
+    expect('SaasWebsite' in websites).toBe(true)
+    expect('DocsWebsite' in websites).toBe(true)
+    expect('CommerceWebsite' in websites).toBe(true)
+    expect(websites.MarketingWebsite.paths.login).toBe('/login')
+  })
+
   it('structures exports layout compositions', () => {
     expect('Navbar' in structures).toBe(true)
     expect('Sidebar' in structures).toBe(true)
@@ -50,5 +59,13 @@ describe('category slices', () => {
     expect('DashboardLayout' in structures).toBe(true)
     expect('DocsSiteLayout' in structures).toBe(true)
     expect('MarketingSiteLayout' in structures).toBe(true)
+    expect('LoginLayout' in structures).toBe(true)
+    expect('SignupLayout' in structures).toBe(true)
+    expect('ForgotPasswordLayout' in structures).toBe(true)
+    expect('ErrorPageLayout' in structures).toBe(true)
+    expect('BlogLayout' in structures).toBe(true)
+    expect('SettingsLayout' in structures).toBe(true)
+    expect('OnboardingLayout' in structures).toBe(true)
+    expect('CheckoutLayout' in structures).toBe(true)
   })
 })

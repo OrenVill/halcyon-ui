@@ -17,7 +17,7 @@ interface Budget {
 
 const THEMES = ['base', 'midnight', 'aurora', 'ember', 'forest', 'sandstone', 'mono', 'neon']
 
-const FULL_LIBRARY_LIMIT_KB = 45
+const FULL_LIBRARY_LIMIT_KB = 52
 
 const BUDGETS: Budget[] = [
   // Generated, so a new theme cannot be added without also being budgeted.
@@ -128,7 +128,7 @@ async function main(): Promise<void> {
   }
 
   const structuresSlice = await gzippedKbOfImport([], './dist/structures.js')
-  const structuresLimit = 6
+  const structuresLimit = 10
   const structuresOk = structuresSlice <= structuresLimit
   console.log(
     `${structuresOk ? 'ok  ' : 'OVER'} ${'structures slice'.padEnd(20)} ${structuresSlice.toFixed(2)} KB / ${structuresLimit} KB  (category entry)`,
@@ -136,6 +136,18 @@ async function main(): Promise<void> {
   if (!structuresOk) {
     failures.push(
       `halcyon-ui/structures is ${structuresSlice.toFixed(2)} KB gzipped, over its ${structuresLimit} KB budget.`,
+    )
+  }
+
+  const websitesSlice = await gzippedKbOfImport([], './dist/websites.js')
+  const websitesLimit = 8
+  const websitesOk = websitesSlice <= websitesLimit
+  console.log(
+    `${websitesOk ? 'ok  ' : 'OVER'} ${'websites slice'.padEnd(20)} ${websitesSlice.toFixed(2)} KB / ${websitesLimit} KB  (category entry)`,
+  )
+  if (!websitesOk) {
+    failures.push(
+      `halcyon-ui/websites is ${websitesSlice.toFixed(2)} KB gzipped, over its ${websitesLimit} KB budget.`,
     )
   }
 
